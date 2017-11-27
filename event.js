@@ -4,7 +4,7 @@ chrome.extension.onMessage.addListener(function(req, sender, sendResponse) {
     if (req.loaded === false) {
       chrome.tabs.executeScript(sender.tab.Id,
       {
-        code: "console.log('loading...');var EnhanceLibIsLoaded = true;(function(){ var e = document.createElement('script'); e.setAttribute('id', 'sb-script'); e.setAttribute('mode', 'extension');   e.setAttribute('src','https://dl.dropboxusercontent.com/u/11360885/DeploymentTool/onload.js');  document.body.appendChild(e); })()"
+        code: "console.log('loading...');var EnhanceLibIsLoaded = true;(function(){ var e = document.createElement('script'); e.setAttribute('id', 'sb-script'); e.setAttribute('mode', 'extension');   e.setAttribute('src','https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/onload.js');  document.body.appendChild(e); })()"
       });
     }
 });
