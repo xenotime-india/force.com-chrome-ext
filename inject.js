@@ -10,8 +10,8 @@ var sfdcConsole = sfdcConsole || (function(){
   // This method will eventually return
   // background colors from the current page.
     methods.setup = function(){
-	
-        //only run most of the setup if it hasn't been run on this page before. Prevent freakouts 
+
+        //only run most of the setup if it hasn't been run on this page before. Prevent freakouts
         //from multiple invocations hopefully.
         if(jQuery('#sfdcConsoleContainer').length == 0)
         {
@@ -23,11 +23,11 @@ var sfdcConsole = sfdcConsole || (function(){
             afterLoad();
         }
     };
-    
+
     //generic function for dynamic script sfdcConsoleloading with callback support!
     methods.getScript = function(element,type,src,callback){
         var success = true;
-        var head= document.getElementsByTagName('head')[0];	
+        var head= document.getElementsByTagName('head')[0];
         newItem =  document.createElement( element );
         newItem.type= type;
         if(type.toLowerCase().indexOf('script') > -1)
@@ -40,12 +40,12 @@ var sfdcConsole = sfdcConsole || (function(){
             newItem.rel = 'stylesheet';
         }
         if(typeof callback == 'function')
-        {	
+        {
             newItem.onload=callback;
         }
         try
         {
-            head.appendChild(newItem);	
+            head.appendChild(newItem);
         }
         catch(ex)
         {
@@ -58,8 +58,8 @@ var sfdcConsole = sfdcConsole || (function(){
 
     //recursivly called function to load all required scripts, then return to the callback once all are loaded. Pretty clever stuff :)
     methods.loadScripts = function(callback){
-        
-        if (typeof jQuery == "undefined" || parseFloat(jQuery().jquery) < 1.8 ) 
+
+        if (typeof jQuery == "undefined" || parseFloat(jQuery().jquery) < 1.8 )
         {
             sfdcConsole.getScript('link','text/css','https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css',function(){
                 sfdcConsole.getScript('link','text/css','https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css',function(){
@@ -70,10 +70,10 @@ var sfdcConsole = sfdcConsole || (function(){
                                     sfdcConsole.getScript('script','text/javascript','https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',function(){
                                         sfdcConsole.getScript('script','text/javascript','https://cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js',function(){
                                             sfdcConsole.getScript('script','text/javascript','https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js',function(){
-                                                sfdcConsole.getScript('link','text/css','https://dl.dropboxusercontent.com/u/11360885/DeploymentTool/datepicker3.css',function(){
-                                                    sfdcConsole.getScript('script','text/javascript','https://dl.dropboxusercontent.com/u/11360885/DeploymentTool/bootstrap-datepicker.js',function(){
-                                                        sfdcConsole.getScript('script','text/javascript','https://dl.dropboxusercontent.com/u/11360885/DeploymentTool/sfdcMetadata.js',function(){
-                                                            sfdcConsole.getScript('script','text/javascript','https://dl.dropboxusercontent.com/u/11360885/DeploymentTool/background.js',function(){
+                                                sfdcConsole.getScript('link','text/css','https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/datepicker3.css',function(){
+                                                    sfdcConsole.getScript('script','text/javascript','https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/bootstrap-datepicker.js',function(){
+                                                        sfdcConsole.getScript('script','text/javascript','https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/sfdcMetadata.js',function(){
+                                                            sfdcConsole.getScript('script','text/javascript','https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js',function(){
                                                                 sfdcConsole.loadScripts(callback);
                                                             });
                                                         });
@@ -83,7 +83,7 @@ var sfdcConsole = sfdcConsole || (function(){
                                         });
                                     });
                                 });
-                            });	
+                            });
                         });
                     });
                 });
@@ -97,10 +97,10 @@ var sfdcConsole = sfdcConsole || (function(){
 
     methods.loadScripts(function(){
         sfdcConsole.setup();
-        
+
     });
-    
-    
+
+
     methods.injectInterface = function() {
         jQuery("link[rel='stylesheet']").remove();
         jQuery('body').html('');
