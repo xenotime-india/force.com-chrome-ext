@@ -100,30 +100,39 @@ var requestMetadata = [
     {
         type:'CustomObject',
         table: 'CustomObject_tb',
+        apiFieldIndex: 2,
     }, {
         type:'Layout',
         table: 'Layout_tb',
+        apiFieldIndex: 2,
     }, {
         type:'CustomField',
         table: 'CustomField_tb',
+        apiFieldIndex: 2,
     }, {
         type:'CustomLabel',
         table: 'CustomLabel_tb',
+        apiFieldIndex: 2,
     }, {
         type:'CustomTab',
         table: 'CustomTab_tb',
+        apiFieldIndex: 2,
     }, {
         type:'Workflow',
         table: 'Workflow_tb',
+        apiFieldIndex: 2,
     }, {
         type:'ReportType',
         table: 'ReportType_tb',
+        apiFieldIndex: 2,
     }, {
         type:'AnalyticSnapshot',
         table: 'AnalyticSnapshot_tb',
+        apiFieldIndex: 2,
     }, {
         type:'Workflow',
         table: 'Workflow_tb',
+        apiFieldIndex: 2,
     }];
 
 var requestSqlData = [
@@ -133,70 +142,80 @@ var requestSqlData = [
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }, {
         type:'ApexPage',
         table: 'ApexPage_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }, {
         type:'ApexTrigger',
         table: 'ApexTrigger_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }, {
         type:'ApexComponent',
         table: 'ApexComponent_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }, {
         type:'StaticResource',
         table: 'StaticResource_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }, {
         type:'Weblink',
         table: 'Weblink_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: ['Select','Id', 'Name', 'PageOrSobjectType', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description']
+            'CreatedDate','CreatedBy', 'Description'],
+        apiFieldIndex: [3,2],
     }, {
         type:'Dashboard',
         table: 'Dashboard_tb',
         soqlFields: 'Id, Title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }, {
         type:'Report',
         table: 'Report_tb',
         soqlFields: 'Id, Name, DeveloperName,LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 3,
     }, {
         type:'RecordType',
         table: 'RecordType_tb',
         soqlFields: 'Id, SobjectType, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description, DeveloperName',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'SobjectType', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy' ]
+            'CreatedDate','CreatedBy' ],
+        apiFieldIndex: [2,4],
     }, {
         type:'Profile',
         table: 'Profile_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'Id != null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy', 'Description' ]
+            'CreatedDate','CreatedBy', 'Description' ],
+        apiFieldIndex: 2,
     }];
 
 function __getCookie(c_name){
@@ -326,47 +345,21 @@ function selectAll(check,table,obj) {
 }
 
 function globalSelectAll() {
-    selectAll('','',$('#RecordTypes_tb'));
-    selectAll('','',$('#ApexClass_tb'));
-    selectAll('','',$('#ApexPages_tb'));
-    selectAll('','',$('#ApexComponents_tb'));
-    selectAll('','',$('#ApexTrigger_tb'));
-    selectAll('','',$('#CustomLabel_tb'));
-    selectAll('','',$('#Reports_tb'));
-    selectAll('','',$('#Profiles_tb'));
-    selectAll('','',$('#Dashboards_tb'));
-    selectAll('','',$('#Weblinks_tb'));
-    selectAll('','',$('#StaticResources_tb'));
-    selectAll('','',$('#AnalyticSnapshot_tb'));
-    selectAll('','',$('#ReportType_tb'));
-    selectAll('','',$('#Workflow_tb'));
-    selectAll('','',$('#CustomTab_tb'));
-    selectAll('','',$('#CustomLabel_tb'));
-    selectAll('','',$('#CustomField_tb'));
-    selectAll('','',$('#CustomObject_tb'));
-    selectAll('','',$('#Layout_tb'));
+    requestMetadata.forEach(function(val, index) {
+        selectAll('','',$('#'+index.table));
+    });
+    requestSqlData.forEach(function(val, index) {
+        selectAll('','',$('#'+index.table));
+    });
 }
 
 function globalUnSelectAll() {
-    selectAll(' ','',$('#RecordTypes_tb'));
-    selectAll(' ','',$('#ApexClass_tb'));
-    selectAll(' ','',$('#ApexPages_tb'));
-    selectAll(' ','',$('#ApexComponents_tb'));
-    selectAll(' ','',$('#ApexTrigger_tb'));
-    selectAll(' ','',$('#CustomLabel_tb'));
-    selectAll(' ','',$('#Reports_tb'));
-    selectAll(' ','',$('#Profiles_tb'));
-    selectAll(' ','',$('#Dashboards_tb'));
-    selectAll(' ','',$('#Weblinks_tb'));
-    selectAll(' ','',$('#StaticResources_tb'));
-    selectAll(' ','',$('#AnalyticSnapshot_tb'));
-    selectAll(' ','',$('#ReportType_tb'));
-    selectAll(' ','',$('#Workflow_tb'));
-    selectAll(' ','',$('#CustomTab_tb'));
-    selectAll(' ','',$('#CustomLabel_tb'));
-    selectAll(' ','',$('#CustomField_tb'));
-    selectAll(' ','',$('#CustomObject_tb'));
-    selectAll(' ','',$('#Layout_tb'));
+    requestMetadata.forEach(function(val, index) {
+        selectAll(' ','',$('#'+index.table));
+    });
+    requestSqlData.forEach(function(val, index) {
+        selectAll(' ','',$('#'+index.table));
+    });
 }
 
 function waitForDone(callback) {
@@ -449,82 +442,22 @@ function getPackage() {
     showLoading();
     var req, result;
     req = new sforce.RetrieveRequest();
-    req.apiVersion = "31.0";
+    req.apiVersion = "41.0";
     req.singlePackage = false;
     var resourceType = [];
 
-    var result = makeobjectToRetrive($('#ApexClass_tb'),2,'ApexClass')
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#ApexPages_tb'),2,'ApexPage');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#ApexComponents_tb'),2,'ApexComponent');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#ApexTrigger_tb'),2,'ApexTrigger');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#CustomLabel_tb'),2,'CustomLabel');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#Reports_tb'),3,'Report');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#ReportType_tb'),2,'ReportType');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#CustomObject_tb'),2,'CustomObject');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#Layout_tb'),2,'Layout');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#Profiles_tb'),2,'Profile');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#Dashboards_tb'),2,'Dashboard');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#Weblinks_tb'),2,'WebLink');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#StaticResources_tb'),2,'StaticResource');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#Workflow_tb'),2,'Workflow');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#AnalyticSnapshot_tb'),2,'AnalyticSnapshot');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#CustomField_tb'),2,'CustomField');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#CustomTab_tb'),2,'CustomTab');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
-    result = makeobjectToRetrive($('#RecordTypes_tb'),[2,4],'RecordType');
-    if(typeof(result) != 'undefined') {
-        resourceType.push(result);
-    }
+    requestMetadata.forEach(function(val, index) {
+        var result = makeobjectToRetrive($('#'+index.table),index.apiFieldIndex,index.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
+    requestSqlData.forEach(function(val, index) {
+        var result = makeobjectToRetrive($('#'+index.table),index.apiFieldIndex,index.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
     if(resourceType.length > 0) {
         req.unpackaged = {
             types: resourceType
@@ -537,7 +470,6 @@ function getPackage() {
     }
     else {
         alert('No Resource selected...');
-        requestInCount = 0;
         hideLoading();
     }
 }
@@ -569,24 +501,12 @@ function generateXml() {
     var XMLString = '<?xml version="1.0" encoding="UTF-8"?>';
     XMLString += '\n<Package xmlns="http://soap.sforce.com/2006/04/metadata">'
 
-    XMLString += maketypeblock($('#ApexClass_tb'),2,'ApexClass');
-    XMLString += maketypeblock($('#ApexPages_tb'),2,'ApexPage');
-    XMLString += maketypeblock($('#ApexComponents_tb'),2,'ApexComponent');
-    XMLString += maketypeblock($('#ApexTrigger_tb'),2,'ApexTrigger');
-    XMLString += maketypeblock($('#CustomLabel_tb'),2,'CustomLabel');
-    XMLString += maketypeblock($('#Reports_tb'),3,'Report');
-    XMLString += maketypeblock($('#ReportType_tb'),2,'ReportType');
-    XMLString += maketypeblock($('#CustomObject_tb'),2,'CustomObject');
-    XMLString += maketypeblock($('#Layout_tb'),2,'Layout');
-    XMLString += maketypeblock($('#Profiles_tb'),2,'Profile');
-    XMLString += maketypeblock($('#Dashboards_tb'),2,'Dashboard');
-    XMLString += maketypeblock($('#Weblinks_tb'),[3,2],'WebLink');
-    XMLString += maketypeblock($('#StaticResources_tb'),2,'StaticResource');
-    XMLString += maketypeblock($('#Workflow_tb'),2,'Workflow');
-    XMLString += maketypeblock($('#AnalyticSnapshot_tb'),2,'AnalyticSnapshot');
-    XMLString += maketypeblock($('#CustomField_tb'),2,'CustomField');
-    XMLString += maketypeblock($('#CustomTab_tb'),2,'CustomTab');
-    XMLString += maketypeblock($('#RecordTypes_tb'),[2,4],'RecordType');
+    requestMetadata.forEach(function(val, index) {
+        XMLString += maketypeblock($('#'+index.table),index.apiFieldIndex,index.type);
+    });
+    requestSqlData.forEach(function(val, index) {
+        XMLString += maketypeblock($('#'+index.table),index.apiFieldIndex,index.type);
+    });
 
     XMLString += '\n    <version>31.0</version>\n</Package>';
     $('#xmlData').val(XMLString);
@@ -608,7 +528,7 @@ jQuery(function() {
             workWithSOQL().then(function () {
                 return workWithMetaData();
             }).then(function () {
-                $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+                $('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
                 hideLoading();
             });
             $('#dateField').datepicker({
@@ -627,7 +547,7 @@ function updateData() {
         workWithSOQL().then(function () {
             return workWithMetaData();
         }).then(function () {
-            $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+            $('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
             hideLoading();
         });
     },200);
