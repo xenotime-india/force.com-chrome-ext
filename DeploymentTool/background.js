@@ -959,7 +959,7 @@ function workWithSOQL() {
 }
 
 function makeMetaDataPromise(item) {
-    return new Promise(function (reject, resolve) {
+    return new Promise(function (resolve, reject) {
         var types = [{type: item, folder: null}];
         return sforce.metadata.list(types, '39.0', function (err, results) {
             if (err) { reject(err); }
