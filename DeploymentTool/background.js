@@ -918,8 +918,9 @@ jQuery(function() {
             })
             $('#dateField').val(showDate(new Date().add(-1).month()));
             console.log("Ready for API fun!");
-            workWithSOQL();
-            workWithMetaData().then(function () {
+            workWithSOQL().then(function () {
+                return workWithMetaData();
+            }).then(function () {
                 $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
             });
             hideLoading();
@@ -936,8 +937,9 @@ function updateData() {
         $('#container').html('');
         $('#container-tab2').html('');
         $('#container-tab').html('');
-        workWithSOQL();
-        workWithMetaData().then(function () {
+        workWithSOQL().then(function () {
+            return workWithMetaData();
+        }).then(function () {
             $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
         });
         requestInCount = 0;
@@ -1029,7 +1031,7 @@ function workWithSOQL() {
         return new Promise(function (resolve, reject) {
             var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
             query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-            query += ' '+item.soqlWhere+' order by '+filterBy+' asc';
+            query += ' '+item.soqlWhere+' order by '+filterBy+' desc';
             return sforce.query(query, function(err, result) {
                 if (err) { reject(err); }
                 resolve(result);
@@ -1037,7 +1039,7 @@ function workWithSOQL() {
         });
     });
 
-    Promise.all(requestPromises).then(function(results) {
+    return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
                 var records = val.records;
                 var panel, table;
@@ -1061,20 +1063,8 @@ function workWithSOQL() {
                 });
             }
         )
+        return Promise.resolve();
     });
-
-    requestInCount++;
-    //loadApexClass();
-    //loadApexPages();
-    //loadApexTrigger();
-    //loadApexComponents();
-    //loadStaticResources();
-    //loadWeblinks();
-    //loadDashboards();
-    //loadReports();
-    //loadRecordTypes();
-    //loadProfiles();
-    requestInCount--;
 }
 
 function workWithMetaData() {
