@@ -974,12 +974,34 @@ function workWithSOQL() {
     });
 
     Promise.all(requestPromises).then(function(results) {
-       console.log(results);
+        results.forEach(function(val, index) {
+                var records = val.records;
+                var panel, table;
+                table = createTable(fields, requestSqlData[index].table);
+                panel = createPanel(requestSqlData[index].type, table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                $('#'+requestSqlData[index].table).dataTable();
+
+                $('#'+requestSqlData[index].table+' tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            }
+        )
     });
 
     requestInCount++;
-    loadApexClass();
-    loadApexPages();
+    //loadApexClass();
+    //loadApexPages();
     loadApexTrigger();
     loadApexComponents();
     loadStaticResources();
