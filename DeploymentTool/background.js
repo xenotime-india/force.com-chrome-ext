@@ -963,12 +963,12 @@ function workWithSOQL() {
 
     var requestPromises = requestSqlData.map(function (item) {
         return new Promise(function (resolve, reject) {
-            var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate From ApexClass where ';
+            var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate From '+item.type+' where ';
             query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
             query += ' NamespacePrefix = null order by name asc';
             return sforce.query(query, function(err, result) {
                 if (err) { reject(err); }
-                resolve(results);
+                resolve(result);
             });
         });
     });
