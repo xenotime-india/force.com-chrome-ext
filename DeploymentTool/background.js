@@ -530,6 +530,8 @@ jQuery(function() {
             }).then(function () {
                 $('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
                 hideLoading();
+            }).catch(function (err) {
+                console.error('Error',err);
             });
             $('#dateField').datepicker({
                 format: 'yyyy-mm-dd'
@@ -549,6 +551,8 @@ function updateData() {
         }).then(function () {
             $('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
             hideLoading();
+        }).catch(function (err) {
+            console.error('Error',err);
         });
     },200);
 }
@@ -597,6 +601,8 @@ function workWithSOQL() {
             }
         )
         return Promise.resolve();
+    }).catch(function (err) {
+        return Promise.reject(err);
     });
 }
 
@@ -645,6 +651,8 @@ function workWithMetaData() {
             });
         });
         return Promise.resolve();
+    }).catch(function (err) {
+        return Promise.reject(err);
     });
 }
 
