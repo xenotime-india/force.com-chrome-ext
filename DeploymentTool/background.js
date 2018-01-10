@@ -1019,7 +1019,7 @@ function workWithSOQL() {
         return new Promise(function (resolve, reject) {
             var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
             query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-            query += ' NamespacePrefix = null order by '+filterBy+' asc';
+            query += ' Id = null order by '+filterBy+' asc';
             return sforce.query(query, function(err, result) {
                 if (err) { reject(err); }
                 resolve(result);
