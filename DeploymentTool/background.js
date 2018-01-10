@@ -919,8 +919,9 @@ jQuery(function() {
             $('#dateField').val(showDate(new Date().add(-1).month()));
             console.log("Ready for API fun!");
             workWithSOQL();
-            workWithMetaData();
-            $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+            workWithMetaData().then(function () {
+                $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+            });
             hideLoading();
             $('#dateField').datepicker({
                 format: 'yyyy-mm-dd'
@@ -936,14 +937,46 @@ function updateData() {
         $('#container-tab2').html('');
         $('#container-tab').html('');
         workWithSOQL();
-        workWithMetaData();
-        $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+        workWithMetaData().then(function () {
+            $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+        });
         requestInCount = 0;
         hideLoading();
     },200);
 }
 
 function workWithSOQL() {
+
+    var userDate = '2015-12-10';
+    if(jQuery('#dateField').val() != '') {
+        userDate = new Date(jQuery('#dateField').val());
+    }
+
+    var requestSqlData = [
+        {
+            type:'ApexClass',
+            table: 'ApexClass_tb',
+        }, {
+            type:'ApexPage',
+            table: 'ApexPage_tb',
+        }];
+
+    var requestPromises = requestSqlData.map(function (item) {
+        return new Promise(function (resolve, reject) {
+            var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate From ApexClass where ';
+            query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
+            query += ' NamespacePrefix = null order by name asc';
+            return sforce.query(query, function(err, result) {
+                if (err) { reject(err); }
+                resolve(results);
+            });
+        });
+    });
+
+    Promise.all(requestPromises).then(function(results) {
+       console.log(results);
+    });
+
     requestInCount++;
     loadApexClass();
     loadApexPages();
@@ -1003,7 +1036,7 @@ function workWithMetaData() {
             });
         });
     });
-    Promise.all(requestPromises).then(function(results) {
+    return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
             var panel,table;
 
@@ -1030,6 +1063,8 @@ function workWithMetaData() {
                     $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
                 }
             });
+
+            return Promise.resolve();
         })
     });
 }
