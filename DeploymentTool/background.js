@@ -969,6 +969,10 @@ function workWithMetaData() {
             type:'Layout',
             table: 'Layout_tb',
         }];
+    var userDate = '2015-12-10';
+    if(jQuery('#dateField').val() != '') {
+        userDate = new Date(jQuery('#dateField').val());
+    }
     var requestPromises = requestMetadata.map(function (item) {
         return new Promise(function (resolve, reject) {
             var types = [{type: item.type, folder: null}];
