@@ -959,64 +959,53 @@ function workWithSOQL() {
 }
 
 function workWithMetaData() {
-    requestInCount++;
-    var requestMetadata = ['CustomObject', 'Layout'];
-    requestMetadata = requestMetadata.map(function (item) {
+    var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
+        'createdDate','createdByName' ];
+    var requestMetadata = [
+        {
+            type:'CustomObject',
+            table: 'CustomObject_tb',
+        }, {
+            type:'Layout',
+            table: 'Layout_tb',
+        }];
+    var requestPromises = requestMetadata.map(function (item) {
         return new Promise(function (resolve, reject) {
-            var types = [{type: item, folder: null}];
+            var types = [{type: item.type, folder: null}];
             return sforce.metadata.list(types, '39.0', function (err, results) {
                 if (err) { reject(err); }
                 resolve(results);
             });
         });
     });
-    Promise.all(requestMetadata).then(function(result) {
-        console.log(result);
-    });
-    var types = [{type: 'CustomObject', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
+    Promise.all(requestPromises).then(function(results) {
+        results.forEach(function(val, index) {
+            var panel,table;
+
+            table = createTable(fields,requestMetadata[index].table);
+            panel = createPanel(requestMetadata[index],table,$('#container-tab2'));
+
+            for ( var i = 0; i < val.length; i++) {
+                if(val[i].manageableState != "installed" && (userDate == '' || userDate < new Date(val[i][filterByMetadata]))) {
+                    addRow(val[i], fields, $(table).find('tbody'));
                 }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                CustomObject = results;
-
-                table = createTable(fields,'CustomObject_tb');
-                panel = createPanel('CustomObject',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                CustomObject_table = $('#CustomObject_tb').DataTable();
-
-                $('#CustomObject_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                });
-
             }
-            requestInCount--;
-            hideLoading();
-        }
-    );
+            $('#container').append($(panel));
+
+            CustomObject_table = $('#CustomObject_tb').DataTable();
+
+            $('#'+requestMetadata[index].table+' tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+                if($(this).hasClass('selected')) {
+                    $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                }
+                else {
+                    $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                }
+            });
+        })
+    });
+
     requestInCount++;
     var types = [{type: 'Layout', folder: null}];
     sforce.metadata.list(types, '39.0',
