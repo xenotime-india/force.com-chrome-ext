@@ -996,7 +996,7 @@ function workWithMetaData() {
             }
             $('#container').append($(panel));
 
-            CustomObject_table = $('#CustomObject_tb').DataTable();
+            $('#'+requestMetadata[index].table).DataTable();
 
             $('#'+requestMetadata[index].table+' tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
