@@ -908,15 +908,24 @@ function generateXml() {
 
 jQuery(function() {
     showLoading();
-    $('#dateField').val(showDate(new Date().add(-1).month()));
-    console.log("Ready for API fun!");
-    workWithSOQL();
-    workWithMetaData();
-    $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
-    hideLoading();
-    $('#dateField').datepicker({
-        format: 'yyyy-mm-dd'
-    });
+    //loads Salesforce AJAX Toolkit
+    loadScript(
+        "https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.js",
+        function() {
+            Promise.config({
+                longStackTraces: true,
+                warnings: true // note, run node with --trace-warnings to see full stack traces for warnings
+            })
+            $('#dateField').val(showDate(new Date().add(-1).month()));
+            console.log("Ready for API fun!");
+            workWithSOQL();
+            workWithMetaData();
+            $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+            hideLoading();
+            $('#dateField').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
 });
 
 function updateData() {
@@ -949,8 +958,27 @@ function workWithSOQL() {
     requestInCount--;
 }
 
+function makeMetaDataPromise(item) {
+    return new Promise(function (reject, resolve) {
+        var types = [{type: item, folder: null}];
+        return sforce.metadata.list(types, '39.0', function (err, results) {
+            if (err) { reject(err); }
+            resolve(results);
+        });
+    });
+}
+
+
+
 function workWithMetaData() {
     requestInCount++;
+    var requestMetadata = ['CustomObject', 'Layout'];
+    var requestMetadata = requestMetadata.map(function (item) {
+       return makeMetaDataPromise(item);
+    });
+    Promise.all(requestMetadata).then(function(result) {
+        console.log(result);
+    });
     var types = [{type: 'CustomObject', folder: null}];
     sforce.metadata.list(types, '39.0',
         function(err, results) {
