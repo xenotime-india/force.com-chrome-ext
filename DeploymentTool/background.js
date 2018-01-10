@@ -457,15 +457,12 @@ function getPackage() {
                 types: resourceType,
                 version: '41.0'
             }
-        }).then(function (value) {
+        }).complete(function (err, value) {
+            if (err) { console.error(err); }
             console.log('ready for download..');
             console.log(value);
-            sforce.metadata.checkStatus(value.id).complete(function(err, results) {
-                if (err) { console.error(err); }
-                console.log(results);
-                hideLoading();
-                //location.href="data:application/zip;base64," + results.zipFile;
-            });
+            location.href="data:application/zip;base64," + value.zipFile;
+            hideLoading();
         }).catch(function (err) {
             console.error('Error', err);
             hideLoading();
