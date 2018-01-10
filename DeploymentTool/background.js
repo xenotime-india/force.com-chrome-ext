@@ -346,19 +346,19 @@ function selectAll(check,table,obj) {
 
 function globalSelectAll() {
     requestMetadata.forEach(function(val, index) {
-        selectAll('','',$('#'+index.table));
+        selectAll('','',$('#'+val.table));
     });
     requestSqlData.forEach(function(val, index) {
-        selectAll('','',$('#'+index.table));
+        selectAll('','',$('#'+val.table));
     });
 }
 
 function globalUnSelectAll() {
     requestMetadata.forEach(function(val, index) {
-        selectAll(' ','',$('#'+index.table));
+        selectAll(' ','',$('#'+val.table));
     });
     requestSqlData.forEach(function(val, index) {
-        selectAll(' ','',$('#'+index.table));
+        selectAll(' ','',$('#'+val.table));
     });
 }
 
@@ -447,13 +447,13 @@ function getPackage() {
     var resourceType = [];
 
     requestMetadata.forEach(function(val, index) {
-        var result = makeobjectToRetrive($('#'+index.table),index.apiFieldIndex,index.type)
+        var result = makeobjectToRetrive($('#'+val.table),val.apiFieldIndex,val.type)
         if(typeof(result) != 'undefined') {
             resourceType.push(result);
         }
     });
     requestSqlData.forEach(function(val, index) {
-        var result = makeobjectToRetrive($('#'+index.table),index.apiFieldIndex,index.type)
+        var result = makeobjectToRetrive($('#'+val.table),val.apiFieldIndex,val.type)
         if(typeof(result) != 'undefined') {
             resourceType.push(result);
         }
@@ -502,10 +502,10 @@ function generateXml() {
     XMLString += '\n<Package xmlns="http://soap.sforce.com/2006/04/metadata">'
 
     requestMetadata.forEach(function(val, index) {
-        XMLString += maketypeblock($('#'+index.table),index.apiFieldIndex,index.type);
+        XMLString += maketypeblock($('#'+val.table),val.apiFieldIndex,val.type);
     });
     requestSqlData.forEach(function(val, index) {
-        XMLString += maketypeblock($('#'+index.table),index.apiFieldIndex,index.type);
+        XMLString += maketypeblock($('#'+val.table),val.apiFieldIndex,val.type);
     });
 
     XMLString += '\n    <version>31.0</version>\n</Package>';
