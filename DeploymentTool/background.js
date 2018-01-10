@@ -949,7 +949,7 @@ function workWithSOQL() {
 
     var userDate = '2015-12-10';
     if(jQuery('#dateField').val() != '') {
-        userDate = new Date(jQuery('#dateField').val());
+        userDate = convertDate(jQuery('#dateField').val());
     }
 
     var requestSqlData = [
