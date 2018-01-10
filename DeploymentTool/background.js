@@ -922,8 +922,8 @@ jQuery(function() {
                 return workWithMetaData();
             }).then(function () {
                 $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+                hideLoading();
             });
-            hideLoading();
             $('#dateField').datepicker({
                 format: 'yyyy-mm-dd'
             });
@@ -941,9 +941,8 @@ function updateData() {
             return workWithMetaData();
         }).then(function () {
             $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+            hideLoading();
         });
-        requestInCount = 0;
-        hideLoading();
     },200);
 }
 
