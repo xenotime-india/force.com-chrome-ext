@@ -436,10 +436,6 @@ function makeobjectToRetrive(table_data, index, type) {
 }
 function getPackage() {
     showLoading();
-    var req, result;
-    req = new sforce.RetrieveRequest();
-    req.apiVersion = "41.0";
-    req.singlePackage = false;
     var resourceType = [];
 
     requestMetadata.forEach(function(val, index) {
@@ -455,14 +451,20 @@ function getPackage() {
         }
     });
     if(resourceType.length > 0) {
-        req.unpackaged = {
-            types: resourceType
-        };
-        sforce.metadata.retrieve(req, waitForDone(function (result) {
+        sforce.metadata.retrieve({
+            apiVersion: '41.0',
+            singlePackage: true,
+            unpackaged: {
+                types: resourceType
+            }
+        }).then(function (value) {
             console.log('ready for download..');
             hideLoading();
-            location.href="data:application/zip;base64," + result.zipFile;
-        }));
+            location.href="data:application/zip;base64," + value.zipFile;
+        }).catch(function (err) {
+            console.error('Error', err);
+            hideLoading();
+        })
     }
     else {
         alert('No Resource selected...');
