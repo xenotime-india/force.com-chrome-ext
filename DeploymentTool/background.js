@@ -129,10 +129,6 @@ var requestMetadata = [
         type:'AnalyticSnapshot',
         table: 'AnalyticSnapshot_tb',
         apiFieldIndex: 2,
-    }, {
-        type:'Workflow',
-        table: 'Workflow_tb',
-        apiFieldIndex: 2,
     }];
 
 var requestSqlData = [
@@ -197,7 +193,7 @@ var requestSqlData = [
         table: 'Report_tb',
         soqlFields: 'Id, Name, DeveloperName,LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description',
         soqlWhere: 'NamespacePrefix = null',
-        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+        fields: [ 'Select','Id', 'Name','DeveloperName','LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
         apiFieldIndex: 3,
     }, {
@@ -205,8 +201,8 @@ var requestSqlData = [
         table: 'RecordType_tb',
         soqlFields: 'Id, SobjectType, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description, DeveloperName',
         soqlWhere: 'NamespacePrefix = null',
-        fields: [ 'Select','Id', 'SobjectType', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy' ],
+        fields: [ 'Select','Id', 'SobjectType' ,'Name','DeveloperName','LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ],
         apiFieldIndex: [2,4],
     }, {
         type:'Profile',
