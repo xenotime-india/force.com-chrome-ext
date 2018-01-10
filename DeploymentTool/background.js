@@ -97,38 +97,38 @@ return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=
 return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
 
+function __getCookie(c_name){
+    var i,x,y,ARRcookies=document.cookie.split(";");
+    for (i=0;i<ARRcookies.length;i++){
+        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==c_name){
+            return unescape(y);
+        }
+    }
+}
+
         var requestInCount = 0;
 		var filterBy = 'LastModifiedDate';
 		var filterByMetadata = 'lastModifiedDate';
-		//helper function to load scripts on the fly
-		//grabs your SessionId from the cookies and set it so we can re-use it
-		//var result = sforce.connection.login("sandeep@sandeepkhoj.com","appirio123");
-		//console.log("logged in with session id " + result.sessionId);
-		this.__sfdcSessionId = document.cookie.match(/(^|;\s*)sid=(.+?);/) != null ? document.cookie.match(/(^|;\s*)sid=(.+?);/)[2]: null;
-        
-        //this.__sfdcSessionId = result.sessionId;
-        sforce.metadata.sessionId = this.__sfdcSessionId;
-		
+
+
+		var SFDCconn = new jsforce.Connection({
+			serverUrl : getServerURL(),
+			sessionId : __getCookie('sid')
+		});
 		function changefilterMode(newmode,newmode1) {
 			filterBy = newmode;
 			filterByMetadata = newmode1;
 		}
-        
-        function loginUser() {
-            try {
-                var result = sforce.connection.login($('#userNameTxt').val(),$('#passwordTxt').val());
-                this.__sfdcSessionId = result.sessionId;
-                sforce.metadata.sessionId = this.__sfdcSessionId;
-            }
-            catch(ex) {console.log(ex);}
-            if(sforce.metadata.sessionId == '' || sforce.metadata.sessionId == null) {
-                alert('!! invalid user name or password. Try again....');
-            }
-            else {
-                $('#loginDialog').modal('hide');
-            }
-        }
-		
+
+		function getServerURL() {
+            var url = window.location.href;
+            var arr = url.split("/");
+            return arr[0] + "//" + arr[2];
+		}
+
 		function addRow(data, fields, table) {
 			$(table).append('<tr/>');
 
@@ -279,30 +279,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 
 			var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy'];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			apexclass = records;
-			
-			table = createTable(fields,'ApexClass_tb');
-			panel = createPanel('Apex Class',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			apexclass_table = $('#ApexClass_tb').dataTable();
-			
-			$('#ApexClass_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            SFDCconn.query(query, function(err, result) {
+                if (err) { return console.error(err); }
+                console.log("total : " + result.totalSize);
+                console.log("fetched : " + result.records.length);
+                var records = result.records;
+                var panel,table;
+
+                apexclass = records;
+
+                table = createTable(fields,'ApexClass_tb');
+                panel = createPanel('Apex Class',table,$('#container-tab'));
+
+                for ( var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                apexclass_table = $('#ApexClass_tb').dataTable();
+
+                $('#ApexClass_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadApexPages() {
