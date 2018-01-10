@@ -1063,9 +1063,8 @@ function workWithMetaData() {
                     $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
                 }
             });
-
-            return Promise.resolve();
-        })
+        });
+        return Promise.resolve();
     });
 }
 
