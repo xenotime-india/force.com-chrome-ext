@@ -958,23 +958,17 @@ function workWithSOQL() {
     requestInCount--;
 }
 
-function makeMetaDataPromise(item) {
-    return new Promise(function (resolve, reject) {
-        var types = [{type: item, folder: null}];
-        return sforce.metadata.list(types, '39.0', function (err, results) {
-            if (err) { reject(err); }
-            resolve(results);
-        });
-    });
-}
-
-
-
 function workWithMetaData() {
     requestInCount++;
     var requestMetadata = ['CustomObject', 'Layout'];
-    var requestMetadata = requestMetadata.map(function (item) {
-       return makeMetaDataPromise(item);
+    requestMetadata = requestMetadata.map(function (item) {
+        return new Promise(function (resolve, reject) {
+            var types = [{type: item, folder: null}];
+            return sforce.metadata.list(types, '39.0', function (err, results) {
+                if (err) { reject(err); }
+                resolve(results);
+            });
+        });
     });
     Promise.all(requestMetadata).then(function(result) {
         console.log(result);
