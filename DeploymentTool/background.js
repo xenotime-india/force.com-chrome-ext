@@ -460,7 +460,7 @@ function getPackage() {
             console.log('ready for download..');
             console.log(value);
             hideLoading();
-            location.href="data:application/zip;base64," + value.zipFile;
+            //location.href="data:application/zip;base64," + value.zipFile;
         }).catch(function (err) {
             console.error('Error', err);
             hideLoading();
