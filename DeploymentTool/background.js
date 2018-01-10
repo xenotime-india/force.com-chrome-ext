@@ -97,24 +97,24 @@ return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=
 return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
 
-function __getCookie(c_name){
-    var i,x,y,ARRcookies=document.cookie.split(";");
-    for (i=0;i<ARRcookies.length;i++){
-        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
-        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
-        x=x.replace(/^\s+|\s+$/g,"");
-        if (x==c_name){
-            return unescape(y);
-        }
-    }
-}
+		function __getCookie(c_name){
+			var i,x,y,ARRcookies=document.cookie.split(";");
+			for (i=0;i<ARRcookies.length;i++){
+				x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+				y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+				x=x.replace(/^\s+|\s+$/g,"");
+				if (x==c_name){
+					return unescape(y);
+				}
+			}
+		}
 
         var requestInCount = 0;
 		var filterBy = 'LastModifiedDate';
 		var filterByMetadata = 'lastModifiedDate';
 
 
-		var SFDCconn = new jsforce.Connection({
+		var sforce = new jsforce.Connection({
 			serverUrl : getServerURL(),
 			sessionId : __getCookie('sid')
 		});
@@ -279,7 +279,7 @@ function __getCookie(c_name){
 
 			var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy'];
-            SFDCconn.query(query, function(err, result) {
+            sforce.query(query, function(err, result) {
                 if (err) { return console.error(err); }
                 console.log("total : " + result.totalSize);
                 console.log("fetched : " + result.records.length);
@@ -874,45 +874,25 @@ function __getCookie(c_name){
 		
 		jQuery(function() {
 			showLoading();
-            console.log(sforce.metadata.sessionId);
-            if(sforce.metadata.sessionId == null) {
-                requestInCount = 0;
-                console.log(requestInCount);
+            try {
+                $('#dateField').val(showDate(new Date().add(-1).month()));
+                console.log("Ready for API fun!");
+                workWithSOQL();
+                workWithMetaData();
+                $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
                 hideLoading();
-                console.log($('#loginDialog'));
-                $('#loginDialog').modal({
-                              backdrop: 'static',
-                              keyboard: true
-                            });
-                $('#loginDialog').modal('show');
+                $('#dateField').datepicker({
+                    format: 'yyyy-mm-dd'
+                });
             }
-            else {
-			
-			//loads Salesforce AJAX Toolkit
-			loadScript(
-					"/soap/ajax/31.0/connection.js",
-					function() {
-                        try {
-                            $('#dateField').val(showDate(new Date().add(-1).month()));
-                            console.log("Ready for API fun!");
-                            workWithSOQL();
-                            workWithMetaData();
-                            $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
-                            hideLoading();
-                            $('#dateField').datepicker({
-                                format: 'yyyy-mm-dd'
-                            });
-                        }
-                        catch(ex) {
-                            console.log(ex);
-                            requestInCount = 0;
-                            hideLoading();
-                            $('#loginDialog').modal({
-                              backdrop: 'static',
-                              keyboard: true
-                            });
-                        }
-				});
+            catch(ex) {
+                console.log(ex);
+                requestInCount = 0;
+                hideLoading();
+                $('#loginDialog').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                });
             }
         });
 		
@@ -948,8 +928,8 @@ function __getCookie(c_name){
 		
 		function workWithMetaData() {
             requestInCount++;
-			sforce.metadata.listMetadata(
-						    {queries: [{type: 'CustomObject'}], asOfVersion: 31},
+            var types = [{type: 'CustomObject', folder: null}];
+			sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
