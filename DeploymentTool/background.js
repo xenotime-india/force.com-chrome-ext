@@ -451,7 +451,6 @@ function getPackage() {
         }
     });
     if(resourceType.length > 0) {
-        console.log(resourceType);
         sforce.metadata.retrieve({
             unpackaged: {
                 types: resourceType,
@@ -460,41 +459,74 @@ function getPackage() {
         }).complete(function (err, value) {
             if (err) { console.error(err); }
             console.log('ready for download..');
-            console.log(value);
             location.href="data:application/zip;base64," + value.zipFile;
             hideLoading();
-        }).catch(function (err) {
-            console.error('Error', err);
-            hideLoading();
-        })
+        });
     }
     else {
         alert('No Resource selected...');
         hideLoading();
     }
 }
-
 function deploy() {
-    /*
-    var req, result;
-    req = new sforce.RetrieveRequest();
-    req.apiVersion = "31.0";
-    req.singlePackage = false;
-    req.unpackaged = {
-        types: [{name: "ApexPage", members:["accountList"]}]
-    };
-    sforce.metadata.retrieve(req, waitForDone(function (result) {
-        //console.log(result.zipFile);
-        //location.href="data:application/zip;base64," + result.zipFile;
-    }));
+    $('#loginDialog').modal({
+        backdrop: 'static',
+        keyboard: true
+    });
+}
 
-    req = new sforce.RetrieveRequest();
-    req.apiVersion = "31.0";
-    req.zipFile = result.zipFile;
-    sforce.metadata.deploy(req, waitForDone(function (result) {
-        console.log(result);
-    }));*/
-    alert('Comming soon...');
+function loginUser() {
+    var conn = new jsforce.Connection({
+        loginUrl : 'https://test.salesforce.com'
+    });
+    conn.login($('#userNameTxt').val(), $('#passwordTxt').val(), function(err, userInfo) {
+        if (err) { return console.error(err); }
+        // Now you can get the access token and instance URL information.
+        // Save them to establish connection next time.
+        console.log(conn.accessToken);
+        console.log(conn.instanceUrl);
+        // logged in user property
+        console.log("User ID: " + userInfo.id);
+        console.log("Org ID: " + userInfo.organizationId);
+        $('#loginDialog').modal('hide');
+        showLoading();
+        var resourceType = [];
+
+        requestMetadata.forEach(function(val, index) {
+            var result = makeobjectToRetrive($('#'+val.table),val.apiFieldIndex,val.type)
+            if(typeof(result) != 'undefined') {
+                resourceType.push(result);
+            }
+        });
+        requestSqlData.forEach(function(val, index) {
+            var result = makeobjectToRetrive($('#'+val.table),val.apiFieldIndex,val.type)
+            if(typeof(result) != 'undefined') {
+                resourceType.push(result);
+            }
+        });
+        if(resourceType.length > 0) {
+            conn.metadata.deploy(sforce.metadata.retrieve({
+                unpackaged: {
+                    types: resourceType,
+                    version: '41.0'
+                }
+            }).stream(), { runTests: [ ] })
+                .complete(function(err, result) {
+                    if (err) { console.error(err); }
+                    console.log('done ? :' + result.done);
+                    console.log('success ? : ' + result.true);
+                    console.log('state : ' + result.state);
+                    console.log('component errors: ' + result.numberComponentErrors);
+                    console.log('components deployed: ' + result.numberComponentsDeployed);
+                    console.log('tests completed: ' + result.numberTestsCompleted);
+                    hideLoading();
+                });
+        }
+        else {
+            alert('No Resource selected...');
+            hideLoading();
+        }
+    });
 }
 
 function generateXml() {
