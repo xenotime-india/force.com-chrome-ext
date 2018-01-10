@@ -469,10 +469,12 @@ function getPackage() {
     }
 }
 function deploy() {
-    $('#loginDialog').modal({
+    alert('Comming Soon.')
+
+    /*$('#loginDialog').modal({
         backdrop: 'static',
         keyboard: true
-    });
+    });*/
 }
 
 function loginUser() {

@@ -62,7 +62,7 @@ sfdcConsole.loadScripts = function(callback){
             jQuery("link[rel='stylesheet']").remove();
             jQuery('body').html('');
             jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/template.html", function() {
-                alert( "Load was performed." );
+                console.log( "Template Load was performed." );
                 sfdcConsole.getScript('link','text/css','https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css',function(){
                     sfdcConsole.getScript('link','text/css','https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css',function(){
                         sfdcConsole.getScript('link','text/css','https://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/spacelab/bootstrap.min.css',function(){
