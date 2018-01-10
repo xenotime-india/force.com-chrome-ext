@@ -963,6 +963,46 @@ function workWithSOQL() {
             table: 'ApexPage_tb',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'ApexTrigger',
+            table: 'ApexTrigger_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'ApexComponent',
+            table: 'ApexComponent_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'StaticResource',
+            table: 'StaticResource_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'Weblink',
+            table: 'Weblink_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'Dashboard',
+            table: 'Dashboard_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'Report',
+            table: 'Report_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'RecordType',
+            table: 'RecordType_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
+        }, {
+            type:'Profile',
+            table: 'Profile_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
         }];
 
     var requestPromises = requestSqlData.map(function (item) {
@@ -1006,14 +1046,14 @@ function workWithSOQL() {
     requestInCount++;
     //loadApexClass();
     //loadApexPages();
-    loadApexTrigger();
-    loadApexComponents();
-    loadStaticResources();
-    loadWeblinks();
-    loadDashboards();
-    loadReports();
-    loadRecordTypes();
-    loadProfiles();
+    //loadApexTrigger();
+    //loadApexComponents();
+    //loadStaticResources();
+    //loadWeblinks();
+    //loadDashboards();
+    //loadReports();
+    //loadRecordTypes();
+    //loadProfiles();
     requestInCount--;
 }
 
