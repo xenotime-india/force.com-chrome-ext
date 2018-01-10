@@ -452,13 +452,13 @@ function getPackage() {
     });
     if(resourceType.length > 0) {
         sforce.metadata.retrieve({
-            apiVersion: '41.0',
-            singlePackage: true,
             unpackaged: {
-                types: resourceType
+                types: resourceType,
+                version: '41.0'
             }
         }).then(function (value) {
             console.log('ready for download..');
+            console.log(value);
             hideLoading();
             location.href="data:application/zip;base64," + value.zipFile;
         }).catch(function (err) {
