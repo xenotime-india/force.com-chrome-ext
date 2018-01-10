@@ -1012,7 +1012,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
@@ -1058,7 +1058,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
@@ -1104,7 +1104,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
@@ -1150,7 +1150,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
@@ -1195,7 +1195,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
@@ -1241,7 +1241,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
@@ -1287,7 +1287,7 @@ function workWithMetaData() {
         function(err, results) {
             if (err) { return console.error('err', err); }
             var userDate = '';
-            if(results.length > 0) {
+            if(results && results.length > 0) {
                 if(jQuery('#dateField').val() != '') {
                     userDate = new Date(jQuery('#dateField').val());
                 }
