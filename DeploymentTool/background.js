@@ -957,60 +957,70 @@ function workWithSOQL() {
             type:'ApexClass',
             table: 'ApexClass_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'ApexPage',
             table: 'ApexPage_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'ApexTrigger',
             table: 'ApexTrigger_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'ApexComponent',
             table: 'ApexComponent_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'StaticResource',
             table: 'StaticResource_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'Weblink',
             table: 'Weblink_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'Dashboard',
             table: 'Dashboard_tb',
             soqlFields: 'Id, Title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'Report',
             table: 'Report_tb',
             soqlFields: 'Id, Name, DeveloperName,LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'RecordType',
             table: 'RecordType_tb',
             soqlFields: 'Id, SobjectType, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description, DeveloperName',
+            soqlWhere: 'NamespacePrefix = null',
             fields: [ 'Select','Id', 'SobjectType', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy' ]
         }, {
             type:'Profile',
             table: 'Profile_tb',
             soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+            soqlWhere: 'Id != null',
             fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
                 'CreatedDate','CreatedBy', 'Description' ]
         }];
@@ -1019,7 +1029,7 @@ function workWithSOQL() {
         return new Promise(function (resolve, reject) {
             var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
             query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-            query += ' Id = null order by '+filterBy+' asc';
+            query += ' '+item.soqlWhere+' order by '+filterBy+' asc';
             return sforce.query(query, function(err, result) {
                 if (err) { reject(err); }
                 resolve(result);
