@@ -96,6 +96,108 @@ Date.now=function(){return new Date();};Date.today=function(){return Date.now().
     return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=Date.Grammar.formats(fx);return function(s){var r=null;try{r=fn.call({},s);}catch(e){return null;}
     return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
+var requestMetadata = [
+    {
+        type:'CustomObject',
+        table: 'CustomObject_tb',
+    }, {
+        type:'Layout',
+        table: 'Layout_tb',
+    }, {
+        type:'CustomField',
+        table: 'CustomField_tb',
+    }, {
+        type:'CustomLabel',
+        table: 'CustomLabel_tb',
+    }, {
+        type:'CustomTab',
+        table: 'CustomTab_tb',
+    }, {
+        type:'Workflow',
+        table: 'Workflow_tb',
+    }, {
+        type:'ReportType',
+        table: 'ReportType_tb',
+    }, {
+        type:'AnalyticSnapshot',
+        table: 'AnalyticSnapshot_tb',
+    }, {
+        type:'Workflow',
+        table: 'Workflow_tb',
+    }];
+
+var requestSqlData = [
+    {
+        type:'ApexClass',
+        table: 'ApexClass_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'ApexPage',
+        table: 'ApexPage_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'ApexTrigger',
+        table: 'ApexTrigger_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'ApexComponent',
+        table: 'ApexComponent_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'StaticResource',
+        table: 'StaticResource_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'Weblink',
+        table: 'Weblink_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: ['Select','Id', 'Name', 'PageOrSobjectType', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description']
+    }, {
+        type:'Dashboard',
+        table: 'Dashboard_tb',
+        soqlFields: 'Id, Title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'Report',
+        table: 'Report_tb',
+        soqlFields: 'Id, Name, DeveloperName,LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }, {
+        type:'RecordType',
+        table: 'RecordType_tb',
+        soqlFields: 'Id, SobjectType, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description, DeveloperName',
+        soqlWhere: 'NamespacePrefix = null',
+        fields: [ 'Select','Id', 'SobjectType', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy' ]
+    }, {
+        type:'Profile',
+        table: 'Profile_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'Id != null',
+        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy', 'Description' ]
+    }];
 
 function __getCookie(c_name){
     var i,x,y,ARRcookies=document.cookie.split(";");
@@ -109,7 +211,6 @@ function __getCookie(c_name){
     }
 }
 
-var requestInCount = 0;
 var filterBy = 'LastModifiedDate';
 var filterByMetadata = 'lastModifiedDate';
 
@@ -267,420 +368,6 @@ function globalUnSelectAll() {
     selectAll(' ','',$('#CustomObject_tb'));
     selectAll(' ','',$('#Layout_tb'));
 }
-
-function loadApexClass() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate From ApexClass where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by name asc';
-
-    var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy'];
-    sforce.query(query, function(err, result) {
-        if (err) { return console.error(err); }
-        var records = result.records;
-        var panel,table;
-
-        apexclass = records;
-
-        table = createTable(fields,'ApexClass_tb');
-        panel = createPanel('Apex Class',table,$('#container-tab'));
-
-        for ( var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        apexclass_table = $('#ApexClass_tb').dataTable();
-
-        $('#ApexClass_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadApexPages() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description From ApexPage where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by name asc';
-
-    var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        apexpage = records;
-
-        table = createTable(fields, 'ApexPages_tb');
-        panel = createPanel('Apex Pages', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        apexpage_table = $('#ApexPages_tb').dataTable();
-
-        $('#ApexPages_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadApexTrigger() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate From ApexTrigger where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by name asc';
-
-    var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        apextrigger = records;
-
-        table = createTable(fields, 'ApexTrigger_tb');
-        panel = createPanel('Apex Trigger', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        apextrigger_table = $('#ApexTrigger_tb').dataTable();
-
-        $('#ApexTrigger_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadApexComponents() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description From ApexComponent where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by name asc';
-
-    var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        component = records;
-
-        table = createTable(fields, 'ApexComponents_tb');
-        panel = createPanel('Apex Components', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        component_table = $('#ApexComponents_tb').DataTable();
-
-        $('#ApexComponents_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadStaticResources() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description From StaticResource where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by name asc';
-
-    var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        StaticResources = records;
-
-        table = createTable(fields, 'StaticResources_tb');
-        panel = createPanel('Static Resources', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        StaticResources_table = $('#StaticResources_tb').DataTable();
-
-        $('#StaticResources_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadWeblinks() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, PageOrSobjectType, LastModifiedBy.Name, CreatedBy.Name, LastModifiedDate, CreatedDate, Description From Weblink where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by name asc';
-
-    var fields = [ 'Select','Id', 'Name', 'PageOrSobjectType', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        Weblinks = records;
-
-        table = createTable(fields, 'Weblinks_tb');
-        panel = createPanel('Web links', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        Weblinks_table = $('#Weblinks_tb').DataTable();
-
-        $('#Weblinks_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadDashboards() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description From Dashboard where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by title asc';
-
-    var fields = [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        Dashboards = records;
-
-        table = createTable(fields, 'Dashboards_tb');
-        panel = createPanel('Dashboards', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        Dashboards_table = $('#Dashboards_tb').DataTable();
-
-        $('#Dashboards_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadReports() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, DeveloperName,LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description From Report where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by Name asc';
-
-    var fields = [ 'Select','Id', 'Name','DeveloperName','LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        report = records;
-
-        table = createTable(fields, 'Reports_tb');
-        panel = createPanel('Reports', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        report_table = $('#Reports_tb').DataTable();
-        $('#Reports_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadRecordTypes() {
-
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, SobjectType, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description, DeveloperName From RecordType where ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' NamespacePrefix = null order by SobjectType asc';
-
-    var fields = [ 'Select','Id', 'SobjectType' ,'Name','DeveloperName','LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        recordtype = records;
-
-        table = createTable(fields, 'RecordTypes_tb');
-        panel = createPanel('RecordTypes', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-        recordtype_table = $('#RecordTypes_tb').DataTable();
-        $('#RecordTypes_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-
-function loadProfiles() {
-    var userDate = '';
-    if(jQuery('#dateField').val() != '') {
-        userDate = convertDate(jQuery('#dateField').val());
-    }
-    var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description From Profile where  ';
-    query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-    query += ' Id != null order by Name asc';
-
-    var fields = [ 'Select','Id', 'Name','LastModifiedDate', 'LastModifiedBy',
-        'CreatedDate','CreatedBy', 'Description' ];
-    sforce.query(query, function(err, result) {
-        if (err) {
-            return console.error(err);
-        }
-        var records = result.records;
-        var panel, table;
-
-        profile = records;
-
-        table = createTable(fields, 'Profiles_tb');
-        panel = createPanel('Profiles', table, $('#container-tab'));
-
-        for (var i = 0; i < records.length; i++) {
-            addRow(records[i], fields, $(table).find('tbody'));
-        }
-        $('#container').append($(panel));
-
-        profile_table = $('#Profiles_tb').DataTable();
-
-        $('#Profiles_tb tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            else {
-                $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        });
-    });
-}
-var apexclass,apexpage,component,apextrigger,label,report,profile,Dashboards,Weblinks,StaticResources,recordtype;
-var recordtype_table,apexclass_table,apexpage_table,component_table,apextrigger_table,label_table,report_table,profile_table,Dashboards_table,Weblinks_table,StaticResources_table;
-
-var AnalyticSnapshot,ReportType,Workflow,CustomTab,CustomLabel,CustomField,CustomObject,Layout;
-var AnalyticSnapshot_table,ReportType_table,Workflow_table,CustomTab_table,CustomLabel_table,CustomField_table,CustomObject_table,Layout_table;
-
 
 function waitForDone(callback) {
     function getResult(id) {
@@ -953,79 +640,6 @@ function workWithSOQL() {
         userDate = convertDate(jQuery('#dateField').val());
     }
 
-    var requestSqlData = [
-        {
-            type:'ApexClass',
-            table: 'ApexClass_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'ApexPage',
-            table: 'ApexPage_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'ApexTrigger',
-            table: 'ApexTrigger_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'ApexComponent',
-            table: 'ApexComponent_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'StaticResource',
-            table: 'StaticResource_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'Weblink',
-            table: 'Weblink_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'Dashboard',
-            table: 'Dashboard_tb',
-            soqlFields: 'Id, Title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'Report',
-            table: 'Report_tb',
-            soqlFields: 'Id, Name, DeveloperName,LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }, {
-            type:'RecordType',
-            table: 'RecordType_tb',
-            soqlFields: 'Id, SobjectType, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate,Description, DeveloperName',
-            soqlWhere: 'NamespacePrefix = null',
-            fields: [ 'Select','Id', 'SobjectType', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy' ]
-        }, {
-            type:'Profile',
-            table: 'Profile_tb',
-            soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-            soqlWhere: 'Id != null',
-            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-                'CreatedDate','CreatedBy', 'Description' ]
-        }];
-
     var requestPromises = requestSqlData.map(function (item) {
         return new Promise(function (resolve, reject) {
             var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
@@ -1069,35 +683,6 @@ function workWithSOQL() {
 function workWithMetaData() {
     var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
         'createdDate','createdByName' ];
-    var requestMetadata = [
-        {
-            type:'CustomObject',
-            table: 'CustomObject_tb',
-        }, {
-            type:'Layout',
-            table: 'Layout_tb',
-        }, {
-            type:'CustomField',
-            table: 'CustomField_tb',
-        }, {
-            type:'CustomLabel',
-            table: 'CustomLabel_tb',
-        }, {
-            type:'CustomTab',
-            table: 'CustomTab_tb',
-        }, {
-            type:'Workflow',
-            table: 'Workflow_tb',
-        }, {
-            type:'ReportType',
-            table: 'ReportType_tb',
-        }, {
-            type:'AnalyticSnapshot',
-            table: 'AnalyticSnapshot_tb',
-        }, {
-            type:'Workflow',
-            table: 'Workflow_tb',
-        }];
     var userDate = '2015-12-10';
     if(jQuery('#dateField').val() != '') {
         userDate = new Date(jQuery('#dateField').val());
@@ -1188,9 +773,7 @@ function showLoading() {
     }
 }
 function hideLoading() {
-    if(requestInCount == 0) {
-        $('#status').removeClass('show');
-        $('#status').hide(); // will first fade out the sfdcConsoleloading animation
-        $('#preloader').hide(); // will fade out the white DIV that covers the website.
-    }
+    $('#status').removeClass('show');
+    $('#status').hide(); // will first fade out the sfdcConsoleloading animation
+    $('#preloader').hide(); // will fade out the white DIV that covers the website.
 }
