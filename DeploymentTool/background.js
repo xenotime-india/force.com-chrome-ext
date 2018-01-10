@@ -968,6 +968,27 @@ function workWithMetaData() {
         }, {
             type:'Layout',
             table: 'Layout_tb',
+        }, {
+            type:'CustomField',
+            table: 'CustomField_tb',
+        }, {
+            type:'CustomLabel',
+            table: 'CustomLabel_tb',
+        }, {
+            type:'CustomTab',
+            table: 'CustomTab_tb',
+        }, {
+            type:'Workflow',
+            table: 'Workflow_tb',
+        }, {
+            type:'ReportType',
+            table: 'ReportType_tb',
+        }, {
+            type:'AnalyticSnapshot',
+            table: 'AnalyticSnapshot_tb',
+        }, {
+            type:'Workflow',
+            table: 'Workflow_tb',
         }];
     var userDate = '2015-12-10';
     if(jQuery('#dateField').val() != '') {
@@ -987,11 +1008,13 @@ function workWithMetaData() {
             var panel,table;
 
             table = createTable(fields,requestMetadata[index].table);
-            panel = createPanel(requestMetadata[index],table,$('#container-tab2'));
+            panel = createPanel(requestMetadata[index].type,table,$('#container-tab2'));
 
-            for ( var i = 0; i < val.length; i++) {
-                if(val[i].manageableState != "installed" && (userDate == '' || userDate < new Date(val[i][filterByMetadata]))) {
-                    addRow(val[i], fields, $(table).find('tbody'));
+            if(val && val.length > 0) {
+                for (var i = 0; i < val.length; i++) {
+                    if (val[i].manageableState != "installed" && (userDate == '' || userDate < new Date(val[i][filterByMetadata]))) {
+                        addRow(val[i], fields, $(table).find('tbody'));
+                    }
                 }
             }
             $('#container').append($(panel));
@@ -1009,328 +1032,6 @@ function workWithMetaData() {
             });
         })
     });
-
-    requestInCount++;
-    var types = [{type: 'Layout', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                Layout = results;
-
-                table = createTable(fields,'Layout_tb');
-                panel = createPanel('Layout',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                Layout_table = $('#Layout_tb').DataTable();
-
-                $('#Layout_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                } );
-
-            }
-            requestInCount--;
-            hideLoading();
-        }
-    );
-    requestInCount++;
-    var types = [{type: 'CustomField', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                CustomField = results;
-
-                table = createTable(fields,'CustomField_tb');
-                panel = createPanel('CustomField',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                CustomField_table = $('#CustomField_tb').DataTable();
-
-                $('#CustomField_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                } );
-
-            }
-            requestInCount--;
-            hideLoading();
-        }
-    );
-    requestInCount++;
-    var types = [{type: 'CustomLabel', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                CustomLabel = results;
-
-                table = createTable(fields,'CustomLabel_tb');
-                panel = createPanel('CustomLabel',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                CustomLabel_table = $('#CustomLabel_tb').DataTable();
-
-                $('#CustomLabel_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                } );
-
-            }
-            requestInCount--;
-            hideLoading();
-        }
-    );
-    requestInCount++;
-    var types = [{type: 'CustomTab', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                CustomTab = results;
-
-                table = createTable(fields,'CustomTab_tb');
-                panel = createPanel('CustomTab',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                CustomTab_table = $('#CustomTab_tb').DataTable();
-
-                $('#CustomTab_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                } );
-
-            }
-            requestInCount--;
-        }
-    );
-    requestInCount++;
-    var types = [{type: 'Workflow', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                Workflow = results;
-
-                table = createTable(fields,'Workflow_tb');
-                panel = createPanel('Workflow',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                Workflow_table = $('#Workflow_tb').DataTable();
-
-                $('#Workflow_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                } );
-
-            }
-            requestInCount--;
-            hideLoading();
-        }
-    );
-    requestInCount++;
-    var types = [{type: 'ReportType', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                ReportType = results;
-
-                table = createTable(fields,'ReportType_tb');
-                panel = createPanel('ReportType',table,$('#container-tab2'));
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                ReportType_table = $('#ReportType_tb').DataTable();
-
-                $('#ReportType_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                });
-
-            }
-            requestInCount--;
-            hideLoading();
-        }
-    );
-    requestInCount++;
-    var types = [{type: 'AnalyticSnapshot', folder: null}];
-    sforce.metadata.list(types, '39.0',
-        function(err, results) {
-            if (err) { return console.error('err', err); }
-            var userDate = '';
-            if(results && results.length > 0) {
-                if(jQuery('#dateField').val() != '') {
-                    userDate = new Date(jQuery('#dateField').val());
-                }
-
-                var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
-                    'createdDate','createdByName' ];
-
-                var panel,table;
-
-                table = createTable(fields,'AnalyticSnapshot_tb');
-                panel = createPanel('AnalyticSnapshot',table,$('#container-tab2'));
-
-                AnalyticSnapshot = results;
-
-                for ( var i = 0; i < results.length; i++) {
-                    //console.log(results[i]);
-                    if(results[i].manageableState != "installed" && (userDate == '' || userDate < new Date(results[i][filterByMetadata]))) {
-                        addRow(results[i], fields, $(table).find('tbody'));
-                    }
-                }
-                $('#container').append($(panel));
-
-                AnalyticSnapshot_table = $('#AnalyticSnapshot_tb').DataTable();
-
-                $('#AnalyticSnapshot_tb tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected');
-                    if($(this).hasClass('selected')) {
-                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                });
-
-            }
-            requestInCount--;
-            hideLoading();
-        }
-    );
 }
 
 
