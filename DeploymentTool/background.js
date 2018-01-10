@@ -459,8 +459,12 @@ function getPackage() {
         }).then(function (value) {
             console.log('ready for download..');
             console.log(value);
-            hideLoading();
-            //location.href="data:application/zip;base64," + value.zipFile;
+            sforce.metadata.checkStatus(value.id).complete(function(err, results) {
+                if (err) { console.error(err); }
+                console.log(results);
+                hideLoading();
+                //location.href="data:application/zip;base64," + results.zipFile;
+            });
         }).catch(function (err) {
             console.error('Error', err);
             hideLoading();
