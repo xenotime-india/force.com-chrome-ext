@@ -956,9 +956,13 @@ function workWithSOQL() {
         {
             type:'ApexClass',
             table: 'ApexClass_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
         }, {
             type:'ApexPage',
             table: 'ApexPage_tb',
+            fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
+                'CreatedDate','CreatedBy', 'Description' ]
         }];
 
     var requestPromises = requestSqlData.map(function (item) {
@@ -977,11 +981,11 @@ function workWithSOQL() {
         results.forEach(function(val, index) {
                 var records = val.records;
                 var panel, table;
-                table = createTable(fields, requestSqlData[index].table);
+                table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
                 panel = createPanel(requestSqlData[index].type, table, $('#container-tab'));
 
                 for (var i = 0; i < records.length; i++) {
-                    addRow(records[i], fields, $(table).find('tbody'));
+                    addRow(records[i], requestSqlData[index].fields, $(table).find('tbody'));
                 }
                 $('#container').append($(panel));
                 $('#'+requestSqlData[index].table).dataTable();
