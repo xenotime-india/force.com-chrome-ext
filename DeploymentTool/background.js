@@ -908,26 +908,15 @@ function generateXml() {
 
 jQuery(function() {
     showLoading();
-    try {
-        $('#dateField').val(showDate(new Date().add(-1).month()));
-        console.log("Ready for API fun!");
-        workWithSOQL();
-        workWithMetaData();
-        $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
-        hideLoading();
-        $('#dateField').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-    }
-    catch(ex) {
-        console.log(ex);
-        requestInCount = 0;
-        hideLoading();
-        $('#loginDialog').modal({
-            backdrop: 'static',
-            keyboard: true
-        });
-    }
+    $('#dateField').val(showDate(new Date().add(-1).month()));
+    console.log("Ready for API fun!");
+    workWithSOQL();
+    workWithMetaData();
+    $('#myTab a[href="#ApexClass_tb-tab"]').tab('show');
+    hideLoading();
+    $('#dateField').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
 
 function updateData() {
