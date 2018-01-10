@@ -281,8 +281,6 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 					'CreatedDate','CreatedBy'];
             sforce.query(query, function(err, result) {
                 if (err) { return console.error(err); }
-                console.log("total : " + result.totalSize);
-                console.log("fetched : " + result.records.length);
                 var records = result.records;
                 var panel,table;
 
@@ -320,30 +318,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			apexpage = records;
-			
-			table = createTable(fields,'ApexPages_tb');
-			panel = createPanel('Apex Pages',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			apexpage_table = $('#ApexPages_tb').dataTable();
-			
-			$('#ApexPages_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                apexpage = records;
+
+                table = createTable(fields, 'ApexPages_tb');
+                panel = createPanel('Apex Pages', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                apexpage_table = $('#ApexPages_tb').dataTable();
+
+                $('#ApexPages_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadApexTrigger() {
@@ -357,30 +359,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			apextrigger = records;
-			
-			table = createTable(fields,'ApexTrigger_tb');
-			panel = createPanel('Apex Trigger',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			apextrigger_table = $('#ApexTrigger_tb').dataTable();
-			
-			$('#ApexTrigger_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                apextrigger = records;
+
+                table = createTable(fields, 'ApexTrigger_tb');
+                panel = createPanel('Apex Trigger', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                apextrigger_table = $('#ApexTrigger_tb').dataTable();
+
+                $('#ApexTrigger_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadApexComponents() {
@@ -394,30 +400,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			component = records;
-			
-			table = createTable(fields,'ApexComponents_tb');
-			panel = createPanel('Apex Components',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			component_table = $('#ApexComponents_tb').DataTable();
-			
-			$('#ApexComponents_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                component = records;
+
+                table = createTable(fields, 'ApexComponents_tb');
+                panel = createPanel('Apex Components', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                component_table = $('#ApexComponents_tb').DataTable();
+
+                $('#ApexComponents_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadStaticResources() {
@@ -431,30 +441,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			StaticResources = records;
-			
-			table = createTable(fields,'StaticResources_tb');
-			panel = createPanel('Static Resources',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			StaticResources_table = $('#StaticResources_tb').DataTable();
-			
-			$('#StaticResources_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                StaticResources = records;
+
+                table = createTable(fields, 'StaticResources_tb');
+                panel = createPanel('Static Resources', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                StaticResources_table = $('#StaticResources_tb').DataTable();
+
+                $('#StaticResources_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadWeblinks() {
@@ -468,30 +482,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name', 'PageOrSobjectType', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			Weblinks = records;
-			
-			table = createTable(fields,'Weblinks_tb');
-			panel = createPanel('Web links',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			Weblinks_table = $('#Weblinks_tb').DataTable();
-			
-			$('#Weblinks_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                Weblinks = records;
+
+                table = createTable(fields, 'Weblinks_tb');
+                panel = createPanel('Web links', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                Weblinks_table = $('#Weblinks_tb').DataTable();
+
+                $('#Weblinks_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadDashboards() {
@@ -505,30 +523,34 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			Dashboards = records;
-			
-			table = createTable(fields,'Dashboards_tb');
-			panel = createPanel('Dashboards',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			Dashboards_table = $('#Dashboards_tb').DataTable();
-			
-			$('#Dashboards_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                Dashboards = records;
+
+                table = createTable(fields, 'Dashboards_tb');
+                panel = createPanel('Dashboards', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                Dashboards_table = $('#Dashboards_tb').DataTable();
+
+                $('#Dashboards_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadReports() {
@@ -542,29 +564,33 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name','DeveloperName','LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			report = records;
-			
-			table = createTable(fields,'Reports_tb');
-			panel = createPanel('Reports',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			report_table = $('#Reports_tb').DataTable();
-			$('#Reports_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                report = records;
+
+                table = createTable(fields, 'Reports_tb');
+                panel = createPanel('Reports', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                report_table = $('#Reports_tb').DataTable();
+                $('#Reports_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadRecordTypes() {
@@ -579,29 +605,33 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'SobjectType' ,'Name','DeveloperName','LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			recordtype = records;
-			
-			table = createTable(fields,'RecordTypes_tb');
-			panel = createPanel('RecordTypes',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			recordtype_table = $('#RecordTypes_tb').DataTable();
-			$('#RecordTypes_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                recordtype = records;
+
+                table = createTable(fields, 'RecordTypes_tb');
+                panel = createPanel('RecordTypes', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+                recordtype_table = $('#RecordTypes_tb').DataTable();
+                $('#RecordTypes_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		
 		function loadProfiles() {
@@ -615,31 +645,35 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 			
 			var fields = [ 'Select','Id', 'Name','LastModifiedDate', 'LastModifiedBy',
 					'CreatedDate','CreatedBy', 'Description' ];
-			result = sforce.connection.query(query);
-			records = result.getArray("records");
-			var panel,table;
-			
-			profile = records;
-			
-			table = createTable(fields,'Profiles_tb');
-			panel = createPanel('Profiles',table,$('#container-tab'));
-			
-			for ( var i = 0; i < records.length; i++) {
-				addRow(records[i], fields, $(table).find('tbody'));
-			}
-			$('#container').append($(panel));
-			
-			profile_table = $('#Profiles_tb').DataTable();
- 
-		    $('#Profiles_tb tbody').on('click', 'tr', function () {
-		        $(this).toggleClass('selected');
-		        if($(this).hasClass('selected')) {
-		        	$(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-		        }
-		        else {
-		        	$(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-		        }
-		    });
+            sforce.query(query, function(err, result) {
+                if (err) {
+                    return console.error(err);
+                }
+                var records = result.records;
+                var panel, table;
+
+                profile = records;
+
+                table = createTable(fields, 'Profiles_tb');
+                panel = createPanel('Profiles', table, $('#container-tab'));
+
+                for (var i = 0; i < records.length; i++) {
+                    addRow(records[i], fields, $(table).find('tbody'));
+                }
+                $('#container').append($(panel));
+
+                profile_table = $('#Profiles_tb').DataTable();
+
+                $('#Profiles_tb tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        $(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        $(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            });
 		}
 		var apexclass,apexpage,component,apextrigger,label,report,profile,Dashboards,Weblinks,StaticResources,recordtype;
 		var recordtype_table,apexclass_table,apexpage_table,component_table,apextrigger_table,label_table,report_table,profile_table,Dashboards_table,Weblinks_table,StaticResources_table;
@@ -972,8 +1006,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
                         requestInCount++;
-						sforce.metadata.listMetadata(
-						    {queries: [{type: 'Layout'}], asOfVersion: 31},
+            var types = [{type: 'Layout', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
@@ -1017,8 +1051,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
 						requestInCount++;
-                        sforce.metadata.listMetadata(
-						    {queries: [{type: 'CustomField'}], asOfVersion: 31},
+            var types = [{type: 'CustomField', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
@@ -1062,8 +1096,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
                         requestInCount++;
-						sforce.metadata.listMetadata(
-						    {queries: [{type: 'CustomLabel'}], asOfVersion: 31},
+            var types = [{type: 'CustomLabel', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
@@ -1107,8 +1141,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
                         requestInCount++;
-						sforce.metadata.listMetadata(
-						    {queries: [{type: 'CustomTab'}], asOfVersion: 31},
+            var types = [{type: 'CustomTab', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
@@ -1151,8 +1185,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
                         requestInCount++;
-						sforce.metadata.listMetadata(
-						    {queries: [{type: 'Workflow'}], asOfVersion: 31},
+            var types = [{type: 'Workflow', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
@@ -1196,8 +1230,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
                         requestInCount++;
-						sforce.metadata.listMetadata(
-						    {queries: [{type: 'ReportType'}], asOfVersion: 31},
+            var types = [{type: 'ReportType', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
@@ -1241,8 +1275,8 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
 						    }
 						);
                         requestInCount++;
-						sforce.metadata.listMetadata(
-						    {queries: [{type: 'AnalyticSnapshot'}], asOfVersion: 31},
+            var types = [{type: 'AnalyticSnapshot', folder: null}];
+            sforce.metadata.list(types, '39.0',
 						    function (results) {
 						        var userDate = '';
 						        if(results.length > 0) {
