@@ -563,15 +563,10 @@ function workWithSOQL() {
     }
 
     var requestPromises = requestSqlData.map(function (item) {
-        return new Promise(function (resolve, reject) {
-            var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
-            query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
-            query += ' '+item.soqlWhere+' order by '+filterBy+' desc';
-            return sforce.query(query, function(err, result) {
-                if (err) { reject(err); }
-                resolve(result);
-            });
-        });
+        var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
+        query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
+        query += ' '+item.soqlWhere+' order by '+filterBy+' desc';
+        return sforce.query(query);
     });
 
     return Promise.all(requestPromises).then(function(results) {
@@ -612,13 +607,8 @@ function workWithMetaData() {
         userDate = new Date(jQuery('#dateField').val());
     }
     var requestPromises = requestMetadata.map(function (item) {
-        return new Promise(function (resolve, reject) {
-            var types = [{type: item.type, folder: null}];
-            return sforce.metadata.list(types, '39.0', function (err, results) {
-                if (err) { reject(err); }
-                resolve(results);
-            });
-        });
+        var types = [{type: item.type, folder: null}];
+        return sforce.metadata.list(types, '39.0');
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
