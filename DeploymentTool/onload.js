@@ -111,7 +111,7 @@ var filesToLoad = [
         url:"https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css",
         type:'css',
     },{
-        url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/datepicker3.css",
+        url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css",
         type:'css',
     },{
         url:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
@@ -123,7 +123,7 @@ var filesToLoad = [
         url:"https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js",
         type:'js',
     },{
-        url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/bootstrap-datepicker.js",
+        url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js",
         type:'js',
     },{
         url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/sfdcMetadata.js",
