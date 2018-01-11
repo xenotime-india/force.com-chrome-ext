@@ -247,7 +247,7 @@ var requestSqlData = [
     }, {
         type:'ActionLinkGroupTemplate',
         table: 'ActionLinkGroupTemplate_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, MasterLabel, DeveloperName, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
         soqlWhere: 'Id != null',
         fields: [ 'Select','Id', 'MasterLabel', 'DeveloperName', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy' ],
