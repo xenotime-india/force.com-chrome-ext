@@ -142,10 +142,6 @@ var requestMetadata = [
         table: 'SharingCriteriaRule_tb',
         apiFieldIndex: 2,
     }, {
-        type:'QuickAction',
-        table: 'QuickAction_tb',
-        apiFieldIndex: 2,
-    }, {
         type:'Flow',
         table: 'Flow_tb',
         apiFieldIndex: 2,
