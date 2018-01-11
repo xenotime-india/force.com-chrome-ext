@@ -130,36 +130,100 @@ var requestMetadata = [
         table: 'AnalyticSnapshot_tb',
         apiFieldIndex: 2,
     }, {
-        type:'AccountSettings',
-        table: 'AccountSettings_tb',
+        type:'AuraDefinitionBundle',
+        table: 'AuraDefinitionBundle_tb',
         apiFieldIndex: 2,
     }, {
-        type:'ActionOverride',
-        table: 'ActionOverride_tb',
+        type:'SharingOwnerRule',
+        table: 'SharingOwnerRule_tb',
         apiFieldIndex: 2,
     }, {
-        type:'ActivitiesSettings',
-        table: 'ActivitiesSettings_tb',
+        type:'SharingCriteriaRule',
+        table: 'SharingCriteriaRule_tb',
         apiFieldIndex: 2,
     }, {
-        type:'AddressSettings',
-        table: 'AddressSettings_tb',
+        type:'QuickAction',
+        table: 'QuickAction_tb',
         apiFieldIndex: 2,
     }, {
-        type:'AppMenu',
-        table: 'AppMenu_tb',
+        type:'Flow',
+        table: 'Flow_tb',
         apiFieldIndex: 2,
     }, {
-        type:'ApprovalProcess',
-        table: 'ApprovalProcess_tb',
+        type:'Letterhead',
+        table: 'Letterhead_tb',
         apiFieldIndex: 2,
     }, {
-        type:'ArticleType',
-        table: 'ArticleType_tb',
+        type:'Group',
+        table: 'Group_tb',
         apiFieldIndex: 2,
     }, {
-        type:'AssignmentRules',
-        table: 'AssignmentRules_tb',
+        type:'Queue',
+        table: 'Queue_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'Role',
+        table: 'Role_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'ValidationRule',
+        table: 'ValidationRule_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'CustomObjectTranslation',
+        table: 'CustomObjectTranslation_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'WorkflowTask',
+        table: 'WorkflowTask_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'WorkflowOutboundMessage',
+        table: 'WorkflowOutboundMessage_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'WorkflowAlert',
+        table: 'WorkflowAlert_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'WorkflowRule',
+        table: 'WorkflowRule_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'WorkflowFieldUpdate',
+        table: 'WorkflowFieldUpdate_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'QuickAction',
+        table: 'QuickAction_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'PermissionSet',
+        table: 'PermissionSet_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'ListView',
+        table: 'ListView_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'CustomPageWebLink',
+        table: 'CustomPageWebLink_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'HomePageLayout',
+        table: 'HomePageLayout_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'HomePageComponent',
+        table: 'HomePageComponent_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'EmailTemplate',
+        table: 'EmailTemplate_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'Document',
+        table: 'Document_tb',
         apiFieldIndex: 2,
     }];
 
