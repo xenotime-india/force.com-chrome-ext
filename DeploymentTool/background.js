@@ -96,6 +96,8 @@ Date.now=function(){return new Date();};Date.today=function(){return Date.now().
     return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=Date.Grammar.formats(fx);return function(s){var r=null;try{r=fn.call({},s);}catch(e){return null;}
     return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
+
+var apiVersion = '41.0';
 var requestMetadata = [];
 
 var requestSqlData = [
@@ -426,7 +428,7 @@ function getPackage() {
         sforce.metadata.retrieve({
             unpackaged: {
                 types: resourceType,
-                version: '41.0'
+                version: apiVersion
             }
         }).complete(function (err, value) {
             if (err) { console.error(err); }
@@ -467,7 +469,7 @@ function loginUser() {
     var requestObj = sforce.metadata.retrieve({
         unpackaged: {
             types: resourceType,
-            version: '41.0'
+            version: apiVersion
         }
     })
 
@@ -540,7 +542,7 @@ function generateXml() {
         XMLString += maketypeblock(jQuery('#'+val.table),val.apiFieldIndex,val.type);
     });
 
-    XMLString += '\n    <version>31.0</version>\n</Package>';
+    XMLString += '\n    <version>'+apiVersion+'</version>\n</Package>';
     jQuery('#xmlData').val(XMLString);
     jQuery('#xmlDialog').modal();
 }
@@ -550,7 +552,7 @@ jQuery(function() {
 
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
-    sforce.metadata.describe('41.0').then(function(metadata) {
+    sforce.metadata.describe(apiVersion).then(function(metadata) {
         metadata.metadataObjects.forEach(function (value) {
             var result = requestSqlData.filter(function (item) {
                 return item.type.toLowerCase() === value.xmlName.toLowerCase();
@@ -651,7 +653,7 @@ function workWithMetaData() {
     }
     var requestPromises = requestMetadata.map(function (item) {
         var types = [{type: item.type, folder: null}];
-        return sforce.metadata.list(types, '39.0');
+        return sforce.metadata.list(types, apiVersion);
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
