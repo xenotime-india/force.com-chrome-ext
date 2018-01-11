@@ -657,10 +657,6 @@ function generateXml() {
 
 jQuery(function() {
     showLoading();
-    Promise.config({
-        longStackTraces: true,
-        warnings: true // note, run node with --trace-warnings to see full stack traces for warnings
-    })
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
     workWithSOQL().then(function () {
