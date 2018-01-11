@@ -18,7 +18,8 @@
         background-image: url(https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/Ellipsis.gif);
         background-repeat: no-repeat;
         background-position: center;
-        margin: -100px 0 0 -100px
+        margin: -100px 0 0 -100px;
+        text-align: center;
     }
 
     #sfdcConsoleContainer {
@@ -44,7 +45,16 @@
     }
 </style>
 <div id="preloader">
-    <div id="status" class="sfdcConsoleloading">&nbsp;</div>
+    <div id="status" class="sfdcConsoleloading">
+        <span style="
+            position: absolute;
+            bottom: 0px;
+            display: block;
+            width: 100%;
+            left: 0px;
+            font-weight: bold;
+        ">Loading Please wait..</span>
+    </div>
 </div>
 <div id="sfdcConsoleContainer">
     <div class="navbar navbar-default navbar-static-top">
