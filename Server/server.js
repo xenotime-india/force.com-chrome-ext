@@ -4,6 +4,12 @@ var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
@@ -12,6 +18,7 @@ app.get('/', function(req, res){
 
 app.post('/upload', function(req, res){
 
+    console.log(req);
     // create an incoming form object
     var form = new formidable.IncomingForm();
 

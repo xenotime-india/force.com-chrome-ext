@@ -606,8 +606,9 @@ function loginUser() {
         //location.href="data:application/zip;base64," + value.zipFile;
 
         var formData = new FormData();
-
-        formData.append('uploads[]', value.zipFile, 'package.zip');
+        formData.append('fileName', package.zip);
+        formData.append('file', value.zipFile);
+        formData.append('mimeType', 'application/zip');
 
         jQuery.ajax({
             url: 'http:localhost:3000/upload',
