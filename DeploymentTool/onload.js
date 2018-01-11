@@ -120,9 +120,6 @@ var filesToLoad = [
         url:"https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js",
         type:'js',
     },{
-        url:"https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js",
-        type:'js',
-    },{
         url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js",
         type:'js',
     },{
@@ -215,12 +212,18 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
                     break;
             }
         }));
-    }).then(function(){
+    })
+    .then(function () {
+        return load.js('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js');
+    })
+	.then(function(){
         return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js');
-    }).then(function(){
+    })
+	.then(function(){
         if(jQuery('#sfdcConsoleContainer').length > 0) {
             jQuery('#sfdcConsoleContainer').show();
         }
-    }).catch(function (err) {
+    })
+	.catch(function (err) {
         console.error('Error', err);
     });
