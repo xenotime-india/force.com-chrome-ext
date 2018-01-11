@@ -677,27 +677,30 @@ function workWithMetaData() {
                 table = createTable(fields, requestMetadata[index].table);
                 panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
 
-
+                var hasRecord = false;
                 for (var i = 0; i < val.length; i++) {
                     if (val[i].manageableState != "installed" && (userDate == '' || userDate < new Date(val[i][filterByMetadata]))) {
                         addRow(val[i], fields, jQuery(table).find('tbody'));
+                        hasRecord = true;
                     }
                 }
-                jQuery('#container').append(jQuery(panel));
+                if(hasRecord) {
+                    jQuery('#container').append(jQuery(panel));
 
-                jQuery('#' + requestMetadata[index].table).DataTable({
-                    order: [[fields.indexOf('lastModifiedDate'), "desc"]]
-                });
+                    jQuery('#' + requestMetadata[index].table).DataTable({
+                        order: [[fields.indexOf('lastModifiedDate'), "desc"]]
+                    });
 
-                jQuery('#' + requestMetadata[index].table + ' tbody').on('click', 'tr', function () {
-                    jQuery(this).toggleClass('selected');
-                    if (jQuery(this).hasClass('selected')) {
-                        jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                });
+                    jQuery('#' + requestMetadata[index].table + ' tbody').on('click', 'tr', function () {
+                        jQuery(this).toggleClass('selected');
+                        if (jQuery(this).hasClass('selected')) {
+                            jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                        }
+                        else {
+                            jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                        }
+                    });
+                }
             }
         });
         return Promise.resolve();
