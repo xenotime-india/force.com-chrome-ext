@@ -99,28 +99,28 @@ sfdcConsole.getScript = function(element,type,src,callback){
 
 var filesToLoad = [
 	{
-		url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',
+		url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
 		type: 'css',
 	},{
-        url:"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/spacelab/bootstrap.min.css",
+        url:"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css",
         type:'css',
     },{
         url:"https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css",
         type:'css',
     },{
-        url:"https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css",
+        url:"https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css",
         type:'css',
     },{
         url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/datepicker3.css",
         type:'css',
     },{
-        url:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js",
+        url:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
         type:'js',
     },{
-        url:"https://cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js",
+        url:"https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js",
         type:'js',
     },{
-        url:"https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js",
+        url:"https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js",
         type:'js',
     },{
         url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/bootstrap-datepicker.js",
