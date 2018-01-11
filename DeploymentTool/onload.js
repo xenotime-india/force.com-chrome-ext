@@ -194,17 +194,28 @@ sfdcConsole.loadScripts = function(callback){
 	}
 }
 
-load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js').then(function(){
-    return Promise.all(filesToLoad.map(function (item) {
-        switch (item.type) {
-            case 'js':
-                return load.js(item.url);
-                break;
-            case 'css':
-                return load.css(item.url);
-                break;
-        }
-    })).then(function(){
+load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+    .then(function() {
+        jQuery("link[rel='stylesheet']").remove();
+        jQuery('body').html('');
+        return new Promise(function (resolve, reject) {
+            jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/template.html", function() {
+            	resolve();
+            });
+        });
+    }
+	.then(function() {
+        return Promise.all(filesToLoad.map(function (item) {
+            switch (item.type) {
+                case 'js':
+                    return load.js(item.url);
+                    break;
+                case 'css':
+                    return load.css(item.url);
+                    break;
+            }
+        }));
+    }).then(function(){
         return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js');
     }).then(function(){
         if(jQuery('#sfdcConsoleContainer').length > 0) {
@@ -213,4 +224,3 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js').then
     }).catch(function (err) {
         console.error('Error', err);
     });
-});
