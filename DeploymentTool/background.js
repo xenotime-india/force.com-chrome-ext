@@ -595,60 +595,38 @@ function loginUser() {
             resourceType.push(result);
         }
     });
-    sforce.metadata.retrieve({
+
+    var requestObj = sforce.metadata.retrieve({
         unpackaged: {
             types: resourceType,
             version: '41.0'
         }
-    }).complete(function (err, value) {
-        if (err) { console.error(err); }
-        console.log('ready for download..');
-        //location.href="data:application/zip;base64," + value.zipFile;
+    });
 
-        var fileObj = new File([value.zipFile], 'package.zip');
+    var zip = new JSZip();
+    var fileName = 'package.zip';
+    zip.file(fileName, requestObj.stream()).then(function(zc) {// Function called when the generation is complete
+        console.log('Compression complete!');
+        // Create file object to upload
+        var fileObj = new File([zc], fileName);
         console.log('File object created:', fileObj);
-
-        var formData = new FormData();
-        formData.append('fileName', 'package.zip');
-        formData.append('file', fileObj);
-        formData.append('mimeType', 'application/zip');
-
-        jQuery.ajax({
-            url: 'http:localhost:3000/upload',
+        var fd = new FormData();
+        fd.append('fileName', fileName);
+        fd.append('file', fileObj);
+        fd.append('mimeType', 'application/zip');
+        // POST Ajax call
+        $.ajax({
             type: 'POST',
-            data: formData,
-            processData: false,
+            url: 'http:localhost:3000/upload',
+            data: fd,
             contentType: false,
-            success: function(data){
-                console.log('upload successful!\n' + data);
-            },
-            xhr: function() {
-                // create an XMLHttpRequest
-                var xhr = new XMLHttpRequest();
-
-                // listen to the 'progress' event
-                xhr.upload.addEventListener('progress', function(evt) {
-
-                    if (evt.lengthComputable) {
-                        // calculate the percentage of upload completed
-                        var percentComplete = evt.loaded / evt.total;
-                        percentComplete = parseInt(percentComplete * 100);
-
-                        // update the Bootstrap progress bar with the new percentage
-                        $('.progress-bar').text(percentComplete + '%');
-                        $('.progress-bar').width(percentComplete + '%');
-
-                        // once the upload reaches 100%, set the progress bar text to done
-                        if (percentComplete === 100) {
-                            $('.progress-bar').html('Done');
-                        }
-
-                    }
-
-                }, false);
-
-                return xhr;
-            }
+            processData: false,
+        }).done(function() {
+            console.log('Ajax post successful.');
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Ajax post failed. Status:', textStatus);
+            console.log(jqXHR);
+            console.log(errorThrown);
         });
     });
 }

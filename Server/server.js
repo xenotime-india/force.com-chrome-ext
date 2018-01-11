@@ -22,9 +22,6 @@ app.post('/upload', function(req, res){
     // create an incoming form object
     var form = new formidable.IncomingForm();
 
-    // specify that we want to allow the user to upload multiple files in a single request
-    form.multiples = true;
-
     // store all uploads in the /uploads directory
     form.uploadDir = path.join(__dirname, '/uploads');
 
@@ -45,8 +42,7 @@ app.post('/upload', function(req, res){
     });
 
     // parse the incoming request containing the form data
-    form.parse(req);
-
+    form.parse(req, function (key) {  });
 });
 
 var server = app.listen(3000, function(){
