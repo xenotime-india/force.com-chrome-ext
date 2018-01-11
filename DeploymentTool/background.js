@@ -678,12 +678,13 @@ function workWithMetaData() {
 
 
                 var hasRecord = false;
-                for (var i = 0; i < val.length; i++) {
-                    if (val[i].manageableState != "installed" && (userDate == '' || userDate < new Date(val[i][filterByMetadata]))) {
-                        addRow(val[i], fields, jQuery(table).find('tbody'));
+                val.forEach(function (value) {
+                    if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                        addRow(value, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
                     }
-                }
+                });
+
                 if(hasRecord) {
                     panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
                     jQuery('#container').append(jQuery(panel));
