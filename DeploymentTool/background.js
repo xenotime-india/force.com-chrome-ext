@@ -676,6 +676,16 @@ function generateXml() {
 
 jQuery(function() {
     showLoading();
+    sforce.metadata.describe('39.0', function(err, metadata) {
+        if (err) { return console.error('err', err); }
+        for (var i=0; i < metadata.length; i++) {
+            var meta = metadata[i];
+            console.log("organizationNamespace: " + meta.organizationNamespace);
+            console.log("partialSaveAllowed: " + meta.partialSaveAllowed);
+            console.log("testRequired: " + meta.testRequired);
+            console.log("metadataObjects count: " + metadataObjects.length);
+        }
+    });
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
     workWithSOQL().then(function () {
