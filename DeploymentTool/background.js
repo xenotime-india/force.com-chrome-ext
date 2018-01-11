@@ -628,29 +628,30 @@ function workWithSOQL() {
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
                 var records = val.records;
-                var panel, table;
-                table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
-                panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
+                if (records && records.length > 0) {
+                    var panel, table;
+                    table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
+                    panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
 
-                for (var i = 0; i < records.length; i++) {
-                    addRow(records[i], requestSqlData[index].fields, jQuery(table).find('tbody'));
+                    for (var i = 0; i < records.length; i++) {
+                        addRow(records[i], requestSqlData[index].fields, jQuery(table).find('tbody'));
+                    }
+                    jQuery('#container').append(jQuery(panel));
+                    jQuery('#' + requestSqlData[index].table).DataTable({
+                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
+                    });
+
+                    jQuery('#' + requestSqlData[index].table + ' tbody').on('click', 'tr', function () {
+                        jQuery(this).toggleClass('selected');
+                        if (jQuery(this).hasClass('selected')) {
+                            jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                        }
+                        else {
+                            jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                        }
+                    });
                 }
-                jQuery('#container').append(jQuery(panel));
-                jQuery('#'+requestSqlData[index].table).DataTable({
-                    order: [[ requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc" ]]
-                });
-
-                jQuery('#'+requestSqlData[index].table+' tbody').on('click', 'tr', function () {
-                    jQuery(this).toggleClass('selected');
-                    if (jQuery(this).hasClass('selected')) {
-                        jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                    }
-                    else {
-                        jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                    }
-                });
-            }
-        )
+            })
         return Promise.resolve();
     }).catch(function (err) {
         return Promise.reject(err);
@@ -670,33 +671,34 @@ function workWithMetaData() {
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
-            var panel,table;
-
-            table = createTable(fields,requestMetadata[index].table);
-            panel = createPanel(requestMetadata[index].type,table,jQuery('#container-tab2'));
-
             if(val && val.length > 0) {
+                var panel, table;
+
+                table = createTable(fields, requestMetadata[index].table);
+                panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
+
+
                 for (var i = 0; i < val.length; i++) {
                     if (val[i].manageableState != "installed" && (userDate == '' || userDate < new Date(val[i][filterByMetadata]))) {
                         addRow(val[i], fields, jQuery(table).find('tbody'));
                     }
                 }
-            }
-            jQuery('#container').append(jQuery(panel));
+                jQuery('#container').append(jQuery(panel));
 
-            jQuery('#'+requestMetadata[index].table).DataTable({
-                    order: [[ fields.indexOf('lastModifiedDate'), "desc" ]]
+                jQuery('#' + requestMetadata[index].table).DataTable({
+                    order: [[fields.indexOf('lastModifiedDate'), "desc"]]
                 });
 
-            jQuery('#'+requestMetadata[index].table+' tbody').on('click', 'tr', function () {
-                jQuery(this).toggleClass('selected');
-                if(jQuery(this).hasClass('selected')) {
-                    jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
-                }
-                else {
-                    jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
-                }
-            });
+                jQuery('#' + requestMetadata[index].table + ' tbody').on('click', 'tr', function () {
+                    jQuery(this).toggleClass('selected');
+                    if (jQuery(this).hasClass('selected')) {
+                        jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            }
         });
         return Promise.resolve();
     }).catch(function (err) {
