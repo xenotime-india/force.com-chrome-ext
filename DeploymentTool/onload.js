@@ -72,6 +72,9 @@ var filesToLoad = [
     },{
         url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/sfdcMetadata.js",
         type:'js',
+    },{
+        url:"https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js",
+        type:'js',
     }];
 
 load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')

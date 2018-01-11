@@ -657,28 +657,21 @@ function generateXml() {
 
 jQuery(function() {
     showLoading();
-    //loads Salesforce AJAX Toolkit
-    loadScript(
-        "https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.js",
-        function() {
-            Promise.config({
-                longStackTraces: true,
-                warnings: true // note, run node with --trace-warnings to see full stack traces for warnings
-            })
-            jQuery('#dateField').val(showDate(new Date().add(-1).month()));
-            console.log("Ready for API fun!");
-            workWithSOQL().then(function () {
-                return workWithMetaData();
-            }).then(function () {
-                jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
-                hideLoading();
-            }).catch(function (err) {
-                console.error('Error',err);
-            });
-            jQuery('#dateField').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-        });
+    Promise.config({
+        longStackTraces: true,
+        warnings: true // note, run node with --trace-warnings to see full stack traces for warnings
+    })
+    jQuery('#dateField').val(showDate(new Date().add(-1).month()));
+    console.log("Ready for API fun!");
+    Promise.all([workWithSOQL,workWithMetaData]).then(function () {
+        jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
+        hideLoading();
+    }).catch(function (err) {
+        console.error('Error',err);
+    });
+    jQuery('#dateField').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
 
 function updateData() {
