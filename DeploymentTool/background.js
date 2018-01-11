@@ -663,7 +663,9 @@ jQuery(function() {
     })
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
-    Promise.all([workWithSOQL,workWithMetaData]).then(function () {
+    workWithSOQL().then(function () {
+        return workWithMetaData();
+    }).then(function () {
         jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
         hideLoading();
     }).catch(function (err) {
