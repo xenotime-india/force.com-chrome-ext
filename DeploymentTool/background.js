@@ -553,7 +553,7 @@ jQuery(function() {
     sforce.metadata.describe('41.0').then(function(metadata) {
         metadata.metadataObjects.forEach(function (value) {
             var result = requestSqlData.filter(function (item) {
-                return item.type.toLowerCase() !== value.xmlName.toLowerCase();
+                return item.type.toLowerCase() === value.xmlName.toLowerCase();
             });
             if(result.length == 0) {
                 requestMetadata.push({
