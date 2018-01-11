@@ -680,7 +680,6 @@ jQuery(function() {
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
     sforce.metadata.describe('41.0').then(function(metadata) {
-        if (err) { return console.error('err', err); }
         metadata.metadataObjects.forEach(function (value) {
             var result = requestSqlData.filter(function (item) {
                 return item.type.toLowerCase() !== value.xmlName.toLowerCase();
