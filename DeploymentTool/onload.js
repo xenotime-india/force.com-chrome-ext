@@ -70,7 +70,7 @@ var filesToLoad = [
         url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js",
         type:'js',
     },{
-        url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/sfdcMetadata.js",
+        url:"https://cdnjs.cloudflare.com/ajax/libs/jsforce/1.7.0/jsforce.min.js",
         type:'js',
     },{
         url:"https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js",
