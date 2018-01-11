@@ -129,6 +129,38 @@ var requestMetadata = [
         type:'AnalyticSnapshot',
         table: 'AnalyticSnapshot_tb',
         apiFieldIndex: 2,
+    }, {
+        type:'AccountSettings',
+        table: 'AccountSettings_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'ActionOverride',
+        table: 'ActionOverride_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'ActivitiesSettings',
+        table: 'ActivitiesSettings_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'AddressSettings',
+        table: 'AddressSettings_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'AppMenu',
+        table: 'AppMenu_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'ApprovalProcess',
+        table: 'ApprovalProcess_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'ArticleType',
+        table: 'ArticleType_tb',
+        apiFieldIndex: 2,
+    }, {
+        type:'AssignmentRules',
+        table: 'AssignmentRules_tb',
+        apiFieldIndex: 2,
     }];
 
 var requestSqlData = [
@@ -212,6 +244,14 @@ var requestSqlData = [
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
         apiFieldIndex: 2,
+    }, {
+        type:'ActionLinkGroupTemplate',
+        table: 'ActionLinkGroupTemplate_tb',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlWhere: 'Id != null',
+        fields: [ 'Select','Id', 'MasterLabel', 'DeveloperName', 'LastModifiedDate', 'LastModifiedBy',
+            'CreatedDate','CreatedBy' ],
+        apiFieldIndex: 3,
     }];
 
 function __getCookie(c_name){
