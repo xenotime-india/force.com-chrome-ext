@@ -357,20 +357,20 @@ function addRow(data, fields, table) {
     jQuery(table).append('<tr/>');
 
     var tdgroup = fields.map(function (item) {
-        if(fields[i] == 'Select') {
+        if(item == 'Select') {
             return jQuery('<td><i class="fa fa-square-o"></i></td>');
         }
-        else if(data[fields[i]] == 'null' || data[fields[i]] == null) {
+        else if(data[item] == 'null' || data[item] == null) {
             return jQuery('<td></td>');
         }
-        else if(isDate(data[fields[i]])) {
-            return jQuery('<td>' + showDate(data[fields[i]]) + '<br/>(' +moment(new Date(data[fields[i]])).fromNow() +')</td>');
+        else if(isDate(data[item])) {
+            return jQuery('<td>' + showDate(data[item]) + '<br/>(' +moment(new Date(data[item])).fromNow() +')</td>');
         }
-        else if(typeof(data[fields[i]]) == 'string') {
-            return jQuery('<td>' + data[fields[i]] + '</td>');
+        else if(typeof(data[item]) == 'string') {
+            return jQuery('<td>' + data[item] + '</td>');
         }
         else {
-            return jQuery('<td>' + data[fields[i]].Name + '</td>');
+            return jQuery('<td>' + data[item].Name + '</td>');
         }
         return jQuery('<td></td>');
     })
