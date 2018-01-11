@@ -738,7 +738,9 @@ function workWithSOQL() {
                     addRow(records[i], requestSqlData[index].fields, jQuery(table).find('tbody'));
                 }
                 jQuery('#container').append(jQuery(panel));
-                jQuery('#'+requestSqlData[index].table).dataTable();
+                jQuery('#'+requestSqlData[index].table).DataTable({
+                    order: [[ 4, "desc" ]]
+                });
 
                 jQuery('#'+requestSqlData[index].table+' tbody').on('click', 'tr', function () {
                     jQuery(this).toggleClass('selected');
@@ -784,7 +786,9 @@ function workWithMetaData() {
             }
             jQuery('#container').append(jQuery(panel));
 
-            jQuery('#'+requestMetadata[index].table).DataTable();
+            jQuery('#'+requestMetadata[index].table).DataTable({
+                    order: [[ 4, "desc" ]]
+                });
 
             jQuery('#'+requestMetadata[index].table+' tbody').on('click', 'tr', function () {
                 jQuery(this).toggleClass('selected');
