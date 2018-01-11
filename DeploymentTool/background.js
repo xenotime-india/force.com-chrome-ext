@@ -368,7 +368,7 @@ function addRow(data, fields, table) {
         }
         else if(isDate(data[fields[i]])) {
             jQuery(table).find('tr:last').append(
-                '<td>' + showDate(data[fields[i]]) + '</td>');
+                '<td>' + showDate(data[fields[i]]) + '(' +moment(new Date(data[fields[i]])).fromNow() +')</td>');
         }
         else if(typeof(data[fields[i]]) == 'string') {
             jQuery(table).find('tr:last').append(
