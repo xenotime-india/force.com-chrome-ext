@@ -97,7 +97,7 @@ Date.now=function(){return new Date();};Date.today=function(){return Date.now().
     return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
 
-var apiVersion = '36.0';
+var apiVersion = '31.0';
 var requestMetadata = [{
     type: 'CustomField',
     table: 'CustomField_tb',
