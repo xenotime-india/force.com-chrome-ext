@@ -356,30 +356,27 @@ function getServerURL() {
 function addRow(data, fields, table) {
     jQuery(table).append('<tr/>');
 
-    for (i = 0; i < fields.length; i++) {
-
+    var tdgroup = fields.map(function (item) {
         if(fields[i] == 'Select') {
-            jQuery(table).find('tr:last').append(
-                '<td><i class="fa fa-square-o"></i></td>');
+            return jQuery('<td><i class="fa fa-square-o"></i></td>');
         }
         else if(data[fields[i]] == 'null' || data[fields[i]] == null) {
-            jQuery(table).find('tr:last').append(
-                '<td></td>');
+            return jQuery('<td></td>');
         }
         else if(isDate(data[fields[i]])) {
-            jQuery(table).find('tr:last').append(
-                '<td>' + showDate(data[fields[i]]) + '<br/>(' +moment(new Date(data[fields[i]])).fromNow() +')</td>');
+            return jQuery('<td>' + showDate(data[fields[i]]) + '<br/>(' +moment(new Date(data[fields[i]])).fromNow() +')</td>');
         }
         else if(typeof(data[fields[i]]) == 'string') {
-            jQuery(table).find('tr:last').append(
-                '<td>' + data[fields[i]] + '</td>');
+            return jQuery('<td>' + data[fields[i]] + '</td>');
         }
         else {
-            jQuery(table).find('tr:last').append(
-                '<td>' + data[fields[i]].Name + '</td>');
+            return jQuery('<td>' + data[fields[i]].Name + '</td>');
         }
-    }
-    //jQuery(table).append(jQuery(row));
+        return jQuery('<td></td>');
+    })
+    tdgroup.forEach(function (value) {
+        jQuery(table).find('tr:last').append(value);
+    });
 }
 function isDate(val) {
     var d = new Date(val);
