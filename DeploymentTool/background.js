@@ -98,7 +98,11 @@ Date.now=function(){return new Date();};Date.today=function(){return Date.now().
 
 
 var apiVersion = '41.0';
-var requestMetadata = [];
+var requestMetadata = [{
+    type: 'CustomField',
+    table: 'CustomField_tb',
+    apiFieldIndex: 2,
+}];
 
 var requestSqlData = [
     {
