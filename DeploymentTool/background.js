@@ -225,6 +225,10 @@ var requestMetadata = [
         type:'Document',
         table: 'Document_tb',
         apiFieldIndex: 2,
+    }, {
+        type:'AuthProvider',
+        table: 'AuthProvider_tb',
+        apiFieldIndex: 2,
     }];
 
 var requestSqlData = [

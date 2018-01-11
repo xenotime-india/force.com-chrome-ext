@@ -1,4 +1,49 @@
 //create namespace and shared variables
+
+var load = (function() {
+    // Function which returns a function: https://davidwalsh.name/javascript-functions
+    function _load(tag) {
+        return function(url) {
+            // This promise will be used by Promise.all to determine success or failure
+            return new Promise(function(resolve, reject) {
+                var element = document.createElement(tag);
+                var parent = 'body';
+                var attr = 'src';
+
+                // Important success and error for the promise
+                element.onload = function() {
+                    resolve(url);
+                };
+                element.onerror = function() {
+                    reject(url);
+                };
+
+                // Need to set different attributes depending on tag type
+                switch(tag) {
+                    case 'script':
+                        element.async = true;
+                        break;
+                    case 'link':
+                        element.type = 'text/css';
+                        element.rel = 'stylesheet';
+                        attr = 'href';
+                        parent = 'head';
+                }
+
+                // Inject into document to kick off loading
+                element[attr] = url;
+                document[parent].appendChild(element);
+            });
+        };
+    }
+
+    return {
+        css: _load('link'),
+        js: _load('script'),
+        img: _load('img')
+    }
+})();
+
 var sfdcConsole = sfdcConsole || {};
 
 sfdcConsole.setup = function(){
@@ -52,12 +97,64 @@ sfdcConsole.getScript = function(element,type,src,callback){
 	}
 }
 
+var filesToLoad = [
+	{
+		url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',
+		type: 'css',
+	},{
+        url:"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/spacelab/bootstrap.min.css",
+        type:'css',
+    },{
+        url:"https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css",
+        type:'css',
+    },{
+        url:"https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css",
+        type:'css',
+    },{
+        url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/datepicker3.css",
+        type:'css',
+    },{
+        url:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js",
+        type:'js',
+    },{
+        url:"https://cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js",
+        type:'js',
+    },{
+        url:"https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js",
+        type:'js',
+    },{
+        url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/bootstrap-datepicker.js",
+        type:'js',
+    },{
+        url:"https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/sfdcMetadata.js",
+        type:'js',
+    }];
+
 
 //recursivly called function to load all required scripts, then return to the callback once all are loaded. Pretty clever stuff :)
 sfdcConsole.loadScripts = function(callback){
-	
-	if (typeof jQuery == "undefined" || parseFloat(jQuery().jquery) < 1.8 ) 
-	{
+    load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js').then(function(){
+        return Promise.all(filesToLoad.map(function (item) {
+			switch (item.type) {
+				case 'js':
+					return load.js(item.url);
+					break;
+				case 'css':
+                    return load.css(item.url);
+                    break;
+			}
+        })).then(function(){
+            return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js');
+        }).then(function(){
+            return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js');
+        }).catch(function (err) {
+        	console.error('Error', err);
+		});
+    });
+
+
+
+	if (typeof jQuery == "undefined" || parseFloat(jQuery().jquery) < 1.8 ) {
         sfdcConsole.getScript('script','text/javascript','https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js',function(){
             jQuery("link[rel='stylesheet']").remove();
             jQuery('body').html('');
@@ -97,7 +194,23 @@ sfdcConsole.loadScripts = function(callback){
 	}
 }
 
-sfdcConsole.loadScripts(function(){
-	sfdcConsole.setup();
-	
+load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js').then(function(){
+    return Promise.all(filesToLoad.map(function (item) {
+        switch (item.type) {
+            case 'js':
+                return load.js(item.url);
+                break;
+            case 'css':
+                return load.css(item.url);
+                break;
+        }
+    })).then(function(){
+        return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js');
+    }).then(function(){
+        if(jQuery('#sfdcConsoleContainer').length > 0) {
+            jQuery('#sfdcConsoleContainer').show();
+        }
+    }).catch(function (err) {
+        console.error('Error', err);
+    });
 });
