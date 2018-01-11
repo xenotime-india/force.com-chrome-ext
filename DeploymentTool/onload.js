@@ -194,7 +194,7 @@ sfdcConsole.loadScripts = function(callback){
 	}
 }
 
-load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js').then(function(){
+load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js').then(function(){
     return Promise.all(filesToLoad.map(function (item) {
         switch (item.type) {
             case 'js':
