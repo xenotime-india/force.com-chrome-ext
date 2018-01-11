@@ -739,7 +739,7 @@ function workWithSOQL() {
                 }
                 jQuery('#container').append(jQuery(panel));
                 jQuery('#'+requestSqlData[index].table).DataTable({
-                    order: [[ requestSqlData[index].fields.indexOf('LastModifiedDate') + 1, "desc" ]]
+                    order: [[ requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc" ]]
                 });
 
                 jQuery('#'+requestSqlData[index].table+' tbody').on('click', 'tr', function () {
@@ -787,7 +787,7 @@ function workWithMetaData() {
             jQuery('#container').append(jQuery(panel));
 
             jQuery('#'+requestMetadata[index].table).DataTable({
-                    order: [[ fields.indexOf('lastModifiedDate') + 1, "desc" ]]
+                    order: [[ fields.indexOf('lastModifiedDate'), "desc" ]]
                 });
 
             jQuery('#'+requestMetadata[index].table+' tbody').on('click', 'tr', function () {
