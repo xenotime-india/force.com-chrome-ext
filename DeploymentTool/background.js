@@ -574,65 +574,78 @@ function getPackage() {
     }
 }
 function deploy() {
-    alert('Comming Soon.')
-
-    /*jQuery('#loginDialog').modal({
+    jQuery('#loginDialog').modal({
         backdrop: 'static',
         keyboard: true
-    });*/
+    });
 }
 
 function loginUser() {
-    var conn = new jsforce.Connection({
-        loginUrl : 'https://test.salesforce.com'
-    });
-    conn.login(jQuery('#userNameTxt').val(), jQuery('#passwordTxt').val(), function(err, userInfo) {
-        if (err) { return console.error(err); }
-        // Now you can get the access token and instance URL information.
-        // Save them to establish connection next time.
-        console.log(conn.accessToken);
-        console.log(conn.instanceUrl);
-        // logged in user property
-        console.log("User ID: " + userInfo.id);
-        console.log("Org ID: " + userInfo.organizationId);
-        jQuery('#loginDialog').modal('hide');
-        showLoading();
-        var resourceType = [];
+    var resourceType = [];
 
-        requestMetadata.forEach(function(val, index) {
-            var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
-            if(typeof(result) != 'undefined') {
-                resourceType.push(result);
+    requestMetadata.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
+    requestSqlData.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
+    sforce.metadata.retrieve({
+        unpackaged: {
+            types: resourceType,
+            version: '41.0'
+        }
+    }).complete(function (err, value) {
+        if (err) { console.error(err); }
+        console.log('ready for download..');
+        //location.href="data:application/zip;base64," + value.zipFile;
+
+        var formData = new FormData();
+
+        formData.append('uploads[]', value.zipFile, 'package.zip');
+
+        jQuery.ajax({
+            url: 'http:localhost:3000/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                console.log('upload successful!\n' + data);
+            },
+            xhr: function() {
+                // create an XMLHttpRequest
+                var xhr = new XMLHttpRequest();
+
+                // listen to the 'progress' event
+                xhr.upload.addEventListener('progress', function(evt) {
+
+                    if (evt.lengthComputable) {
+                        // calculate the percentage of upload completed
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+
+                        // update the Bootstrap progress bar with the new percentage
+                        $('.progress-bar').text(percentComplete + '%');
+                        $('.progress-bar').width(percentComplete + '%');
+
+                        // once the upload reaches 100%, set the progress bar text to done
+                        if (percentComplete === 100) {
+                            $('.progress-bar').html('Done');
+                        }
+
+                    }
+
+                }, false);
+
+                return xhr;
             }
         });
-        requestSqlData.forEach(function(val, index) {
-            var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
-            if(typeof(result) != 'undefined') {
-                resourceType.push(result);
-            }
-        });
-        if(resourceType.length > 0) {
-            conn.metadata.deploy(sforce.metadata.retrieve({
-                unpackaged: {
-                    types: resourceType,
-                    version: '41.0'
-                }
-            }).stream(), { runTests: [ ] })
-                .complete(function(err, result) {
-                    if (err) { console.error(err); }
-                    console.log('done ? :' + result.done);
-                    console.log('success ? : ' + result.true);
-                    console.log('state : ' + result.state);
-                    console.log('component errors: ' + result.numberComponentErrors);
-                    console.log('components deployed: ' + result.numberComponentsDeployed);
-                    console.log('tests completed: ' + result.numberTestsCompleted);
-                    hideLoading();
-                });
-        }
-        else {
-            alert('No Resource selected...');
-            hideLoading();
-        }
     });
 }
 
