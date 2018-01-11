@@ -203,7 +203,7 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
             	resolve();
             });
         });
-    }
+    })
 	.then(function() {
         return Promise.all(filesToLoad.map(function (item) {
             switch (item.type) {
