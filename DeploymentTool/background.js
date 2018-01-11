@@ -96,136 +96,7 @@ Date.now=function(){return new Date();};Date.today=function(){return Date.now().
     return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=Date.Grammar.formats(fx);return function(s){var r=null;try{r=fn.call({},s);}catch(e){return null;}
     return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
-var requestMetadata = [
-    {
-        type:'CustomObject',
-        table: 'CustomObject_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Layout',
-        table: 'Layout_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'CustomField',
-        table: 'CustomField_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'CustomLabel',
-        table: 'CustomLabel_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'CustomTab',
-        table: 'CustomTab_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Workflow',
-        table: 'Workflow_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'ReportType',
-        table: 'ReportType_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'AnalyticSnapshot',
-        table: 'AnalyticSnapshot_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'AuraDefinitionBundle',
-        table: 'AuraDefinitionBundle_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'SharingOwnerRule',
-        table: 'SharingOwnerRule_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'SharingCriteriaRule',
-        table: 'SharingCriteriaRule_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Flow',
-        table: 'Flow_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Letterhead',
-        table: 'Letterhead_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Group',
-        table: 'Group_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Queue',
-        table: 'Queue_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Role',
-        table: 'Role_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'ValidationRule',
-        table: 'ValidationRule_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'CustomObjectTranslation',
-        table: 'CustomObjectTranslation_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'WorkflowTask',
-        table: 'WorkflowTask_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'WorkflowOutboundMessage',
-        table: 'WorkflowOutboundMessage_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'WorkflowAlert',
-        table: 'WorkflowAlert_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'WorkflowRule',
-        table: 'WorkflowRule_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'WorkflowFieldUpdate',
-        table: 'WorkflowFieldUpdate_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'QuickAction',
-        table: 'QuickAction_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'PermissionSet',
-        table: 'PermissionSet_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'ListView',
-        table: 'ListView_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'CustomPageWebLink',
-        table: 'CustomPageWebLink_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'HomePageLayout',
-        table: 'HomePageLayout_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'HomePageComponent',
-        table: 'HomePageComponent_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'EmailTemplate',
-        table: 'EmailTemplate_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'Document',
-        table: 'Document_tb',
-        apiFieldIndex: 2,
-    }, {
-        type:'AuthProvider',
-        table: 'AuthProvider_tb',
-        apiFieldIndex: 2,
-    }];
+var requestMetadata = [];
 
 var requestSqlData = [
     {
@@ -684,7 +555,7 @@ jQuery(function() {
             var result = requestSqlData.filter(function (item) {
                 return item.type.toLowerCase() !== value.xmlName.toLowerCase();
             });
-            if(!result) {
+            if(result.length == 0) {
                 requestMetadata.push({
                     type: value.xmlName,
                     table: value.xmlName + '_tb',
