@@ -97,7 +97,7 @@ Date.now=function(){return new Date();};Date.today=function(){return Date.now().
     return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
 
 
-var apiVersion = '31.0';
+var apiVersion = '41.0';
 var requestMetadata = [{
     type: 'CustomField',
     table: 'CustomField_tb',
@@ -665,7 +665,7 @@ function workWithMetaData() {
         userDate = new Date(jQuery('#dateField').val());
     }
     var requestPromises = requestMetadata.map(function (item) {
-        var types = [{type: item.type, folder: null}];
+        var types = [{type: item.type}];
         return sforce.metadata.list(types, apiVersion);
     });
     return Promise.all(requestPromises).then(function(results) {
