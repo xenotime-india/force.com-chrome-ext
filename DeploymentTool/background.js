@@ -574,10 +574,11 @@ function getPackage() {
     }
 }
 function deploy() {
-    jQuery('#loginDialog').modal({
+
+    /*jQuery('#loginDialog').modal({
         backdrop: 'static',
         keyboard: true
-    });
+    });*/
 }
 
 function loginUser() {
