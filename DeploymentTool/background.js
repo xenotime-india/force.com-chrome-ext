@@ -739,7 +739,7 @@ function workWithSOQL() {
                 }
                 jQuery('#container').append(jQuery(panel));
                 jQuery('#'+requestSqlData[index].table).DataTable({
-                    order: [[ 4, "desc" ]]
+                    order: [[ 3, "desc" ]]
                 });
 
                 jQuery('#'+requestSqlData[index].table+' tbody').on('click', 'tr', function () {
@@ -787,7 +787,7 @@ function workWithMetaData() {
             jQuery('#container').append(jQuery(panel));
 
             jQuery('#'+requestMetadata[index].table).DataTable({
-                    order: [[ 4, "desc" ]]
+                    order: [[ 3, "desc" ]]
                 });
 
             jQuery('#'+requestMetadata[index].table+' tbody').on('click', 'tr', function () {
