@@ -675,7 +675,7 @@ function workWithMetaData() {
                 var panel, table;
 
                 table = createTable(fields, requestMetadata[index].table);
-                panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
+
 
                 var hasRecord = false;
                 for (var i = 0; i < val.length; i++) {
@@ -685,6 +685,7 @@ function workWithMetaData() {
                     }
                 }
                 if(hasRecord) {
+                    panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
                     jQuery('#container').append(jQuery(panel));
 
                     jQuery('#' + requestMetadata[index].table).DataTable({
