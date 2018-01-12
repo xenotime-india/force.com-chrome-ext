@@ -49,9 +49,6 @@ var filesToLoad = [
 		url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
 		type: 'css',
 	},{
-        url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css',
-        type: 'css',
-    },{
         url:"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css",
         type:'css',
     },{
@@ -80,6 +77,9 @@ var filesToLoad = [
         type:'js',
     },{
         url:"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js",
+        type:'js',
+    },{
+        url:"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js",
         type:'js',
     }];
 

@@ -102,6 +102,10 @@ var requestMetadata = [{
     type: 'CustomField',
     table: 'CustomField_tb',
     apiFieldIndex: 2,
+},{
+    type: 'CustomLabel',
+    table: 'CustomLabel_tb',
+    apiFieldIndex: 2,
 }];
 
 var requestSqlData = [
