@@ -629,36 +629,7 @@ function workWithSOQL() {
 
                     var panel, table;
 
-                    table = jQuery('<table id="'+requestSqlData[index].table+'" class="display" width="100%"></table>');
-
-                    var columns  = [];
-                    requestSqlData[index].fields.forEach(function (value) {
-                       if(value != 'Select') {
-                           columns.push({ data: value});
-                       }
-                    });
-
-                    console.log(records);
-
-                    table = table.DataTable( {
-                        data: records,
-                        columns: columns,
-                        columnDefs: [
-                            {
-                                targets: 0,
-                                checkboxes: {
-                                    selectRow: true
-                                }
-                            }
-                        ],
-                        select: {
-                            style: 'multi'
-                        },
-                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
-                    } );
-
-
-                    //table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
+                    table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
                     panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
 
                     for (var i = 0; i < records.length; i++) {
