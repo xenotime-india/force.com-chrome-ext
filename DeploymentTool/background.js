@@ -489,43 +489,19 @@ function loginUser() {
         var formData = new FormData();
         formData.append('file', fileObj);
 
-        jQuery.ajax({
-            url: 'http://localhost:3000/upload',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(data){
-                console.log('upload successful!\n' + data);
+        fetch('http://localhost:3000/upload', { // Your POST endpoint
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/zip"
             },
-            xhr: function() {
-                // create an XMLHttpRequest
-                var xhr = new XMLHttpRequest();
-
-                // listen to the 'progress' event
-                xhr.upload.addEventListener('progress', function(evt) {
-
-                    if (evt.lengthComputable) {
-                        // calculate the percentage of upload completed
-                        var percentComplete = evt.loaded / evt.total;
-                        percentComplete = parseInt(percentComplete * 100);
-
-                        // update the Bootstrap progress bar with the new percentage
-                        $('.progress-bar').text(percentComplete + '%');
-                        $('.progress-bar').width(percentComplete + '%');
-
-                        // once the upload reaches 100%, set the progress bar text to done
-                        if (percentComplete === 100) {
-                            $('.progress-bar').html('Done');
-                        }
-
-                    }
-
-                }, false);
-
-                return xhr;
-            }
-        });
+            body: fileObj
+        }).then(
+            response => response.json() // if the response is a JSON object
+        ).then(
+            success => console.log(success) // Handle the success response object
+        ).catch(
+            error => console.log(error) // Handle the error response object
+        );
     });
 }
 
