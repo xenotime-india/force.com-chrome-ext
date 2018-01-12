@@ -496,7 +496,7 @@ function loginUser() {
                 formData.append('mimeType', 'application/zip');
 
                 jQuery.ajax({
-                    url: 'http:localhost:3000/upload',
+                    url: 'http://localhost:3000/upload',
                     type: 'POST',
                     data: formData,
                     processData: false,
