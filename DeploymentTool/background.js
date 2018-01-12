@@ -182,14 +182,6 @@ var requestSqlData = [
             'CreatedDate','CreatedBy' ],
         apiFieldIndex: [2,4],
     }, {
-        type:'Profile',
-        table: 'Profile_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
-        soqlWhere: 'Id != null',
-        fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
-            'CreatedDate','CreatedBy' ],
-        apiFieldIndex: 2,
-    }, {
         type:'ActionLinkGroupTemplate',
         table: 'ActionLinkGroupTemplate_tb',
         soqlFields: 'Id, MasterLabel, DeveloperName, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
