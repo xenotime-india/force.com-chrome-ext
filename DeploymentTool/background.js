@@ -483,11 +483,11 @@ function loginUser() {
         if (err) { console.error(err); }
         console.log('ready for download..');
         //location.href="data:application/zip;base64," + value.zipFile;
-        var fileObj = new File([value.zipFile], 'package.zip', { type: 'application/zip' });
+        var fileObj = new File([value.zipFile], fileName, { type: 'application/zip' });
         console.log('File object created:', fileObj);
 
         var formData = new FormData();
-        formData.append('fileName', 'package.zip');
+        formData.append('fileName', fileName);
         formData.append('file', fileObj);
         formData.append('mimeType', 'application/zip');
 
