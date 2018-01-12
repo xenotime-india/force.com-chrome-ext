@@ -637,7 +637,8 @@ function workWithSOQL() {
 
                     table.DataTable( {
                         data: records,
-                        columns: columns
+                        columns: columns,
+                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
                     } );
 
 
@@ -648,9 +649,6 @@ function workWithSOQL() {
                         addRow(records[i], requestSqlData[index].fields, jQuery(table).find('tbody'));
                     }
                     jQuery('#container').append(jQuery(panel));
-                    jQuery('#' + requestSqlData[index].table).DataTable({
-                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
-                    });
 
                     jQuery('#' + requestSqlData[index].table + ' tbody').on('click', 'tr', function () {
                         jQuery(this).toggleClass('selected');
