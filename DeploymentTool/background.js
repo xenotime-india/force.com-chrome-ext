@@ -632,10 +632,10 @@ function workWithSOQL() {
                     table = jQuery('<table id="'+requestSqlData[index].table+'" class="display" width="100%"></table>');
 
                     var columns  = requestSqlData[index].fields.map(function (value) {
-                       return { title: value};
+                       return { data: value};
                     });
 
-                    console.log(records);
+                    //console.log(records);
 
                     table.DataTable( {
                         data: records,
