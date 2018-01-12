@@ -487,9 +487,7 @@ function loginUser() {
         console.log('File object created:', fileObj);
 
         var formData = new FormData();
-        formData.append('fileName', fileName);
         formData.append('file', fileObj);
-        formData.append('mimeType', 'application/zip');
 
         jQuery.ajax({
             url: 'http://localhost:3000/upload',
