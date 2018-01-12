@@ -635,6 +635,8 @@ function workWithSOQL() {
                        return { title: value};
                     });
 
+                    console.log(records);
+
                     table.DataTable( {
                         data: records,
                         columns: columns,
