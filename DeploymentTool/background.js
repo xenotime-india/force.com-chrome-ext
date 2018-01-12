@@ -448,10 +448,10 @@ function getPackage() {
 }
 function deploy() {
 
-    /*jQuery('#loginDialog').modal({
+    jQuery('#loginDialog').modal({
         backdrop: 'static',
         keyboard: true
-    });*/
+    });
 }
 
 function loginUser() {
@@ -477,61 +477,57 @@ function loginUser() {
         }
     })
 
-    var zip = new JSZip();
     var fileName = 'package.zip';
 
     requestObj.complete(function (err, value) {
         if (err) { console.error(err); }
         console.log('ready for download..');
         //location.href="data:application/zip;base64," + value.zipFile;
-        zip.loadAsync(value.zipFile).then(function(zp) {
-            var fileObj = new File([zp], 'package.zip');
-            console.log('File object created:', fileObj);
+        var fileObj = new File(value.zipFile, 'package.zip');
+        console.log('File object created:', fileObj);
 
-            var formData = new FormData();
-            formData.append('fileName', 'package.zip');
-            formData.append('file', fileObj);
-            formData.append('mimeType', 'application/zip');
+        var formData = new FormData();
+        formData.append('fileName', 'package.zip');
+        formData.append('file', fileObj);
+        formData.append('mimeType', 'application/zip');
 
-            jQuery.ajax({
-                url: 'http:localhost:3000/upload',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data){
-                    console.log('upload successful!\n' + data);
-                },
-                xhr: function() {
-                    // create an XMLHttpRequest
-                    var xhr = new XMLHttpRequest();
+        jQuery.ajax({
+            url: 'http:localhost:3000/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                console.log('upload successful!\n' + data);
+            },
+            xhr: function() {
+                // create an XMLHttpRequest
+                var xhr = new XMLHttpRequest();
 
-                    // listen to the 'progress' event
-                    xhr.upload.addEventListener('progress', function(evt) {
+                // listen to the 'progress' event
+                xhr.upload.addEventListener('progress', function(evt) {
 
-                        if (evt.lengthComputable) {
-                            // calculate the percentage of upload completed
-                            var percentComplete = evt.loaded / evt.total;
-                            percentComplete = parseInt(percentComplete * 100);
+                    if (evt.lengthComputable) {
+                        // calculate the percentage of upload completed
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
 
-                            // update the Bootstrap progress bar with the new percentage
-                            $('.progress-bar').text(percentComplete + '%');
-                            $('.progress-bar').width(percentComplete + '%');
+                        // update the Bootstrap progress bar with the new percentage
+                        $('.progress-bar').text(percentComplete + '%');
+                        $('.progress-bar').width(percentComplete + '%');
 
-                            // once the upload reaches 100%, set the progress bar text to done
-                            if (percentComplete === 100) {
-                                $('.progress-bar').html('Done');
-                            }
-
+                        // once the upload reaches 100%, set the progress bar text to done
+                        if (percentComplete === 100) {
+                            $('.progress-bar').html('Done');
                         }
 
-                    }, false);
+                    }
 
-                    return xhr;
-                }
-            });
+                }, false);
+
+                return xhr;
+            }
         });
-
     });
 }
 
@@ -728,24 +724,6 @@ function convertDate(theDate) {
     else {
         return '';
     }
-}
-
-//helper function to load scripts on the fly
-function loadScript(url, callback) {
-    var head = document.getElementsByTagName("head")[0];
-    var script = document.createElement("script");
-    script.src = url;
-    var done = false;
-    script.onload = script.onreadystatechange = function() {
-        if (!done
-            && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
-            done = true;
-            callback();
-            script.onload = script.onreadystatechange = null;
-            head.removeChild(script);
-        }
-    };
-    head.appendChild(script);
 }
 
 function showLoading() {
