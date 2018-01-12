@@ -640,7 +640,7 @@ function workWithSOQL() {
 
                     console.log(records);
 
-                    table.DataTable( {
+                    table = table.DataTable( {
                         data: records,
                         columns: columns,
                         columnDefs: [
