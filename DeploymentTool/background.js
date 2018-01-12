@@ -625,8 +625,23 @@ function workWithSOQL() {
         results.forEach(function(val, index) {
                 var records = val.records;
                 if (records && records.length > 0) {
+
+
                     var panel, table;
-                    table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
+
+                    table = jQuery('<table id="'+requestSqlData[index].table+'" class="display" width="100%"></table>');
+
+                    var columns  = requestSqlData[index].fields.map(function (value) {
+                       return { title: value};
+                    });
+
+                    table.DataTable( {
+                        data: records,
+                        columns: columns
+                    } );
+
+
+                    //table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
                     panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
 
                     for (var i = 0; i < records.length; i++) {
