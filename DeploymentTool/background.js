@@ -532,7 +532,7 @@ function loginUser() {
                     }
                 });
             }, function (e) {
-                // won't be called
+                console.error(e);
             });
 
 
