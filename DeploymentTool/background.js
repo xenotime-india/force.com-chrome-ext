@@ -637,6 +637,10 @@ function workWithSOQL() {
                     }
                     jQuery('#container').append(jQuery(panel));
 
+                    jQuery('#' + requestSqlData[index].table).DataTable({
+                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
+                    });
+
                     jQuery('#' + requestSqlData[index].table + ' tbody').on('click', 'tr', function () {
                         jQuery(this).toggleClass('selected');
                         if (jQuery(this).hasClass('selected')) {
