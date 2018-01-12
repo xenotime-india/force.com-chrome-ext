@@ -491,10 +491,7 @@ function loginUser() {
 
         fetch('http://localhost:3000/upload', { // Your POST endpoint
             method: 'POST',
-            headers: {
-                "Content-Type": "application/zip"
-            },
-            body: fileObj
+            body: formData
         }).then(
             response => response.json() // if the response is a JSON object
         ).then(
