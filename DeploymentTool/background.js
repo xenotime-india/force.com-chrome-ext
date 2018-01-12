@@ -483,51 +483,59 @@ function loginUser() {
         if (err) { console.error(err); }
         console.log('ready for download..');
         //location.href="data:application/zip;base64," + value.zipFile;
-        var fileObj = new File([value.zipFile], fileName, { type: 'application/zip' });
-        console.log('File object created:', fileObj);
+        var zip = new JSZip();
+        zip.loadAsync(value.zipFile)
+            .then(function (zip) {
+                var fileObj = new File([zip], fileName, { type: 'application/zip' });
+                console.log('File object created:', fileObj);
 
-        var formData = new FormData();
-        formData.append('fileName', fileName);
-        formData.append('file', fileObj);
-        formData.append('mimeType', 'application/zip');
+                var formData = new FormData();
+                formData.append('fileName', fileName);
+                formData.append('file', fileObj);
+                formData.append('mimeType', 'application/zip');
 
-        jQuery.ajax({
-            url: 'http:localhost:3000/upload',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(data){
-                console.log('upload successful!\n' + data);
-            },
-            xhr: function() {
-                // create an XMLHttpRequest
-                var xhr = new XMLHttpRequest();
+                jQuery.ajax({
+                    url: 'http:localhost:3000/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log('upload successful!\n' + data);
+                    },
+                    xhr: function() {
+                        // create an XMLHttpRequest
+                        var xhr = new XMLHttpRequest();
 
-                // listen to the 'progress' event
-                xhr.upload.addEventListener('progress', function(evt) {
+                        // listen to the 'progress' event
+                        xhr.upload.addEventListener('progress', function(evt) {
 
-                    if (evt.lengthComputable) {
-                        // calculate the percentage of upload completed
-                        var percentComplete = evt.loaded / evt.total;
-                        percentComplete = parseInt(percentComplete * 100);
+                            if (evt.lengthComputable) {
+                                // calculate the percentage of upload completed
+                                var percentComplete = evt.loaded / evt.total;
+                                percentComplete = parseInt(percentComplete * 100);
 
-                        // update the Bootstrap progress bar with the new percentage
-                        $('.progress-bar').text(percentComplete + '%');
-                        $('.progress-bar').width(percentComplete + '%');
+                                // update the Bootstrap progress bar with the new percentage
+                                $('.progress-bar').text(percentComplete + '%');
+                                $('.progress-bar').width(percentComplete + '%');
 
-                        // once the upload reaches 100%, set the progress bar text to done
-                        if (percentComplete === 100) {
-                            $('.progress-bar').html('Done');
-                        }
+                                // once the upload reaches 100%, set the progress bar text to done
+                                if (percentComplete === 100) {
+                                    $('.progress-bar').html('Done');
+                                }
 
+                            }
+
+                        }, false);
+
+                        return xhr;
                     }
+                });
+            }, function (e) {
+                // won't be called
+            });
 
-                }, false);
 
-                return xhr;
-            }
-        });
     });
 }
 
