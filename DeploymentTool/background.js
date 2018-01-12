@@ -638,7 +638,7 @@ function workWithSOQL() {
                        }
                     });
 
-                    //console.log(records);
+                    console.log(records);
 
                     table.DataTable( {
                         data: records,
