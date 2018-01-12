@@ -108,7 +108,7 @@ var requestSqlData = [
     {
         type:'ApexClass',
         table: 'ApexClass_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -116,7 +116,7 @@ var requestSqlData = [
     }, {
         type:'ApexPage',
         table: 'ApexPage_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -124,7 +124,7 @@ var requestSqlData = [
     }, {
         type:'ApexTrigger',
         table: 'ApexTrigger_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -132,7 +132,7 @@ var requestSqlData = [
     }, {
         type:'ApexComponent',
         table: 'ApexComponent_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -140,7 +140,7 @@ var requestSqlData = [
     }, {
         type:'StaticResource',
         table: 'StaticResource_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -148,7 +148,7 @@ var requestSqlData = [
     }, {
         type:'Weblink',
         table: 'Weblink_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description, PageOrSobjectType',
         soqlWhere: 'NamespacePrefix = null',
         fields: ['Select','Id', 'Name', 'PageOrSobjectType', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description'],
@@ -156,7 +156,7 @@ var requestSqlData = [
     }, {
         type:'Dashboard',
         table: 'Dashboard_tb',
-        soqlFields: 'Id, Title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Title, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'NamespacePrefix = null',
         fields: [ 'Select','Id', 'Title', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -180,7 +180,7 @@ var requestSqlData = [
     }, {
         type:'Profile',
         table: 'Profile_tb',
-        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'Id != null',
         fields: [ 'Select','Id', 'Name', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy', 'Description' ],
@@ -188,7 +188,7 @@ var requestSqlData = [
     }, {
         type:'ActionLinkGroupTemplate',
         table: 'ActionLinkGroupTemplate_tb',
-        soqlFields: 'Id, MasterLabel, DeveloperName, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate',
+        soqlFields: 'Id, MasterLabel, DeveloperName, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, Description',
         soqlWhere: 'Id != null',
         fields: [ 'Select','Id', 'MasterLabel', 'DeveloperName', 'LastModifiedDate', 'LastModifiedBy',
             'CreatedDate','CreatedBy' ],
