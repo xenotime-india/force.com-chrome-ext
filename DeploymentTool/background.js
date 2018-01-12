@@ -479,6 +479,7 @@ function loginUser() {
     requestObj.complete(function (err, value) {
         if (err) { console.error(err); }
         console.log('ready for download..');
+        console.log(value.zipFile);
         //location.href="data:application/zip;base64," + value.zipFile;
         var fileObj = new File([value.zipFile], fileName);
         console.log('File object created:', fileObj);
