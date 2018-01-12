@@ -644,6 +644,17 @@ function workWithSOQL() {
                     table.DataTable( {
                         data: records,
                         columns: columns,
+                        columnDefs: [
+                            {
+                                targets: 0,
+                                checkboxes: {
+                                    selectRow: true
+                                }
+                            }
+                        ],
+                        select: {
+                            style: 'multi'
+                        },
                         order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
                     } );
 
