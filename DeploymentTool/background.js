@@ -484,7 +484,8 @@ function loginUser() {
         console.log('ready for download..');
         //location.href="data:application/zip;base64," + value.zipFile;
         var zip = new JSZip();
-        zip.loadAsync(value.zipFile)
+        var fileObj = new File([value.zipFile], fileName, { type: 'application/zip' });
+        zip.loadAsync(fileObj)
             .then(function (zip) {
                 var fileObj = new File([zip], fileName, { type: 'application/zip' });
                 console.log('File object created:', fileObj);
