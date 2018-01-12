@@ -631,11 +631,10 @@ function workWithSOQL() {
 
                     table = jQuery('<table id="'+requestSqlData[index].table+'" class="display" width="100%"></table>');
 
-                    var columns  = requestSqlData[index].fields.map(function (value) {
+                    var columns  = [];
+                    requestSqlData[index].fields.forEach(function (value) {
                        if(value != 'Select') {
-                           return { data: value};
-                       } else {
-                           return { title: value};
+                           columns.push({ data: value});
                        }
                     });
 
