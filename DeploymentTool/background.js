@@ -485,9 +485,9 @@ function loginUser() {
         //location.href="data:application/zip;base64," + value.zipFile;
         var zip = new JSZip();
         //var fileObj = new File([value.zipFile], fileName, { type: 'application/zip' });
-        zip.loadAsync(value.zipFile,{base64: true})
-            .then(function (zip) {
-                var fileObj = new File([zip], fileName, { type: 'application/zip' });
+        zip.loadAsync(value.zipFile,{base64: true, checkCRC32: true})
+            .then(function (zc) {
+                var fileObj = new File([zc], fileName);
                 console.log('File object created:', fileObj);
 
                 var formData = new FormData();
