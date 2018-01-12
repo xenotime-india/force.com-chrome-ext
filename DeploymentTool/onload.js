@@ -61,9 +61,6 @@ var filesToLoad = [
         url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css",
         type:'css',
     },{
-        url:"https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css",
-        type:'css',
-    },{
         url:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
         type:'js',
     },{
@@ -80,9 +77,6 @@ var filesToLoad = [
         type:'js',
     },{
         url:"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js",
-        type:'js',
-    },{
-        url:"https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js",
         type:'js',
     }];
 

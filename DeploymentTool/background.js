@@ -519,8 +519,7 @@ function generateXml() {
     });
 
     XMLString += '\n    <version>'+apiVersion+'</version>\n</Package>';
-    jQuery('#xmlData').html(XMLString);
-    //hljs.highlightBlock(jQuery('#xmlData'));
+    jQuery('#xmlData').val(XMLString);
     jQuery('#xmlDialog').modal();
 }
 
