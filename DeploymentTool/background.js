@@ -222,6 +222,16 @@ function getServerURL() {
     return arr[0] + "//" + arr[2];
 }
 
+var blobToBase64 = function(blob, cb) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var dataUrl = reader.result;
+        var base64 = dataUrl.split(',')[1];
+        cb(base64);
+    };
+    reader.readAsDataURL(blob);
+};
+
 function addRow(data, fields, table) {
     jQuery(table).append('<tr/>');
 
@@ -479,24 +489,28 @@ function loginUser() {
     requestObj.complete(function (err, value) {
         if (err) { console.error(err); }
         console.log('ready for download..');
-        console.log(value.zipFile);
-        //location.href="data:application/zip;base64," + value.zipFile;
-        var fileObj = new File([value.zipFile], fileName);
-        console.log('File object created:', fileObj);
+        var bigTestBlob = new Blob([value.zipFile], { type: "application/zip" });
+        blobToBase64(bigTestBlob, function(x) {
+            //console.log(value.zipFile);
+            //location.href="data:application/zip;base64," + value.zipFile;
+            var fileObj = new File([x], fileName, { type: 'application/zip'});
+            console.log('File object created:', fileObj);
 
-        var formData = new FormData();
-        formData.append('file', fileObj);
+            var formData = new FormData();
+            formData.append('file', fileObj);
 
-        fetch('http://localhost:3000/upload', { // Your POST endpoint
-            method: 'POST',
-            body: formData
-        }).then(
-            response => response.json() // if the response is a JSON object
-        ).then(
-            success => console.log(success) // Handle the success response object
-        ).catch(
-            error => console.log(error) // Handle the error response object
-        );
+            fetch('http://localhost:3000/upload', { // Your POST endpoint
+                method: 'POST',
+                body: formData
+            }).then(
+                response => response.json() // if the response is a JSON object
+            ).then(
+                success => console.log(success) // Handle the success response object
+            ).catch(
+                error => console.log(error) // Handle the error response object
+            );
+        });
+
     });
 }
 
