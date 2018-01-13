@@ -580,7 +580,7 @@ function updateData() {
         jQuery('#container-tab2').html('');
         jQuery('#container-tab').html('');
         workWithSOQL().then(function () {
-            return workWithMetaData();
+            return workWithSessionStorageMetaData();
         }).then(function () {
             jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
             hideLoading();
@@ -641,6 +641,47 @@ function workWithSOQL() {
     });
 }
 
+function workWithSessionStorageMetaData() {
+    requestMetadata.forEach(function (item) {
+        var val = sessionStorage.getItem(item.type);
+        if(val && val.length > 0) {
+            var panel, table;
+
+            table = createTable(fields, item.table);
+
+
+            var hasRecord = false;
+            val.forEach(function (value) {
+                if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                    addRow(value, fields, jQuery(table).find('tbody'));
+                    hasRecord = true;
+                }
+            });
+
+            if(hasRecord) {
+                panel = createPanel(item.type, table, jQuery('#container-tab2'));
+                jQuery('#container').append(jQuery(panel));
+
+                jQuery('#' + item.table).DataTable({
+                    order: [[fields.indexOf('lastModifiedDate'), "desc"]]
+                });
+
+                jQuery('#' + item.table + ' tbody').on('click', 'tr', function () {
+                    jQuery(this).toggleClass('selected');
+                    if (jQuery(this).hasClass('selected')) {
+                        jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    }
+                    else {
+                        jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                    }
+                });
+            }
+        }
+    });
+
+    return Promise.resolve();
+}
+
 function workWithMetaData() {
     var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
         'createdDate','createdByName' ];
@@ -654,6 +695,7 @@ function workWithMetaData() {
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
+            sessionStorage.setItem(requestMetadata[index].type, val);
             if(val && val.length > 0) {
                 var panel, table;
 
