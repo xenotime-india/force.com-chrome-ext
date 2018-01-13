@@ -642,6 +642,12 @@ function workWithSOQL() {
 }
 
 function workWithSessionStorageMetaData() {
+    var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
+        'createdDate','createdByName' ];
+    var userDate = '2015-12-10';
+    if(jQuery('#dateField').val() != '') {
+        userDate = new Date(jQuery('#dateField').val());
+    }
     requestMetadata.forEach(function (item) {
         var val = sessionStorage.getItem(item.type);
         if(val && val.length > 0) {
