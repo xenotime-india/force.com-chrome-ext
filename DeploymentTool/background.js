@@ -745,6 +745,8 @@ function workWithMetaData() {
                         }
                     });
                 }
+            } else {
+                sessionStorage.removeItem(requestMetadata[index].type);
             }
         });
         return Promise.resolve();
