@@ -117,6 +117,10 @@ var requestMetadata = [{
     type: 'CustomLabel',
     table: 'CustomLabel_tb',
     apiFieldIndex: 2,
+},{
+    type: 'ValidationRule',
+    table: 'ValidationRule_tb',
+    apiFieldIndex: 2,
 }];
 
 var requestSqlData = [
@@ -161,8 +165,8 @@ var requestSqlData = [
             'CreatedDate','CreatedBy' ],
         apiFieldIndex: 2,
     }, {
-        type:'Weblink',
-        table: 'Weblink_tb',
+        type:'WebLink',
+        table: 'WebLink_tb',
         soqlFields: 'Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate, PageOrSobjectType',
         soqlWhere: 'NamespacePrefix = null',
         fields: ['Select','Id', 'Name', 'PageOrSobjectType', 'LastModifiedDate', 'LastModifiedBy',

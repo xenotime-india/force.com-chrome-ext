@@ -15,3 +15,11 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     // the library has been loaded
     chrome.tabs.executeScript(tab.Id, {file: "browserAction.js"});
 });
+
+
+chrome.tabs.onUpdated.addListener(function(tabID, info, tab) {
+    if (~tab.url.indexOf("changemgmt/listOutboundChangeSet.apexp")) {
+        chrome.tabs.executeScript(tabID, {file: "get_data.js"});
+        // first script to get data
+    }
+});
