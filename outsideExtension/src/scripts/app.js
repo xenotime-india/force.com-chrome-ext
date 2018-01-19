@@ -1,7 +1,7 @@
-const apiVersion = '41.0';
-let requestMetadata = [];
+var apiVersion = '41.0';
+var requestMetadata = [];
 
-const requestSqlData = [
+var requestSqlData = [
     {
         type:'ApexClass',
         table: 'ApexClass_tb',
@@ -85,10 +85,7 @@ const requestSqlData = [
     }];
 
 function __getCookie(c_name){
-    let i;
-    let x;
-    let y;
-    const ARRcookies=document.cookie.split(";");
+    var i,x,y,ARRcookies=document.cookie.split(";");
     for (i=0;i<ARRcookies.length;i++){
         x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
         y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
@@ -99,11 +96,11 @@ function __getCookie(c_name){
     }
 }
 
-let filterBy = 'LastModifiedDate';
-let filterByMetadata = 'lastModifiedDate';
+var filterBy = 'LastModifiedDate';
+var filterByMetadata = 'lastModifiedDate';
 
 
-const sforce = new jsforce.Connection({
+var sforce = new jsforce.Connection({
     serverUrl : getServerURL(),
     sessionId : __getCookie('sid')
 });
@@ -113,16 +110,16 @@ function changefilterMode(newmode,newmode1) {
 }
 
 function getServerURL() {
-    const url = window.location.href;
-    const arr = url.split("/");
-    return `${arr[0]}//${arr[2]}`;
+    var url = window.location.href;
+    var arr = url.split("/");
+    return arr[0] + "//" + arr[2];
 }
 
-const blobToBase64 = (blob, cb) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-        const dataUrl = reader.result;
-        const base64 = dataUrl.split(',')[1];
+var blobToBase64 = function(blob, cb) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var dataUrl = reader.result;
+        var base64 = dataUrl.split(',')[1];
         cb(base64);
     };
     reader.readAsDataURL(blob);
@@ -131,7 +128,7 @@ const blobToBase64 = (blob, cb) => {
 function addRow(data, fields, table) {
     jQuery(table).append('<tr/>');
 
-    const tdgroup = fields.map(item => {
+    var tdgroup = fields.map(function (item) {
         if(item == 'Select') {
             return jQuery('<td><i class="fa fa-square-o"></i></td>');
         }
@@ -139,43 +136,43 @@ function addRow(data, fields, table) {
             return jQuery('<td></td>');
         }
         else if(isDate(data[item])) {
-            return jQuery(`<td>${showDate(data[item])}<br/>(${moment(new Date(data[item])).fromNow()})</td>`);
+            return jQuery('<td>' + showDate(data[item]) + '<br/>(' +moment(new Date(data[item])).fromNow() +')</td>');
         }
         else if(typeof(data[item]) == 'string') {
-            return jQuery(`<td>${data[item]}</td>`);
+            return jQuery('<td>' + data[item] + '</td>');
         }
         else {
-            return jQuery(`<td>${data[item].Name}</td>`);
+            return jQuery('<td>' + data[item].Name + '</td>');
         }
         return jQuery('<td></td>');
-    });
-    tdgroup.forEach(value => {
+    })
+    tdgroup.forEach(function (value) {
         jQuery(table).find('tr:last').append(value);
     });
 }
 function isDate(val) {
-    const d = new Date(val);
+    var d = new Date(val);
     return !isNaN(d.valueOf());
 }
 
 function showDate(theDate) {
-    const newDate = new Date(theDate);
-    const today = newDate;
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
+    var newDate = new Date(theDate);
+    var today = newDate;
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
     if (month < 10)
-        month = `0${month}`;
+        month = '0' + month;
     if (day < 10)
-        day = `0${day}`;
-    return `${year}-${month}-${day}`;
+        day = '0' + day;
+    return year + '-' + month + '-' + day;
 }
 
 function createPanel(title,table,tab) {
-    jQuery(tab).append(`<li><a href="#${jQuery(table).attr('Id')}-tab" role="tab" data-toggle="tab">${title}</a></li>`)
-    const topPanel = jQuery(`<div class="tab-pane" id="${jQuery(table).attr('Id')}-tab"/>`);
-    const panel = jQuery('<div class="panel panel-default"/>');
-    jQuery(panel).append(`<div class="panel-heading"> ${title}</div>`);
+    jQuery(tab).append('<li><a href="#'+jQuery(table).attr('Id')+'-tab" role="tab" data-toggle="tab">'+title+'</a></li>')
+    var topPanel = jQuery('<div class="tab-pane" id="'+jQuery(table).attr('Id')+'-tab"/>');
+    var panel = jQuery('<div class="panel panel-default"/>');
+    jQuery(panel).append('<div class="panel-heading"> '+title+'</div>');
     jQuery(panel).append('<div class="panel-body"></div>');
     jQuery(panel).find('.panel-body').append(jQuery(table));
     jQuery(topPanel).append(jQuery(panel));
@@ -183,31 +180,31 @@ function createPanel(title,table,tab) {
 }
 
 function createTable(fields,tableId) {
-    const table = jQuery(`<table id="${tableId}" cellpadding="0" border="0" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>`);
+    var table = jQuery('<table id="'+tableId+'" cellpadding="0" border="0" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>');
     jQuery(table).append('<thead></thead>');
     jQuery(table).append('<tbody></tbody>');
     jQuery(table).find('thead').append('<tr/>');
     for (i = 0; i < fields.length; i++) {
         if(fields[i] == 'Select') {
             jQuery(table).find('tr:last').append(
-                `<td><input type="checkbox" onclick="selectAll(this,'${tableId}','')"/></td>`);
+                '<td><input type="checkbox" onclick="selectAll(this,\''+tableId+'\',\'\')"/></td>');
         }
         else {
-            jQuery(table).find('thead>tr').append(`<th>${fields[i]}</th>`);
+            jQuery(table).find('thead>tr').append('<th>' + fields[i] + '</th>');
         }
     }
     return jQuery(table);
 }
 
 function selectAll(check,table,obj) {
-    let dataTbl;
+    var dataTbl;
     if(table != '') {
-        dataTbl = jQuery(`#${table}`).dataTable();
+        dataTbl = jQuery('#'+table).dataTable();
     }
     else {
         dataTbl = jQuery(obj).dataTable();
     }
-    const nNodes = dataTbl.fnGetNodes();
+    var nNodes = dataTbl.fnGetNodes();
     jQuery(nNodes).each(function() {
         if(check == '' || jQuery(check).is(':checked')) {
             jQuery(this).addClass('selected');
@@ -221,20 +218,20 @@ function selectAll(check,table,obj) {
 }
 
 function globalSelectAll() {
-    requestMetadata.forEach((val, index) => {
-        selectAll('','',jQuery(`#${val.table}`));
+    requestMetadata.forEach(function(val, index) {
+        selectAll('','',jQuery('#'+val.table));
     });
-    requestSqlData.forEach((val, index) => {
-        selectAll('','',jQuery(`#${val.table}`));
+    requestSqlData.forEach(function(val, index) {
+        selectAll('','',jQuery('#'+val.table));
     });
 }
 
 function globalUnSelectAll() {
-    requestMetadata.forEach((val, index) => {
-        selectAll(' ','',jQuery(`#${val.table}`));
+    requestMetadata.forEach(function(val, index) {
+        selectAll(' ','',jQuery('#'+val.table));
     });
-    requestSqlData.forEach((val, index) => {
-        selectAll(' ','',jQuery(`#${val.table}`));
+    requestSqlData.forEach(function(val, index) {
+        selectAll(' ','',jQuery('#'+val.table));
     });
 }
 
@@ -243,23 +240,23 @@ function waitForDone(callback) {
         sforce.metadata.checkRetrieveStatus(id, callback);
     }
     function check(results) {
-        const done = results[0].getBoolean("done");
+        var done = results[0].getBoolean("done");
         if (!done) {
             sforce.metadata.checkStatus([results[0].id], check);
         } else {
             getResult(results[0].id);
         }
     }
-    return result => {
+    return function (result) {
         check([result]);
     };
 }
 function maketypeblock(table_data,index,name) {
-    let XMLString = '';
+    var XMLString = '';
     if(jQuery(table_data).DataTable().rows('.selected').data().length > 0) {
         XMLString += '\n    <types>';
         jQuery(jQuery(table_data).DataTable().rows('.selected').data()).each(function() {
-            const current = jQuery(this);
+            var current = jQuery(this);
             XMLString += '\n        <members>';
             if(typeof(index) == 'number') {
                 if(jQuery(this)[index] != '' && jQuery(this)[index] != 'null' && jQuery(this)[index] != null) {
@@ -270,7 +267,7 @@ function maketypeblock(table_data,index,name) {
                 for(i = 0 ; i < index.length ; i++) {
                     if(jQuery(this)[index[i]] != '' && jQuery(this)[index[i]] != 'null' && jQuery(this)[index[i]] != null) {
                         if(i != index.length - 1) {
-                            XMLString += `${jQuery(this)[index[i]]}.`;
+                            XMLString += jQuery(this)[index[i]] + '.';
                         }
                         else {
                             XMLString += jQuery(this)[index[i]];
@@ -280,14 +277,14 @@ function maketypeblock(table_data,index,name) {
             }
             XMLString += '</members>';
         });
-        XMLString += ` \n       <name>${name}</name>`;
+        XMLString += ' \n       <name>'+name+'</name>';
         XMLString += ' \n   </types>';
     }
 
     return XMLString;
 }
 function makeobjectToRetrive(table_data, index, type) {
-    let returnData;
+    var returnData;
     if(jQuery(table_data).DataTable().rows('.selected').data().length > 0) {
         returnData = {name:type,members:[]};
         jQuery(jQuery(table_data).DataTable().rows('.selected').data()).each(function() {
@@ -298,10 +295,10 @@ function makeobjectToRetrive(table_data, index, type) {
             }
             else {
                 for(i = 0 ; i < index.length ; i++) {
-                    let XMLString = '';
+                    var XMLString = '';
                     if(jQuery(this)[index[i]] != '' && jQuery(this)[index[i]] != 'null' && jQuery(this)[index[i]] != null) {
                         if(i != index.length - 1) {
-                            XMLString += `${jQuery(this)[index[i]]}.`;
+                            XMLString += jQuery(this)[index[i]] + '.';
                         }
                         else {
                             XMLString += jQuery(this)[index[i]];
@@ -316,16 +313,16 @@ function makeobjectToRetrive(table_data, index, type) {
 }
 function getPackage() {
     showLoading();
-    const resourceType = [];
+    var resourceType = [];
 
-    requestMetadata.forEach((val, index) => {
-        const result = makeobjectToRetrive(jQuery(`#${val.table}`),val.apiFieldIndex,val.type);
+    requestMetadata.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
         if(typeof(result) != 'undefined') {
             resourceType.push(result);
         }
     });
-    requestSqlData.forEach((val, index) => {
-        const result = makeobjectToRetrive(jQuery(`#${val.table}`),val.apiFieldIndex,val.type);
+    requestSqlData.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
         if(typeof(result) != 'undefined') {
             resourceType.push(result);
         }
@@ -336,10 +333,10 @@ function getPackage() {
                 types: resourceType,
                 version: apiVersion
             }
-        }).complete((err, value) => {
+        }).complete(function (err, value) {
             if (err) { console.error(err); }
             console.log('ready for download..');
-            location.href=`data:application/zip;base64,${value.zipFile}`;
+            location.href="data:application/zip;base64," + value.zipFile;
             hideLoading();
         });
     }
@@ -358,52 +355,52 @@ function deploy() {
 }
 
 function loginUser() {
-    const resourceType = [];
+    var resourceType = [];
 
-    requestMetadata.forEach((val, index) => {
-        const result = makeobjectToRetrive(jQuery(`#${val.table}`),val.apiFieldIndex,val.type);
+    requestMetadata.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
         if(typeof(result) != 'undefined') {
             resourceType.push(result);
         }
     });
-    requestSqlData.forEach((val, index) => {
-        const result = makeobjectToRetrive(jQuery(`#${val.table}`),val.apiFieldIndex,val.type);
+    requestSqlData.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
         if(typeof(result) != 'undefined') {
             resourceType.push(result);
         }
     });
 
-    const requestObj = sforce.metadata.retrieve({
+    var requestObj = sforce.metadata.retrieve({
         unpackaged: {
             types: resourceType,
             version: apiVersion
         }
-    });
+    })
 
-    const fileName = 'package.zip';
+    var fileName = 'package.zip';
 
-    requestObj.complete((err, value) => {
+    requestObj.complete(function (err, value) {
         if (err) { console.error(err); }
         console.log('ready for download..');
-        const bigTestBlob = new Blob([value.zipFile], { type: "application/zip" });
-        blobToBase64(bigTestBlob, x => {
+        var bigTestBlob = new Blob([value.zipFile], { type: "application/zip" });
+        blobToBase64(bigTestBlob, function(x) {
             //console.log(value.zipFile);
             //location.href="data:application/zip;base64," + value.zipFile;
-            const fileObj = new File([x], fileName, { type: 'application/zip'});
+            var fileObj = new File([x], fileName, { type: 'application/zip'});
             console.log('File object created:', fileObj);
 
-            const formData = new FormData();
+            var formData = new FormData();
             formData.append('file', fileObj);
 
             fetch('http://localhost:3000/upload', { // Your POST endpoint
                 method: 'POST',
                 body: formData
             }).then(
-                response => response.json() // if the response is a JSON object
+                function(response) { return response.json()} // if the response is a JSON object
             ).then(
-                success => console.log(success) // Handle the success response object
+                console.log  // Handle the success response object
             ).catch(
-                error => console.log(error) // Handle the error response object
+                console.error // Handle the error response object
             );
         });
 
@@ -411,50 +408,54 @@ function loginUser() {
 }
 
 function generateXml() {
-    let XMLString = '<?xml version="1.0" encoding="UTF-8"?>';
+    var XMLString = '<?xml version="1.0" encoding="UTF-8"?>';
     XMLString += '\n<Package xmlns="http://soap.sforce.com/2006/04/metadata">'
 
-    requestMetadata.forEach((val, index) => {
-        XMLString += maketypeblock(jQuery(`#${val.table}`),val.apiFieldIndex,val.type);
+    requestMetadata.forEach(function(val, index) {
+        XMLString += maketypeblock(jQuery('#'+val.table),val.apiFieldIndex,val.type);
     });
-    requestSqlData.forEach((val, index) => {
-        XMLString += maketypeblock(jQuery(`#${val.table}`),val.apiFieldIndex,val.type);
+    requestSqlData.forEach(function(val, index) {
+        XMLString += maketypeblock(jQuery('#'+val.table),val.apiFieldIndex,val.type);
     });
 
-    XMLString += `\n    <version>${apiVersion}</version>\n</Package>`;
+    XMLString += '\n    <version>'+apiVersion+'</version>\n</Package>';
     jQuery('#xmlData').val(XMLString);
     jQuery('#xmlDialog').modal();
 }
 
-jQuery(() => {
+jQuery(function() {
     showLoading();
 
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
-    sforce.metadata.describe(apiVersion).then(metadata => {
-        metadata.metadataObjects.forEach(value => {
+    sforce.metadata.describe(apiVersion).then(function(metadata) {
+        metadata.metadataObjects.forEach(function (value) {
             if(value.childXmlNames) {
-                value.childXmlNames.forEach(childXmlName => {
-                    const result = requestSqlData.filter(item => item.type.toLowerCase() === childXmlName.toLowerCase());
+                value.childXmlNames.forEach(function (childXmlName) {
+                    var result = requestSqlData.filter(function (item) {
+                        return item.type.toLowerCase() === childXmlName.toLowerCase();
+                    });
                     if(result.length == 0) {
                         requestMetadata.push({
                             type: childXmlName,
-                            table: `${childXmlName}_tb`,
+                            table: childXmlName + '_tb',
                             apiFieldIndex: 2,
                         });
                     }
                 });
             }
-            const result = requestSqlData.filter(item => item.type.toLowerCase() === value.xmlName.toLowerCase());
+            var result = requestSqlData.filter(function (item) {
+                return item.type.toLowerCase() === value.xmlName.toLowerCase();
+            });
             if(result.length == 0) {
                 requestMetadata.push({
                     type: value.xmlName,
-                    table: `${value.xmlName}_tb`,
+                    table: value.xmlName + '_tb',
                     apiFieldIndex: 2,
                 });
             }
         });
-        requestMetadata = requestMetadata.sort((a, b) => {
+        requestMetadata = requestMetadata.sort(function (a, b) {
             if (a.type < b.type) {
                 return -1;
             }
@@ -465,10 +466,12 @@ jQuery(() => {
         });
         return workWithSOQL();
     })
-        .then(() => workWithMetaData()).then(() => {
-        jQuery(`#myTab a[href="#${requestSqlData[0].type}_tb-tab"]`).tab('show');
+        .then(function () {
+            return workWithMetaData();
+        }).then(function () {
+        jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
         hideLoading();
-    }).catch(err => {
+    }).catch(function (err) {
         console.error('Error',err);
     });
     jQuery('#dateField').datepicker({
@@ -478,15 +481,17 @@ jQuery(() => {
 
 function updateData() {
     showLoading();
-    setTimeout(() => {
+    setTimeout(function(){
 
         jQuery('#container').html('');
         jQuery('#container-tab2').html('');
         jQuery('#container-tab').html('');
-        workWithSOQL().then(() => workWithSessionStorageMetaData()).then(() => {
-            jQuery(`#myTab a[href="#${requestSqlData[0].type}_tb-tab"]`).tab('show');
+        workWithSOQL().then(function () {
+            return workWithSessionStorageMetaData();
+        }).then(function () {
+            jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
             hideLoading();
-        }).catch(err => {
+        }).catch(function (err) {
             console.error('Error',err);
         });
     },200);
@@ -494,39 +499,40 @@ function updateData() {
 
 function workWithSOQL() {
 
-    let userDate = '2015-12-10';
+    var userDate = '2015-12-10';
     if(jQuery('#dateField').val() != '') {
         userDate = convertDate(jQuery('#dateField').val());
     }
 
-    const requestPromises = requestSqlData.map(item => {
-        let query = `Select ${item.soqlFields} From ${item.type} where `;
-        query += userDate != '' ? `${filterBy} >= ${userDate} AND `: '';
-        query += ` ${item.soqlWhere} order by ${filterBy} desc`;
+    var requestPromises = requestSqlData.map(function (item) {
+        var query = 'Select '+item.soqlFields+' From '+item.type+' where ';
+        query += userDate != '' ? filterBy +' >= ' + userDate + ' AND ': '';
+        query += ' '+item.soqlWhere+' order by '+filterBy+' desc';
         return sforce.query(query);
     });
 
-    return Promise.all(requestPromises).then(results => {
-        results.forEach((val, index) => {
-            const records = val.records;
+    return Promise.all(requestPromises).then(function(results) {
+        results.forEach(function(val, index) {
+            var records = val.records;
             if (records && records.length > 0) {
-                let panel;
-                let table;
+
+
+                var panel, table;
 
                 table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
                 panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
 
-                for (let i = 0; i < records.length; i++) {
+                for (var i = 0; i < records.length; i++) {
                     addRow(records[i], requestSqlData[index].fields, jQuery(table).find('tbody'));
                 }
                 jQuery('#container').append(jQuery(panel));
 
-                jQuery(`#${requestSqlData[index].table}`).DataTable({
+                jQuery('#' + requestSqlData[index].table).DataTable({
                     order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]],
                     iDisplayLength: 100
                 });
 
-                jQuery(`#${requestSqlData[index].table} tbody`).on('click', 'tr', function () {
+                jQuery('#' + requestSqlData[index].table + ' tbody').on('click', 'tr', function () {
                     jQuery(this).toggleClass('selected');
                     if (jQuery(this).hasClass('selected')) {
                         jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
@@ -538,27 +544,28 @@ function workWithSOQL() {
             }
         })
         return Promise.resolve();
-    }).catch(err => Promise.reject(err));
+    }).catch(function (err) {
+        return Promise.reject(err);
+    });
 }
 
 function workWithSessionStorageMetaData() {
-    const fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
+    var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
         'createdDate','createdByName' ];
-    let userDate = '2015-12-10';
+    var userDate = '2015-12-10';
     if(jQuery('#dateField').val() != '') {
         userDate = new Date(jQuery('#dateField').val());
     }
-    requestMetadata.forEach(item => {
-        const val = JSON.parse(sessionStorage.getItem(item.type));
+    requestMetadata.forEach(function (item) {
+        var val = JSON.parse(sessionStorage.getItem(item.type));
         if(val && val.length > 0) {
-            let panel;
-            let table;
+            var panel, table;
 
             table = createTable(fields, item.table);
 
 
-            let hasRecord = false;
-            val.forEach(value => {
+            var hasRecord = false;
+            val.forEach(function (value) {
                 if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
                     addRow(value, fields, jQuery(table).find('tbody'));
                     hasRecord = true;
@@ -569,12 +576,12 @@ function workWithSessionStorageMetaData() {
                 panel = createPanel(item.type, table, jQuery('#container-tab2'));
                 jQuery('#container').append(jQuery(panel));
 
-                jQuery(`#${item.table}`).DataTable({
+                jQuery('#' + item.table).DataTable({
                     order: [[fields.indexOf('lastModifiedDate'), "desc"]],
                     iDisplayLength: 100
                 });
 
-                jQuery(`#${item.table} tbody`).on('click', 'tr', function () {
+                jQuery('#' + item.table + ' tbody').on('click', 'tr', function () {
                     jQuery(this).toggleClass('selected');
                     if (jQuery(this).hasClass('selected')) {
                         jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
@@ -591,28 +598,27 @@ function workWithSessionStorageMetaData() {
 }
 
 function workWithMetaData() {
-    const fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
+    var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
         'createdDate','createdByName' ];
-    let userDate = '2015-12-10';
+    var userDate = '2015-12-10';
     if(jQuery('#dateField').val() != '') {
         userDate = new Date(jQuery('#dateField').val());
     }
-    const requestPromises = requestMetadata.map(item => {
-        const types = [{type: item.type}];
+    var requestPromises = requestMetadata.map(function (item) {
+        var types = [{type: item.type}];
         return sforce.metadata.list(types, apiVersion);
     });
-    return Promise.all(requestPromises).then(results => {
-        results.forEach((val, index) => {
+    return Promise.all(requestPromises).then(function(results) {
+        results.forEach(function(val, index) {
             if(val && val.length > 0) {
                 sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
-                let panel;
-                let table;
+                var panel, table;
 
                 table = createTable(fields, requestMetadata[index].table);
 
 
-                let hasRecord = false;
-                val.forEach(value => {
+                var hasRecord = false;
+                val.forEach(function (value) {
                     if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
                         addRow(value, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
@@ -623,12 +629,12 @@ function workWithMetaData() {
                     panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
                     jQuery('#container').append(jQuery(panel));
 
-                    jQuery(`#${requestMetadata[index].table}`).DataTable({
+                    jQuery('#' + requestMetadata[index].table).DataTable({
                         order: [[fields.indexOf('lastModifiedDate'), "desc"]],
                         iDisplayLength: 100
                     });
 
-                    jQuery(`#${requestMetadata[index].table} tbody`).on('click', 'tr', function () {
+                    jQuery('#' + requestMetadata[index].table + ' tbody').on('click', 'tr', function () {
                         jQuery(this).toggleClass('selected');
                         if (jQuery(this).hasClass('selected')) {
                             jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
@@ -643,22 +649,24 @@ function workWithMetaData() {
             }
         });
         return Promise.resolve();
-    }).catch(err => Promise.reject(err));
+    }).catch(function (err) {
+        return Promise.reject(err);
+    });
 }
 
 
 function convertDate(theDate) {
     if(typeof(theDate) != 'undefined') {
-        const newDate = new Date(theDate);
-        const today = newDate;
-        const year = today.getFullYear();
-        let month = today.getMonth() + 1;
-        let day = today.getDate();
+        var newDate = new Date(theDate);
+        var today = newDate;
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
         if (month < 10)
-            month = `0${month}`;
+            month = '0' + month;
         if (day < 10)
-            day = `0${day}`;
-        return `${year}-${month}-${day}T00:00:00Z`;
+            day = '0' + day;
+        return year + '-' + month + '-' + day + 'T00:00:00Z';
     }
     else {
         return '';

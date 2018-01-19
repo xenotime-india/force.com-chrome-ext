@@ -12,7 +12,6 @@ const gulp = require('gulp'),
     zip = require('gulp-zip'),
     gutil = require('gulp-util');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
 const rename = require("gulp-rename");
 
 //clean build directory
@@ -127,12 +126,9 @@ gulp.task('outsideExtension-scripts', ['outsideExtension-jshint'], function() {
     return gulp.src(['outsideExtension/src/scripts/**/*.js', '!outsideExtension/src/scripts/vendors/**/*.js'])
         .pipe(sourcemaps.init())
         .pipe(stripdebug())
-        .pipe(babel({
-            presets: ['es2015']
-        }))
         .pipe(uglify())
-        .pipe(rename({ extname: '.min.js' }))
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(rename({ extname: '.min.js' }))
         .pipe(sourcemaps.write(''))
         .pipe(gulp.dest('outsideExtension/build/scripts'));
 });
