@@ -95,10 +95,8 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
             switch (item.type) {
                 case 'js':
                     return load.js(item.url);
-                    break;
                 case 'css':
                     return load.css(item.url);
-                    break;
             }
         }));
     })
