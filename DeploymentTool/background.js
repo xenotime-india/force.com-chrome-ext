@@ -539,21 +539,32 @@ jQuery(function() {
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
     sforce.metadata.describe(apiVersion).then(function(metadata) {
+        console.log(metadata);
         metadata.metadataObjects.forEach(function (value) {
             if(value.childXmlNames) {
                 value.childXmlNames.forEach(function (childXmlName) {
-                    requestMetadata.push({
-                        type: childXmlName,
-                        table: childXmlName + '_tb',
-                        apiFieldIndex: 2,
+                    var result = requestSqlData.filter(function (item) {
+                        return item.type.toLowerCase() === childXmlName.toLowerCase();
                     });
+                    if(result.length == 0) {
+                        requestMetadata.push({
+                            type: childXmlName,
+                            table: childXmlName + '_tb',
+                            apiFieldIndex: 2,
+                        });
+                    }
                 });
             }
-            requestMetadata.push({
-                type: value.xmlName,
-                table: value.xmlName + '_tb',
-                apiFieldIndex: 2,
+            var result = requestSqlData.filter(function (item) {
+                return item.type.toLowerCase() === value.xmlName.toLowerCase();
             });
+            if(result.length == 0) {
+                requestMetadata.push({
+                    type: value.xmlName,
+                    table: value.xmlName + '_tb',
+                    apiFieldIndex: 2,
+                });
+            }
         });
         requestMetadata = requestMetadata.sort(function (a, b) {
             if (a.type < b.type) {
