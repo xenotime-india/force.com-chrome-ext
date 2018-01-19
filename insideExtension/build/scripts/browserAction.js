@@ -1,1 +1,0 @@
-"undefined"!=typeof EnhanceLibIsLoaded&&0!=EnhanceLibIsLoaded||chrome.extension.sendMessage({loaded:check});

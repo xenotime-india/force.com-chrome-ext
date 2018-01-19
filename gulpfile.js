@@ -2,7 +2,7 @@
 
 //npm install gulp gulp-minify-css gulp-uglify gulp-clean gulp-cleanhtml gulp-jshint gulp-strip-debug gulp-zip --save-dev
 
-var gulp = require('gulp'),
+const gulp = require('gulp'),
     clean = require('gulp-clean'),
     cleanhtml = require('gulp-cleanhtml'),
     minifycss = require('gulp-minify-css'),
@@ -11,6 +11,9 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     zip = require('gulp-zip'),
     gutil = require('gulp-util');
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+const rename = require("gulp-rename");
 
 //clean build directory
 gulp.task('insideExtension-clean', function() {
@@ -23,7 +26,7 @@ gulp.task('insideExtension-copy', function() {
     gulp.src('insideExtension/src/fonts/**')
         .pipe(gulp.dest('insideExtension/build/fonts'));
     gulp.src('insideExtension/src/images/**')
-        .pipe(gulp.dest('insideExtension/build/icons'));
+        .pipe(gulp.dest('insideExtension/build/images'));
     gulp.src('insideExtension/src/_locales/**')
         .pipe(gulp.dest('insideExtension/build/_locales'));
     return gulp.src('insideExtension/src/manifest.json')
@@ -49,9 +52,12 @@ gulp.task('insideExtension-scripts', ['insideExtension-jshint'], function() {
     gulp.src('insideExtension/src/scripts/vendors/**/*.js')
         .pipe(gulp.dest('insideExtension/build/scripts/vendors'));
     return gulp.src(['insideExtension/src/scripts/**/*.js', '!insideExtension/src/scripts/vendors/**/*.js'])
+        .pipe(sourcemaps.init())
         .pipe(stripdebug())
         .pipe(uglify())
+        .pipe(rename({ extname: '.min.js' }))
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(sourcemaps.write(''))
         .pipe(gulp.dest('insideExtension/build/scripts'));
 });
 
@@ -88,7 +94,7 @@ gulp.task('insideExtension', ['insideExtension-clean'], function() {
 
 //clean build directory
 gulp.task('outsideExtension-clean', function() {
-    return gulp.src('insideExtension/build/*', {read: false})
+    return gulp.src('outsideExtension/build/*', {read: false})
         .pipe(clean());
 });
 
@@ -97,7 +103,7 @@ gulp.task('outsideExtension-copy', function() {
     gulp.src('outsideExtension/src/fonts/**')
         .pipe(gulp.dest('outsideExtension/build/fonts'));
     gulp.src('outsideExtension/src/images/**')
-        .pipe(gulp.dest('outsideExtension/build/icons'));
+        .pipe(gulp.dest('outsideExtension/build/images'));
 });
 
 //copy and compress HTML files
@@ -119,9 +125,15 @@ gulp.task('outsideExtension-scripts', ['outsideExtension-jshint'], function() {
     gulp.src('outsideExtension/src/scripts/vendors/**/*.js')
         .pipe(gulp.dest('outsideExtension/build/scripts/vendors'));
     return gulp.src(['outsideExtension/src/scripts/**/*.js', '!outsideExtension/src/scripts/vendors/**/*.js'])
+        .pipe(sourcemaps.init())
         .pipe(stripdebug())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(uglify())
+        .pipe(rename({ extname: '.min.js' }))
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(sourcemaps.write(''))
         .pipe(gulp.dest('outsideExtension/build/scripts'));
 });
 
@@ -135,8 +147,8 @@ gulp.task('outsideExtension-styles', function() {
 });
 
 //run all tasks after build directory has been cleaned
-gulp.task('outsideExtension', ['outsideExtension-clean', 'outsideExtension-html', 'outsideExtension-scripts', 'outsideExtension-styles', 'outsideExtension-copy'], function() {
-    //gulp.start('zip');
+gulp.task('outsideExtension', ['outsideExtension-clean', 'outsideExtension-html', 'outsideExtension-scripts', 'outsideExtension-styles'], function() {
+    gulp.start('outsideExtension-copy');
 });
 
 
