@@ -45,10 +45,10 @@ var load = (function() {
 })();
 
 var filesToLoad = [
-	{
-		url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-		type: 'css',
-	},{
+    {
+        url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+        type: 'css',
+    },{
         url:"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css",
         type:'css',
     },{
@@ -85,12 +85,12 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
         jQuery("link[rel='stylesheet']").remove();
         jQuery('body').html('');
         return new Promise(function (resolve, reject) {
-            jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/template.html", function() {
-            	resolve();
+            jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/template.html", function() {
+                resolve();
             });
         });
     })
-	.then(function() {
+    .then(function() {
         return Promise.all(filesToLoad.map(function (item) {
             switch (item.type) {
                 case 'js':
@@ -105,14 +105,14 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
     .then(function () {
         return load.js('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js');
     })
-	.then(function(){
-        return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/app.js');
+    .then(function(){
+        return load.js('https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/scripts/app.min.js');
     })
-	.then(function(){
+    .then(function(){
         if(jQuery('#sfdcConsoleContainer').length > 0) {
             jQuery('#sfdcConsoleContainer').show();
         }
     })
-	.catch(function (err) {
+    .catch(function (err) {
         console.error('Error', err);
     });
