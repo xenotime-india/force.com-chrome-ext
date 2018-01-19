@@ -539,7 +539,6 @@ jQuery(function() {
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
     sforce.metadata.describe(apiVersion).then(function(metadata) {
-        console.log(metadata);
         metadata.metadataObjects.forEach(function (value) {
             if(value.childXmlNames) {
                 value.childXmlNames.forEach(function (childXmlName) {
