@@ -13,7 +13,7 @@
     "default_icon": "Cloud-icon.png"
   },
   "background": {
-    "scripts": ["event.js"],
+    "scripts": ["scripts/event.js"],
     "persistent": false
   },
   
