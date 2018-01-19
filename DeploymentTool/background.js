@@ -638,7 +638,8 @@ function workWithSOQL() {
                     jQuery('#container').append(jQuery(panel));
 
                     jQuery('#' + requestSqlData[index].table).DataTable({
-                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]]
+                        order: [[requestSqlData[index].fields.indexOf('LastModifiedDate'), "desc"]],
+                        iDisplayLength: 100
                     });
 
                     jQuery('#' + requestSqlData[index].table + ' tbody').on('click', 'tr', function () {
@@ -686,7 +687,8 @@ function workWithSessionStorageMetaData() {
                 jQuery('#container').append(jQuery(panel));
 
                 jQuery('#' + item.table).DataTable({
-                    order: [[fields.indexOf('lastModifiedDate'), "desc"]]
+                    order: [[fields.indexOf('lastModifiedDate'), "desc"]],
+                    iDisplayLength: 100
                 });
 
                 jQuery('#' + item.table + ' tbody').on('click', 'tr', function () {
@@ -738,7 +740,8 @@ function workWithMetaData() {
                     jQuery('#container').append(jQuery(panel));
 
                     jQuery('#' + requestMetadata[index].table).DataTable({
-                        order: [[fields.indexOf('lastModifiedDate'), "desc"]]
+                        order: [[fields.indexOf('lastModifiedDate'), "desc"]],
+                        iDisplayLength: 100
                     });
 
                     jQuery('#' + requestMetadata[index].table + ' tbody').on('click', 'tr', function () {
