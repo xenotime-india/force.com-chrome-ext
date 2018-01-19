@@ -109,23 +109,7 @@ if(!(window.JSON && window.JSON.parse))
 }
 
 var apiVersion = '41.0';
-var requestMetadata = [{
-    type: 'CustomField',
-    table: 'CustomField_tb',
-    apiFieldIndex: 2,
-},{
-    type: 'CustomLabel',
-    table: 'CustomLabel_tb',
-    apiFieldIndex: 2,
-},{
-    type: 'ValidationRule',
-    table: 'ValidationRule_tb',
-    apiFieldIndex: 2,
-},{
-    type: 'ListView',
-    table: 'ListView_tb',
-    apiFieldIndex: 2,
-}];
+var requestMetadata = [];
 
 var requestSqlData = [
     {
@@ -555,32 +539,21 @@ jQuery(function() {
     jQuery('#dateField').val(showDate(new Date().add(-1).month()));
     console.log("Ready for API fun!");
     sforce.metadata.describe(apiVersion).then(function(metadata) {
-        console.log(metadata);
         metadata.metadataObjects.forEach(function (value) {
             if(value.childXmlNames) {
                 value.childXmlNames.forEach(function (childXmlName) {
-                    var result = requestSqlData.filter(function (item) {
-                        return item.type.toLowerCase() === childXmlName.toLowerCase();
+                    requestMetadata.push({
+                        type: childXmlName,
+                        table: childXmlName + '_tb',
+                        apiFieldIndex: 2,
                     });
-                    if(result.length == 0) {
-                        requestMetadata.push({
-                            type: childXmlName,
-                            table: childXmlName + '_tb',
-                            apiFieldIndex: 2,
-                        });
-                    }
                 });
             }
-            var result = requestSqlData.filter(function (item) {
-                return item.type.toLowerCase() === value.xmlName.toLowerCase();
+            requestMetadata.push({
+                type: value.xmlName,
+                table: value.xmlName + '_tb',
+                apiFieldIndex: 2,
             });
-            if(result.length == 0) {
-                requestMetadata.push({
-                    type: value.xmlName,
-                    table: value.xmlName + '_tb',
-                    apiFieldIndex: 2,
-                });
-            }
         });
         requestMetadata = requestMetadata.sort(function (a, b) {
             if (a.type < b.type) {
