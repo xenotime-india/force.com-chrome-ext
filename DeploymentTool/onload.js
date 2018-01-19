@@ -106,7 +106,7 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
         return load.js('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js');
     })
 	.then(function(){
-        return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/background.js');
+        return load.js('https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/app.js');
     })
 	.then(function(){
         if(jQuery('#sfdcConsoleContainer').length > 0) {

@@ -1,0 +1,27 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 2,
+
+  "name": "Chrome Extension for generate package.xml",
+  "version": "2.5",
+  "description": "Facilitates SFDC Deployment functionality with searchable UI.",
+   "icons": { "16": "Cloud-icon.png",
+           "48": "Cloud-icon_48.png",
+          "128": "Cloud-icon_128.png" },
+  "browser_action": {
+    "default_icon": "Cloud-icon.png"
+  },
+  "background": {
+    "scripts": ["event.js"],
+    "persistent": false
+  },
+  
+  "permissions": [
+    "https://*.salesforce.com/*",
+    "https://*.force.com/*",
+    "cookies",
+    "tabs"
+  ]
+
+}
