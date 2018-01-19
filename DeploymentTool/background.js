@@ -121,6 +121,10 @@ var requestMetadata = [{
     type: 'ValidationRule',
     table: 'ValidationRule_tb',
     apiFieldIndex: 2,
+},{
+    type: 'ListView',
+    table: 'ListView_tb',
+    apiFieldIndex: 2,
 }];
 
 var requestSqlData = [
