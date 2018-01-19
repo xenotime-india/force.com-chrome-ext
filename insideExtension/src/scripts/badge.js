@@ -71,7 +71,7 @@ var badge = {
         case "recording":
             this.setBackgroundColor(win_id, [255,100,100,200]);
             break;
-        };
+        }
         
         this.setText(win_id, details.text.toString());
     },

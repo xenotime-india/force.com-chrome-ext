@@ -5,7 +5,7 @@
 
 // incapsulates all content scripts-extensions communications
 function Communicator() {
-    this.handlers = new Object();
+    this.handlers = {};
     this.addListeners();
 }
 
@@ -24,7 +24,7 @@ Communicator.prototype.addListeners = function() {
         // remove all handlers bind to the window
         for (var topic in communicator.handlers) {
             var len = communicator.handlers[topic].length, i;
-            var junk = new Array();
+            var junk = [];
             for (i = 0; i < len; i++) {
                 if (communicator.handlers[topic][i].win_id == win_id) {
                     junk.push(communicator.handlers[topic][i].handler);
@@ -42,7 +42,7 @@ Communicator.prototype.addListeners = function() {
 // register handlers for specific content script messages
 Communicator.prototype.registerHandler = function(topic, handler, win_id) {
     if (!(topic in this.handlers))
-        this.handlers[topic] = new Array();
+        this.handlers[topic] = [];
     this.handlers[topic].push({handler: handler, win_id: win_id});
 };
 

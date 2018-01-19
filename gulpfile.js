@@ -9,75 +9,138 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     stripdebug = require('gulp-strip-debug'),
     uglify = require('gulp-uglify'),
-    zip = require('gulp-zip');
+    zip = require('gulp-zip'),
+    gutil = require('gulp-util');
 
 //clean build directory
-gulp.task('clean', function() {
-    return gulp.src('build/*', {read: false})
+gulp.task('insideExtension-clean', function() {
+    return gulp.src('insideExtension/build/*', {read: false})
         .pipe(clean());
 });
 
 //copy static folders to build directory
-gulp.task('copy', function() {
-    gulp.src('app/fonts/**')
-        .pipe(gulp.dest('build/fonts'));
-    gulp.src('app/images/**')
-        .pipe(gulp.dest('build/icons'));
-    gulp.src('app/_locales/**')
-        .pipe(gulp.dest('build/_locales'));
-    return gulp.src('app/manifest.json')
-        .pipe(gulp.dest('build'));
+gulp.task('insideExtension-copy', function() {
+    gulp.src('insideExtension/src/fonts/**')
+        .pipe(gulp.dest('insideExtension/build/fonts'));
+    gulp.src('insideExtension/src/images/**')
+        .pipe(gulp.dest('insideExtension/build/icons'));
+    gulp.src('insideExtension/src/_locales/**')
+        .pipe(gulp.dest('insideExtension/build/_locales'));
+    return gulp.src('insideExtension/src/manifest.json')
+        .pipe(gulp.dest('insideExtension/build'));
 });
 
 //copy and compress HTML files
-gulp.task('html', function() {
-    return gulp.src('src/*.html')
+gulp.task('insideExtension-html', function() {
+    return gulp.src('insideExtension/src/*.html')
         .pipe(cleanhtml())
-        .pipe(gulp.dest('build'));
+        .pipe(gulp.dest('insideExtension/build'));
 });
 
 //run scripts through JSHint
-gulp.task('jshint', function() {
-    return gulp.src('app/scripts/*.js')
+gulp.task('insideExtension-jshint', function() {
+    return gulp.src('insideExtension/src/scripts/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 //copy vendor scripts and uglify all other scripts, creating source maps
-gulp.task('scripts', ['jshint'], function() {
-    gulp.src('app/scripts/vendors/**/*.js')
-        .pipe(gulp.dest('build/scripts/vendors'));
-    return gulp.src(['app/scripts/**/*.js', '!app/scripts/vendors/**/*.js'])
+gulp.task('insideExtension-scripts', ['insideExtension-jshint'], function() {
+    gulp.src('insideExtension/src/scripts/vendors/**/*.js')
+        .pipe(gulp.dest('insideExtension/build/scripts/vendors'));
+    return gulp.src(['insideExtension/src/scripts/**/*.js', '!insideExtension/src/scripts/vendors/**/*.js'])
         .pipe(stripdebug())
-        .pipe(uglify({outSourceMap: true}))
-        .pipe(gulp.dest('build/scripts'));
+        .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(gulp.dest('insideExtension/build/scripts'));
 });
 
 //minify styles
-gulp.task('styles', function() {
+gulp.task('insideExtension-styles', function() {
 // 	return gulp.src('src/styles/**/*.css')
 // 		.pipe(minifycss({root: 'src/styles', keepSpecialComments: 0}))
 // 		.pipe(gulp.dest('build/styles'));
-    return gulp.src('app/styles/**')
-        .pipe(gulp.dest('build/styles'));
+    return gulp.src('insideExtension/src/styles/**')
+        .pipe(gulp.dest('insideExtension/build/styles'));
 });
 
 //build ditributable and sourcemaps after other tasks completed
-gulp.task('zip', ['html', 'scripts', 'styles', 'copy'], function() {
-    var manifest = require('./app/manifest'),
+gulp.task('zip', ['insideExtension-html', 'insideExtension-scripts', 'insideExtension-styles', 'insideExtension-copy'], function() {
+    var manifest = require('./insideExtension/src/manifest'),
         distFileName = manifest.name + ' v' + manifest.version + '.zip',
         mapFileName = manifest.name + ' v' + manifest.version + '-maps.zip';
+    console.log(distFileName);
     //collect all source maps
-    gulp.src('build/scripts/**/*.map')
+    gulp.src('insideExtension/build/scripts/**/*.map')
         .pipe(zip(mapFileName))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('insideExtension/dist'));
     //build distributable extension
-    return gulp.src(['build/**', '!build/scripts/**/*.map'])
+    return gulp.src(['insideExtension/build/**', '!insideExtension/build/scripts/**/*.map'])
         .pipe(zip(distFileName))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('insideExtension/dist'));
 });
 
 //run all tasks after build directory has been cleaned
-gulp.task('default', ['clean'], function() {
+gulp.task('insideExtension', ['insideExtension-clean'], function() {
     gulp.start('zip');
+});
+
+
+//clean build directory
+gulp.task('outsideExtension-clean', function() {
+    return gulp.src('insideExtension/build/*', {read: false})
+        .pipe(clean());
+});
+
+//copy static folders to build directory
+gulp.task('outsideExtension-copy', function() {
+    gulp.src('outsideExtension/src/fonts/**')
+        .pipe(gulp.dest('outsideExtension/build/fonts'));
+    gulp.src('outsideExtension/src/images/**')
+        .pipe(gulp.dest('outsideExtension/build/icons'));
+});
+
+//copy and compress HTML files
+gulp.task('outsideExtension-html', function() {
+    return gulp.src('outsideExtension/src/*.html')
+        .pipe(cleanhtml())
+        .pipe(gulp.dest('outsideExtension/build'));
+});
+
+//run scripts through JSHint
+gulp.task('outsideExtension-jshint', function() {
+    return gulp.src('outsideExtension/src/scripts/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
+
+//copy vendor scripts and uglify all other scripts, creating source maps
+gulp.task('outsideExtension-scripts', ['outsideExtension-jshint'], function() {
+    gulp.src('outsideExtension/src/scripts/vendors/**/*.js')
+        .pipe(gulp.dest('outsideExtension/build/scripts/vendors'));
+    return gulp.src(['outsideExtension/src/scripts/**/*.js', '!outsideExtension/src/scripts/vendors/**/*.js'])
+        .pipe(stripdebug())
+        .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(gulp.dest('outsideExtension/build/scripts'));
+});
+
+//minify styles
+gulp.task('outsideExtension-styles', function() {
+// 	return gulp.src('src/styles/**/*.css')
+// 		.pipe(minifycss({root: 'src/styles', keepSpecialComments: 0}))
+// 		.pipe(gulp.dest('build/styles'));
+    return gulp.src('outsideExtension/src/styles/**')
+        .pipe(gulp.dest('outsideExtension/build/styles'));
+});
+
+//run all tasks after build directory has been cleaned
+gulp.task('outsideExtension', ['outsideExtension-clean', 'outsideExtension-html', 'outsideExtension-scripts', 'outsideExtension-styles', 'outsideExtension-copy'], function() {
+    //gulp.start('zip');
+});
+
+
+
+gulp.task('default', ['insideExtension','outsideExtension'], function() {
+
 });

@@ -6,14 +6,14 @@
   "name": "Chrome Extension for generate package.xml",
   "version": "2.5",
   "description": "Facilitates SFDC Deployment functionality with searchable UI.",
-   "icons": { "16": "Cloud-icon.png",
-           "48": "Cloud-icon_48.png",
-          "128": "Cloud-icon_128.png" },
+   "icons": { "16": "images/Cloud-icon.png",
+           "48": "images/Cloud-icon_48.png",
+          "128": "images/Cloud-icon_128.png" },
   "browser_action": {
-    "default_icon": "Cloud-icon.png"
+    "default_icon": "images/Cloud-icon.png"
   },
   "background": {
-    "scripts": ["event.js"],
+    "scripts": ["scripts/event.js"],
     "persistent": false
   },
   
