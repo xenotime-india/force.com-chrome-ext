@@ -54,8 +54,8 @@ gulp.task('insideExtension-scripts', ['insideExtension-jshint'], function() {
         .pipe(sourcemaps.init())
         .pipe(stripdebug())
         .pipe(uglify())
-        .pipe(rename({ extname: '.min.js' }))
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(rename({ extname: '.min.js' }))
         .pipe(sourcemaps.write(''))
         .pipe(gulp.dest('insideExtension/build/scripts'));
 });
