@@ -48,6 +48,17 @@
         content:"*";
         color:red;
     }
+    .form-group.has-error .control-label,
+    .form-group.has-error .help-block,
+    .form-group.has-error .form-control {
+        color: #f39c12;
+    }
+
+    .form-group.has-success .control-label,
+    .form-group.has-success .help-block,
+    .form-group.has-success .form-control {
+        color: #18bc9c;
+    }
 </style>
 <div id="preloader">
     <div id="status" class="sfdcConsoleloading">
@@ -132,7 +143,12 @@
                 </div>
                 <div class="modal-body">
                     <form role="form">
-                        <div class="form-group required"> <label class="control-label" for="changeSetName">Change Set Name</label> <input type="email" class="form-control" id="changeSetName" placeholder="Change Set Name"> </div>
+                        <div class="form-group required"> <label class="control-label" for="changeSetName">Change Set Name</label>
+                            <div class="col-xs-5">
+                                <input type="email" class="form-control" id="changeSetName" placeholder="Change Set Name"><i class="form-control-feedback glyphicon glyphicon-remove"></i>
+                                <small class="help-block">The password is required</small>
+                            </div>
+                        </div>
                         <div class="form-group"> <label class="control-label" for="changeSetDescription">Change Set Description</label>
                             <textarea class="form-control" id="changeSetDescription" style="width:100%;height:307px" placeholder="Change Set Description"></textarea> </div>
                     </form>

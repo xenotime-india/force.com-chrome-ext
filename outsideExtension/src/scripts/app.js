@@ -406,7 +406,7 @@ function createChangeSet() {
         });
     } else {
         ezBSAlert({
-            messageText: "Please select resource before create change set action.",
+            messageText: "Please select resource before this action.",
             alertType: "danger"
         })
     }
