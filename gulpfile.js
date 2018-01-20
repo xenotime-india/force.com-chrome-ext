@@ -147,8 +147,6 @@ gulp.task('outsideExtension', ['outsideExtension-clean'], function() {
     gulp.start('outsideExtension-copy');
 });
 
-
-
 gulp.task('default', ['insideExtension','outsideExtension'], function() {
 
 });
