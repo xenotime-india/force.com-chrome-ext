@@ -84,7 +84,11 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form class="navbar-form navbar-left" role="search">
                     <div class="btn-group" data-toggle="buttons"> <label class="btn btn-primary" onclick="changefilterMode('CreatedDate','createdDate')"> <input type="radio" name="options" id="CreatedDate" onclick="changefilterMode('CreatedDate','createdDate')"/> By Created Date </label> <label class="btn btn-primary active" onclick="changefilterMode('LastModifiedDate','lastModifiedDate')"> <input type="radio" name="options" id="LastModifiedDate" onclick="changefilterMode('LastModifiedDate','lastModifiedDate')"/> By LastModified Date </label> </div>
-                    <div class="form-group"> <input type="text" class="form-control" placeholder="From Date" id="dateField" /> </div> &nbsp;&nbsp; <a href="#" onclick="updateData();return false"><i class="fa fa-filter fa-2x"></i></a> </form>
+                    <div class="form-group"> <input type="text" class="form-control" placeholder="From Date" id="dateField" /> </div>
+                    <button type="button" onclick="updateData();" class="btn btn-default">
+                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                    </button>
+                </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
