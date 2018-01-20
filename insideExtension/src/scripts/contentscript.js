@@ -28,7 +28,7 @@ jQuery(function() {
 
     if(window.location.href.indexOf('p/mfpkg/AddToPackageFromChangeMgmtUi')) {
 
-        var changeSet = JSON.parse(sessionStorage.getItem('changeSet'));
+        var changeSet = JSON.parse(localStorage.getItem('changeSet'));
         console.log(changeSet);
         var entityType = getUrlEncodedKey('entityType');
         if (entityType != '') {

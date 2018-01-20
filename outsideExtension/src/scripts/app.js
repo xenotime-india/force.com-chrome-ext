@@ -368,7 +368,7 @@ function createChangeSet() {
             resourceType.push(result);
         }
     });
-    sessionStorage.setItem('changeSet', JSON.stringify(resourceType));
+    localStorage.setItem('changeSet', JSON.stringify(resourceType));
 }
 
 function loginUser() {
