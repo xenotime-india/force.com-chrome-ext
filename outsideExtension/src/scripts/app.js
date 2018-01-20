@@ -371,6 +371,7 @@ function createChangeSet() {
     localStorage.setItem('changeSet', JSON.stringify(resourceType));
     localStorage.setItem('processStatus', '1');
     localStorage.setItem('DoneChangeSet', JSON.stringify([]));
+    window.open(window.location.protocol + '//' + window.location.host + window.location.pathname + '/changemgmt/createOutboundChangeSet.apexp', "_blank");
 }
 
 function loginUser() {
