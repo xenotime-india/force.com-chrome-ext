@@ -17,10 +17,13 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://*.salesforce.com/changemgmt/createOutboundChangeSet.apexp",
+        "https://*.salesforce.com/changemgmt/outboundChangeSetDetailPage.apexp?id=*",
+        "https://*.salesforce.com/p/mfpkg/AddToPackageFromChangeMgmtUi*"
       ],
       "js": [
+        "scripts/vendors/jquery-3.2.1.min.js",
+        "scripts/helper.js",
         "scripts/contentscript.js"
       ],
       "run_at": "document_end",

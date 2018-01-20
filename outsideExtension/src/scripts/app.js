@@ -354,6 +354,23 @@ function deploy() {
     */
 }
 
+function createChangeSet() {
+    var resourceType = [];
+    requestMetadata.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
+    requestSqlData.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
+    sessionStorage.setItem('changeSet', JSON.stringify(resourceType));
+}
+
 function loginUser() {
     var resourceType = [];
 
