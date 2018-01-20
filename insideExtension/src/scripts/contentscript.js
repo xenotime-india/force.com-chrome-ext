@@ -4,6 +4,8 @@ console.log('\'Allo \'Allo! Content script','Xenotime');
 window.onload = function() {
     if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp') >= 0) {
         var processStatus = localStorage.getItem('processStatus');
+        var changeSetNameVal = localStorage.getItem('changeSetName');
+        var changeSetDescriptionVal = localStorage.getItem('changeSetDescription');
         if(processStatus == '1') {
             var pageDescription = document.querySelector('.pageDescription');
             if (pageDescription) {
@@ -12,12 +14,15 @@ window.onload = function() {
             var changeSetName = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:nameSection:changeSetName');
 
             if (changeSetName) {
-                changeSetName.value = 'New Change Set';
+                changeSetName.value = changeSetNameVal;
             }
             var changeSetDescription = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:descriptionSection:changeSetDescription');
             if (changeSetDescription) {
-                changeSetDescription.value = 'New Change Description';
+                changeSetDescription.value = changeSetDescriptionVal;
             }
+
+            localStorage.removeItem('changeSetName');
+            localStorage.removeItem('changeSetDescription');
 
             var saveChangeSet = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:form_buttons:saveChangeSet');
             if (saveChangeSet) {

@@ -44,6 +44,10 @@
         background-color: #b0bed9;
         color: #fff
     }
+    .form-group.required .control-label:after {
+        content:"*";
+        color:red;
+    }
 </style>
 <div id="preloader">
     <div id="status" class="sfdcConsoleloading">
@@ -112,11 +116,28 @@
                 </div>
                 <div class="modal-body">
                     <form role="form">
-                        <div class="form-group"> <label for="exampleInputEmail1">User Name</label> <input type="email" class="form-control" id="userNameTxt" placeholder="User Name"> </div>
-                        <div class="form-group"> <label for="exampleInputPassword1">Password</label> <input type="password" class="form-control" id="passwordTxt" placeholder="Password + Security Token"> </div>
+                        <div class="form-group"> <label class="control-label" for="userNameTxt">User Name</label> <input type="email" class="form-control" id="userNameTxt" placeholder="User Name"> </div>
+                        <div class="form-group"> <label class="control-label" for="passwordTxt">Password</label> <input type="password" class="form-control" id="passwordTxt" placeholder="Password + Security Token"> </div>
                     </form>
                 </div>
                 <div class="modal-footer"> <button type="button" class="btn btn-default" onclick="loginUser();">Login</button> </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="changeSetDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Login Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group required"> <label class="control-label" for="changeSetName">Change Set Name*</label> <input type="email" class="form-control" id="changeSetName" placeholder="Change Set Name"> </div>
+                        <div class="form-group"> <label class="control-label" for="changeSetDescription">Change Set Description</label>
+                            <textarea class="form-control" id="changeSetDescription" style="width:100%;height:307px" placeholder="Change Set Description"></textarea> </div>
+                    </form>
+                </div>
+                <div class="modal-footer"> <button type="button" class="btn btn-default" onclick="startChangeSetWorker();">Start Worker</button> </div>
             </div>
         </div>
     </div>

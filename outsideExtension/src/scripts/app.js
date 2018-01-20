@@ -346,6 +346,7 @@ function getPackage() {
     }
 }
 function deploy() {
+    alert('Coming Sooooon.')
     /*
     jQuery('#loginDialog').modal({
         backdrop: 'static',
@@ -354,24 +355,41 @@ function deploy() {
     */
 }
 
+function startChangeSetWorker() {
+
+    var changeSetName = jQuery('#changeSetName').val();
+    var changeSetDescription = jQuery('#changeSetDescription').val();
+
+    if(changeSetName.trim().length > 0) {
+        var resourceType = [];
+        requestMetadata.forEach(function(val, index) {
+            var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+            if(typeof(result) != 'undefined') {
+                resourceType.push(result);
+            }
+        });
+        requestSqlData.forEach(function(val, index) {
+            var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+            if(typeof(result) != 'undefined') {
+                resourceType.push(result);
+            }
+        });
+        localStorage.setItem('changeSetName', changeSetName);
+        localStorage.setItem('changeSetDescription', changeSetDescription);
+        localStorage.setItem('changeSet', JSON.stringify(resourceType));
+        localStorage.setItem('processStatus', '1');
+        localStorage.setItem('DoneChangeSet', JSON.stringify([]));
+        window.open(window.location.protocol + '//' + window.location.host + '/changemgmt/createOutboundChangeSet.apexp', "_blank");
+    } else {
+
+    }
+}
+
 function createChangeSet() {
-    var resourceType = [];
-    requestMetadata.forEach(function(val, index) {
-        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
-        if(typeof(result) != 'undefined') {
-            resourceType.push(result);
-        }
+    jQuery('#changeSetDialog').modal({
+        backdrop: 'static',
+        keyboard: true
     });
-    requestSqlData.forEach(function(val, index) {
-        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
-        if(typeof(result) != 'undefined') {
-            resourceType.push(result);
-        }
-    });
-    localStorage.setItem('changeSet', JSON.stringify(resourceType));
-    localStorage.setItem('processStatus', '1');
-    localStorage.setItem('DoneChangeSet', JSON.stringify([]));
-    window.open(window.location.protocol + '//' + window.location.host + '/changemgmt/createOutboundChangeSet.apexp', "_blank");
 }
 
 function loginUser() {
