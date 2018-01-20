@@ -98,7 +98,7 @@ gulp.task('outsideExtension-clean', function() {
 });
 
 //copy static folders to build directory
-gulp.task('outsideExtension-copy', function() {
+gulp.task('outsideExtension-copy', ['outsideExtension-html', 'outsideExtension-scripts', 'outsideExtension-styles'] ,function() {
     gulp.src('outsideExtension/src/fonts/**')
         .pipe(gulp.dest('outsideExtension/build/fonts'));
     gulp.src('outsideExtension/src/images/**')
@@ -143,7 +143,7 @@ gulp.task('outsideExtension-styles', function() {
 });
 
 //run all tasks after build directory has been cleaned
-gulp.task('outsideExtension', ['outsideExtension-clean', 'outsideExtension-html', 'outsideExtension-scripts', 'outsideExtension-styles'], function() {
+gulp.task('outsideExtension', ['outsideExtension-clean'], function() {
     gulp.start('outsideExtension-copy');
 });
 
