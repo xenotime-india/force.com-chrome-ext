@@ -130,7 +130,7 @@ function addRow(data, fields, table) {
 
     var tdgroup = fields.map(function (item) {
         if(item == 'Select') {
-            return jQuery('<td><i class="fa fa-square-o"></i></td>');
+            return jQuery('<td><span aria-hidden="true" class="glyphicon glyphicon-unchecked"></span></td>');
         }
         else if(data[item] == 'null' || data[item] == null) {
             return jQuery('<td></td>');
@@ -208,11 +208,11 @@ function selectAll(check,table,obj) {
     jQuery(nNodes).each(function() {
         if(check == '' || jQuery(check).is(':checked')) {
             jQuery(this).addClass('selected');
-            jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+            jQuery(this).find('span.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
         }
         else {
             jQuery(this).removeClass('selected');
-            jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+            jQuery(this).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
         }
     });
 }
@@ -594,10 +594,10 @@ function workWithSOQL() {
                 jQuery('#' + requestSqlData[index].table + ' tbody').on('click', 'tr', function () {
                     jQuery(this).toggleClass('selected');
                     if (jQuery(this).hasClass('selected')) {
-                        jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                        jQuery(this).find('span.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
                     }
                     else {
-                        jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                        jQuery(this).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
                     }
                 });
             }
@@ -643,10 +643,10 @@ function workWithSessionStorageMetaData() {
                 jQuery('#' + item.table + ' tbody').on('click', 'tr', function () {
                     jQuery(this).toggleClass('selected');
                     if (jQuery(this).hasClass('selected')) {
-                        jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                        jQuery(this).find('span.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
                     }
                     else {
-                        jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                        jQuery(this).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
                     }
                 });
             }
@@ -696,10 +696,10 @@ function workWithMetaData() {
                     jQuery('#' + requestMetadata[index].table + ' tbody').on('click', 'tr', function () {
                         jQuery(this).toggleClass('selected');
                         if (jQuery(this).hasClass('selected')) {
-                            jQuery(this).find('i.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                            jQuery(this).find('span.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
                         }
                         else {
-                            jQuery(this).find('i.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+                            jQuery(this).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
                         }
                     });
                 }
