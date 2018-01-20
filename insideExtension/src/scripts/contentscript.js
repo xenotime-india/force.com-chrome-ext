@@ -90,6 +90,7 @@ jQuery(function() {
                     }
                 }
             } else {
+                localStorage.setItem('processStatus', '0');
                 document.querySelector('input[name=cancel]').click();
             }
         }
