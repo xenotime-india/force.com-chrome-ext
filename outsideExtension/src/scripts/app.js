@@ -361,6 +361,7 @@ function startChangeSetWorker() {
     var changeSetDescription = jQuery('#changeSetDescription').val();
 
     if(changeSetName.trim().length > 0) {
+        jQuery('#changeSetDialog').modal('hide');
         var resourceType = [];
         requestMetadata.forEach(function(val, index) {
             var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
@@ -381,7 +382,7 @@ function startChangeSetWorker() {
         localStorage.setItem('DoneChangeSet', JSON.stringify([]));
         window.open(window.location.protocol + '//' + window.location.host + '/changemgmt/createOutboundChangeSet.apexp', "_blank");
     } else {
-
+        jQuery('#changeSetName-form-group').addClass('has-error');
     }
 }
 

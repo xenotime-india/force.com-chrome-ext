@@ -148,10 +148,12 @@
                 </div>
                 <div class="modal-body">
                     <form role="form">
-                        <div class="form-group required"> <label class="control-label" for="changeSetName">Change Set Name</label>
+                        <div class="form-group required" id="changeSetName-form-group"> <label class="control-label" for="changeSetName">Change Set Name</label>
                             <div class="col-xs-12">
-                                <input type="email" class="form-control" id="changeSetName" placeholder="Change Set Name"><i class="form-control-feedback glyphicon glyphicon-remove"></i>
-                                <small class="help-block">The password is required</small>
+                                <div class="row">
+                                    <input type="text" class="form-control" id="changeSetName" placeholder="Change Set Name"><i class="form-control-feedback glyphicon glyphicon-remove"></i>
+                                    <small class="help-block">The Change Set Name is required</small>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group"> <label class="control-label" for="changeSetDescription">Change Set Description</label>
