@@ -88,7 +88,7 @@ load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
         jQuery("link[rel='stylesheet']").remove();
         jQuery('body').html('');
         return new Promise(function (resolve, reject) {
-            jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/DeploymentTool/template.html", function() {
+            jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/template.html", function() {
                 resolve();
             });
         });

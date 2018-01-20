@@ -51,7 +51,6 @@ jQuery(function() {
                         window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + path;
                     }, 500);
                 } else {
-                    console.log(currentProcess);
                     if (currentProcess && entityType == currentProcess.name) {
                         var needSave = false;
                         document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
