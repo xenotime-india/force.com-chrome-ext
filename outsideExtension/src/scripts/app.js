@@ -386,10 +386,30 @@ function startChangeSetWorker() {
 }
 
 function createChangeSet() {
-    jQuery('#changeSetDialog').modal({
-        backdrop: 'static',
-        keyboard: true
+    var resourceType = [];
+    requestMetadata.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
     });
+    requestSqlData.forEach(function(val, index) {
+        var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+        if(typeof(result) != 'undefined') {
+            resourceType.push(result);
+        }
+    });
+    if(resourceType.length > 0) {
+        jQuery('#changeSetDialog').modal({
+            backdrop: 'static',
+            keyboard: true
+        });
+    } else {
+        ezBSAlert({
+            messageText: "Please select resource before create change set action.",
+            alertType: "danger"
+        })
+    }
 }
 
 function loginUser() {

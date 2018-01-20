@@ -81,6 +81,9 @@ var filesToLoad = [
     },{
         url:"https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/scripts/vendors/date.js",
         type:'js',
+    },{
+        url:"https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/scripts/helper.min.js",
+        type:'js',
     }];
 
 load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
