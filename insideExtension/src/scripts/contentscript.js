@@ -1,25 +1,32 @@
 'use strict';
 
 console.log('\'Allo \'Allo! Content script','Xenotime');
-jQuery(function() {
-    if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp') > 0) {
-        var changeSetName = jQuery('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:nameSection:changeSetName');
+window.onload = function() {
+    if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp') >= 0) {
+        var processStatus = localStorage.getItem('processStatus');
+        if(processStatus == '1') {
+            var pageDescription = document.querySelector('.pageDescription');
+            if (pageDescription) {
+                pageDescription.innerHTML = 'Creating New Change Set using automated tool.';
+            }
+            var changeSetName = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:nameSection:changeSetName');
 
-        if (changeSetName) {
-            changeSetName.value = 'New Change Set';
-        }
-        var changeSetDescription = jQuery('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:descriptionSection:changeSetDescription');
-        if (changeSetDescription) {
-            changeSetDescription.value = 'New Change Description';
-        }
+            if (changeSetName) {
+                changeSetName.value = 'New Change Set';
+            }
+            var changeSetDescription = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:descriptionSection:changeSetDescription');
+            if (changeSetDescription) {
+                changeSetDescription.value = 'New Change Description';
+            }
 
-        var saveChangeSet = jQuery('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:form_buttons:saveChangeSet');
-        if (saveChangeSet) {
-            saveChangeSet.click();
+            var saveChangeSet = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:form_buttons:saveChangeSet');
+            if (saveChangeSet) {
+                saveChangeSet.click();
+            }
         }
     }
 
-    if(window.location.href.indexOf('changemgmt/outboundChangeSetDetailPage.apexp') > 0) {
+    if(window.location.href.indexOf('changemgmt/outboundChangeSetDetailPage.apexp') >= 0) {
         var changeSet = JSON.parse(localStorage.getItem('changeSet'));
         var processStatus = localStorage.getItem('processStatus');
         var DoneChangeSet = localStorage.getItem('DoneChangeSet') != null ? JSON.parse(localStorage.getItem('DoneChangeSet')) : [];
@@ -32,11 +39,14 @@ jQuery(function() {
                 var currentProcess = pendingProcess[0];
                 sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
                 localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                var outboundCs_add = document.getElementById('outboundChangeSetDetailPage:outboundChangeSetDetailPageBody:outboundChangeSetDetailPageBody:detail_form:outboundCs_componentsBlock:component_list_form_buttons:outboundCs_add');
+
+                setTimeout(outboundCs_add.click(),500);
             }
         }
     }
 
-    if(window.location.href.indexOf('p/mfpkg/AddToPackageFromChangeMgmtUi') > 0) {
+    if(window.location.href.indexOf('p/mfpkg/AddToPackageFromChangeMgmtUi') >= 0) {
 
         var processStatus = localStorage.getItem('processStatus');
         if(processStatus == '1') {
@@ -82,7 +92,7 @@ jQuery(function() {
                             localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
                         }
                         if(needSave) {
-                            document.querySelector('input[name=save]').click();
+                            setTimeout(document.querySelector('input[name=save]').click(),500);
                         } else {
                             window.location.href = window.location.href;
                         }
@@ -90,8 +100,8 @@ jQuery(function() {
                 }
             } else {
                 localStorage.setItem('processStatus', '0');
-                document.querySelector('input[name=cancel]').click();
+                setTimeout(document.querySelector('input[name=cancel]').click(),500);
             }
         }
     }
-})
+};

@@ -22,7 +22,6 @@
         "https://*.salesforce.com/p/mfpkg/AddToPackageFromChangeMgmtUi*"
       ],
       "js": [
-        "scripts/vendors/jquery-3.2.1.min.js",
         "scripts/helper.js",
         "scripts/contentscript.js"
       ],
