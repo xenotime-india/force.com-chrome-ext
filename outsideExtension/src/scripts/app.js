@@ -369,6 +369,7 @@ function createChangeSet() {
         }
     });
     localStorage.setItem('changeSet', JSON.stringify(resourceType));
+    localStorage.setItem('processStatus', '1');
 }
 
 function loginUser() {
