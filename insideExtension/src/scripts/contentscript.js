@@ -22,7 +22,7 @@ jQuery(function() {
     if(window.location.href.indexOf('changemgmt/outboundChangeSetDetailPage.apexp') > 0) {
         var changeSet = JSON.parse(localStorage.getItem('changeSet'));
         var processStatus = localStorage.getItem('processStatus');
-        var DoneChangeSet = sessionStorage.getItem('DoneChangeSet') != null ? JSON.parse(sessionStorage.getItem('DoneChangeSet')) : [];
+        var DoneChangeSet = localStorage.getItem('DoneChangeSet') != null ? JSON.parse(localStorage.getItem('DoneChangeSet')) : [];
         if(processStatus == '1' && changeSet.length > 0) {
             var pendingProcess = changeSet.filter(function (item) {
                 return DoneChangeSet.indexOf(item.name) < 0;
@@ -31,7 +31,7 @@ jQuery(function() {
             if(pendingProcess.length > 0) {
                 var currentProcess = pendingProcess[0];
                 sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
-                sessionStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
             }
         }
     }
@@ -65,7 +65,7 @@ jQuery(function() {
                                 }
                             }
                         });
-                        var DoneChangeSet = JSON.parse(sessionStorage.getItem('DoneChangeSet'));
+                        var DoneChangeSet = JSON.parse(localStorage.getItem('DoneChangeSet'));
                         DoneChangeSet.push(currentProcess.name);
 
                         var changeSet = JSON.parse(localStorage.getItem('changeSet'));
@@ -77,15 +77,15 @@ jQuery(function() {
                         if (pendingProcess.length > 0) {
                             currentProcess = pendingProcess[0];
                             sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
-                            sessionStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
-                            if(needSave) {
-                                document.querySelector('input[name=save]').click();
-                            } else {
-                                window.location.href = window.location.href;
-                            }
+                            localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
                         } else {
                             sessionStorage.removeItem('CurrentProcess');
-                            sessionStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                            localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                        }
+                        if(needSave) {
+                            document.querySelector('input[name=save]').click();
+                        } else {
+                            window.location.href = window.location.href;
                         }
                     }
                 }

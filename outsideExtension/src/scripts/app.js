@@ -370,6 +370,7 @@ function createChangeSet() {
     });
     localStorage.setItem('changeSet', JSON.stringify(resourceType));
     localStorage.setItem('processStatus', '1');
+    localStorage.setItem('DoneChangeSet', JSON.stringify([]));
 }
 
 function loginUser() {
