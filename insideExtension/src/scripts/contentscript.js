@@ -2,7 +2,7 @@
 
 console.log('\'Allo \'Allo! Content script','Xenotime');
 window.onload = function() {
-    if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp') >= 0) {
+    if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp?auto=1') >= 0) {
         var processStatus = localStorage.getItem('processStatus');
         var changeSetNameVal = localStorage.getItem('changeSetName');
         var changeSetDescriptionVal = localStorage.getItem('changeSetDescription');
@@ -26,6 +26,7 @@ window.onload = function() {
 
             var saveChangeSet = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:form_buttons:saveChangeSet');
             if (saveChangeSet) {
+                localStorage.setItem('processStatus','2');
                 saveChangeSet.click();
             }
         }
@@ -35,7 +36,7 @@ window.onload = function() {
         var changeSet = JSON.parse(localStorage.getItem('changeSet'));
         var processStatus = localStorage.getItem('processStatus');
         var DoneChangeSet = localStorage.getItem('DoneChangeSet') != null ? JSON.parse(localStorage.getItem('DoneChangeSet')) : [];
-        if(processStatus == '1' && changeSet.length > 0) {
+        if(processStatus == '2' && changeSet.length > 0) {
             var pendingProcess = changeSet.filter(function (item) {
                 return DoneChangeSet.indexOf(item.name) < 0;
             });
@@ -54,7 +55,7 @@ window.onload = function() {
     if(window.location.href.indexOf('p/mfpkg/AddToPackageFromChangeMgmtUi') >= 0) {
 
         var processStatus = localStorage.getItem('processStatus');
-        if(processStatus == '1') {
+        if(processStatus == '2') {
             var rowsperpage = getUrlEncodedKey('rowsperpage');
             var entityType = getUrlEncodedKey('entityType');
             var currentProcess = sessionStorage.getItem('CurrentProcess') != null ? JSON.parse(sessionStorage.getItem('CurrentProcess')) : null;
@@ -104,7 +105,7 @@ window.onload = function() {
                     }
                 }
             } else {
-                localStorage.setItem('processStatus', '0');
+                localStorage.removeItem('processStatus');
                 setTimeout(document.querySelector('input[name=cancel]').click(),500);
             }
         }

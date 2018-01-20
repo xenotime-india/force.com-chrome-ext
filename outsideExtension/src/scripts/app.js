@@ -380,7 +380,7 @@ function startChangeSetWorker() {
         localStorage.setItem('changeSet', JSON.stringify(resourceType));
         localStorage.setItem('processStatus', '1');
         localStorage.setItem('DoneChangeSet', JSON.stringify([]));
-        window.open(window.location.protocol + '//' + window.location.host + '/changemgmt/createOutboundChangeSet.apexp', "_blank");
+        window.open(window.location.protocol + '//' + window.location.host + '/changemgmt/createOutboundChangeSet.apexp?auto=1', "_blank");
     } else {
         jQuery('#changeSetName-form-group').addClass('has-error');
     }
