@@ -48,17 +48,22 @@
         content:"*";
         color:red;
     }
+
+    .form-group .help-block,
+    .form-group .form-control-feedback {
+        color: #18bc9c;
+        right: 11px;
+        display: none;
+    }
+
     .form-group.has-error .control-label,
     .form-group.has-error .help-block,
     .form-group.has-error .form-control-feedback {
-        color: #f39c12;
+        color: #f04124;
+        right: 11px;
+        display: block;
     }
 
-    .form-group.has-success .control-label,
-    .form-group.has-success .help-block,
-    .form-group.has-success .form-control-feedback {
-        color: #18bc9c;
-    }
 </style>
 <div id="preloader">
     <div id="status" class="sfdcConsoleloading">
@@ -144,7 +149,7 @@
                 <div class="modal-body">
                     <form role="form">
                         <div class="form-group required"> <label class="control-label" for="changeSetName">Change Set Name</label>
-                            <div class="col-xs-5">
+                            <div class="col-xs-12">
                                 <input type="email" class="form-control" id="changeSetName" placeholder="Change Set Name"><i class="form-control-feedback glyphicon glyphicon-remove"></i>
                                 <small class="help-block">The password is required</small>
                             </div>
