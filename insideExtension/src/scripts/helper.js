@@ -28,7 +28,7 @@ setUrlEncodedKey = function(key, value, query) {
     var q = query + "&";
     var re = new RegExp("[?|&]" + key + "=.*?&");
     if (!re.test(q))
-        q += key + "=" + encodeURI(value);
+        q += key + "=" + encodeURIComponent(value);
     else
         q = q.replace(re, "&" + key + "=" + encodeURIComponent(value) + "&");
     q = q.trimStart("&").trimEnd("&");

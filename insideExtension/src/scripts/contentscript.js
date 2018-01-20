@@ -2,7 +2,7 @@
 
 console.log('\'Allo \'Allo! Content script','Xenotime');
 jQuery(function() {
-    if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp')) {
+    if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp') > 0) {
         var changeSetName = jQuery('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:changesetTableSection:nameSection:changeSetName');
 
         if (changeSetName) {
@@ -19,32 +19,59 @@ jQuery(function() {
         }
     }
 
-    if(window.location.href.indexOf('changemgmt/outboundChangeSetDetailPage.apexp')) {
-        var outboundCs_add = jQuery('outboundChangeSetDetailPage:outboundChangeSetDetailPageBody:outboundChangeSetDetailPageBody:detail_form:outboundCs_componentsBlock:component_list_form_buttons:outboundCs_add');
-        if (outboundCs_add) {
-            outboundCs_add.click();
+    if(window.location.href.indexOf('changemgmt/outboundChangeSetDetailPage.apexp') > 0) {
+        var changeSet = JSON.parse(localStorage.getItem('changeSet'));
+        if(changeSet.length > 0) {
+            var currentProcess = changeSet[0];
+            sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
+            sessionStorage.setItem('DoneChangeSet', JSON.stringify([]));
         }
     }
 
-    if(window.location.href.indexOf('p/mfpkg/AddToPackageFromChangeMgmtUi')) {
+    if(window.location.href.indexOf('p/mfpkg/AddToPackageFromChangeMgmtUi') > 0) {
 
-        var changeSet = JSON.parse(localStorage.getItem('changeSet'));
-        console.log(changeSet);
+        var rowsperpage = getUrlEncodedKey('rowsperpage');
         var entityType = getUrlEncodedKey('entityType');
-        if (entityType != '') {
-            switch (entityType.value) {
-                case 'App' :
-                entityType.value = 'ApexTrigger';
-                entityType.form.submit();
-                break;
-            }
-        } else if(entityType != 'ApexTrigger') {
+        var currentProcess = sessionStorage.getItem('CurrentProcess') != null ? JSON.parse(sessionStorage.getItem('CurrentProcess')) : null;
+        if(currentProcess != null && currentProcess.members.length>0) {
+            if (rowsperpage == '') {
+                var path = setUrlEncodedKey('rowsperpage', '1500', window.location.search);
+                path = setUrlEncodedKey('entityType', currentProcess.name, path);
+                setTimeout(function () {
+                    window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + path;
+                }, 500);
+            } else {
+                console.log(currentProcess);
+                if (currentProcess && entityType == currentProcess.name) {
+                    document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
+                        if(item.title.startsWith("Select ") && item.title.split(' ').length == 2) {
+                            var result = currentProcess.members.filter(function (member) {
+                                return member.toLowerCase() == item.title.split(' ')[1].toLowerCase();
+                            })
+                            if(result.length>0) {
+                                item.checked = true;
+                            }
+                        }
+                    });
+                    var DoneChangeSet = JSON.parse(sessionStorage.getItem('DoneChangeSet'));
+                    DoneChangeSet.push(currentProcess.name);
 
-            var path = setUrlEncodedKey('entityType','ApexTrigger');
-            var path = setUrlEncodedKey('rowsperpage','1500', path);
-            setTimeout(function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + path;
-            },500);
+                    var changeSet = JSON.parse(localStorage.getItem('changeSet'));
+
+                    var pendingProcess = changeSet.filter(function (item) {
+                        return DoneChangeSet == null || DoneChangeSet.indexOf(item.name) < 0;
+                    });
+                    console.log(pendingProcess);
+                    if(pendingProcess.length > 0) {
+                        currentProcess = pendingProcess[0];
+                        sessionStorage.setItem('CurrentProcess',JSON.stringify(currentProcess));
+                        sessionStorage.setItem('DoneChangeSet',JSON.stringify(DoneChangeSet));
+                        document.querySelector('input[name=save]').click();
+                    } else {
+                        document.querySelector('input[name=cancel]').click();
+                    }
+                }
+            }
         }
     }
 })
