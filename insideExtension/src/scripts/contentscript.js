@@ -36,6 +36,7 @@ window.onload = function() {
 
     if(window.location.href.indexOf('changemgmt/outboundChangeSetDetailPage.apexp') >= 0) {
         var changeSet = JSON.parse(localStorage.getItem('changeSet'));
+        var profiles = JSON.parse(localStorage.getItem('profiles'));
         var processStatus = localStorage.getItem('processStatus');
         var DoneChangeSet = localStorage.getItem('DoneChangeSet') != null ? JSON.parse(localStorage.getItem('DoneChangeSet')) : [];
         if(processStatus == '2' && changeSet.length > 0) {
@@ -48,7 +49,7 @@ window.onload = function() {
                 alertDiv.style.padding = "20px";
                 alertDiv.style.backgroundColor = "#2196F3";
                 alertDiv.style.color = "white";
-                alertDiv.innerHTML = "Your Change Set is in progress...";
+                alertDiv.innerHTML = "Your Change Set is in progress. Please Wait...";
 
                 var bDescription = document.querySelector('.bDescription')
                 bDescription.innerHTML = '';
@@ -60,6 +61,20 @@ window.onload = function() {
                 var outboundCs_add = document.getElementById('outboundChangeSetDetailPage:outboundChangeSetDetailPageBody:outboundChangeSetDetailPageBody:detail_form:outboundCs_componentsBlock:component_list_form_buttons:outboundCs_add');
 
                 setTimeout(outboundCs_add.click(),500);
+            } else if(profiles.members.length > 0){
+                localStorage.setItem('processStatus','3');
+                var alertDiv = document.createElement("div");
+                alertDiv.style.padding = "20px";
+                alertDiv.style.backgroundColor = "#2196F3";
+                alertDiv.style.color = "white";
+                alertDiv.innerHTML = "Your Change Set is in progress. Please Wait...";
+
+                var bDescription = document.querySelector('.bDescription')
+                bDescription.innerHTML = '';
+                bDescription.appendChild(alertDiv);
+                var outboundCs_addProfile = document.getElementById('outboundChangeSetDetailPage:outboundChangeSetDetailPageBody:outboundChangeSetDetailPageBody:detail_form:outboundCs_profilesBlock:component_list_form_buttons:outboundCs_addProfile');
+
+                setTimeout(outboundCs_addProfile.click(),500);
             } else {
                 localStorage.removeItem('processStatus');
                 var alertDiv = document.createElement("div");
@@ -72,6 +87,18 @@ window.onload = function() {
                 bDescription.innerHTML = '';
                 bDescription.appendChild(alertDiv);
             }
+        }
+        if(processStatus == '3' && profiles.members.length > 0) {
+            localStorage.removeItem('processStatus');
+            var alertDiv = document.createElement("div");
+            alertDiv.style.padding = "20px";
+            alertDiv.style.backgroundColor = "#4CAF50";
+            alertDiv.style.color = "white";
+            alertDiv.innerHTML = "Your Change Set is ready...";
+
+            var bDescription = document.querySelector('.bDescription')
+            bDescription.innerHTML = '';
+            bDescription.appendChild(alertDiv);
         }
     }
 
@@ -127,7 +154,38 @@ window.onload = function() {
                         }
                     }
                 }
-            } else if(processStatus != null){
+            } else {
+                localStorage.removeItem('processStatus');
+                setTimeout(document.querySelector('input[name=cancel]').click(),100);
+            }
+        }
+    }
+
+    if(window.location.href.indexOf('changemgmt/outboundChangeSetAddProfile.apexp') >= 0) {
+        var processStatus = localStorage.getItem('processStatus');
+        var profiles = JSON.parse(localStorage.getItem('profiles'));
+        if(processStatus == '3') {
+            if(profiles.members.length > 0) {
+                var needSave = false;
+                document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
+                    if (item.title.startsWith("Select ") && item.title.split(' ').length >= 2) {
+                        var result = profiles.members.filter(function (member) {
+                            return member == convertSFDC15To18(item.value);
+                        });
+                        if (result.length > 0) {
+                            item.checked = true;
+                            needSave = true;
+                        }
+                    }
+                });
+
+                if(needSave) {
+                    setTimeout(document.querySelector('input[name=save]').click(),100);
+                } else {
+                    localStorage.removeItem('processStatus');
+                    setTimeout(document.querySelector('input[name=cancel]').click(),100);
+                }
+            } else {
                 localStorage.removeItem('processStatus');
                 setTimeout(document.querySelector('input[name=cancel]').click(),100);
             }

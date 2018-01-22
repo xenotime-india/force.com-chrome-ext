@@ -363,10 +363,18 @@ function startChangeSetWorker() {
     if(changeSetName.trim().length > 0) {
         jQuery('#changeSetDialog').modal('hide');
         var resourceType = [];
+        var profiles = {};
         requestMetadata.forEach(function(val, index) {
-            var result = makeobjectToRetrive(jQuery('#'+val.table),1,val.type)
-            if(typeof(result) != 'undefined') {
-                resourceType.push(result);
+            if(val.type != 'Profile') {
+                var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type)
+                if (typeof(result) != 'undefined') {
+                    resourceType.push(result);
+                }
+            } else {
+                var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type)
+                if (typeof(result) != 'undefined') {
+                    profiles = result;
+                }
             }
         });
         requestSqlData.forEach(function(val, index) {
@@ -378,6 +386,7 @@ function startChangeSetWorker() {
         localStorage.setItem('changeSetName', changeSetName);
         localStorage.setItem('changeSetDescription', changeSetDescription);
         localStorage.setItem('changeSet', JSON.stringify(resourceType));
+        localStorage.setItem('profiles', JSON.stringify(profiles));
         localStorage.setItem('processStatus', '1');
         localStorage.setItem('DoneChangeSet', JSON.stringify([]));
         window.open(window.location.protocol + '//' + window.location.host + '/changemgmt/createOutboundChangeSet.apexp?auto=1', "_blank");
@@ -389,9 +398,11 @@ function startChangeSetWorker() {
 function createChangeSet() {
     var resourceType = [];
     requestMetadata.forEach(function(val, index) {
-        var result = makeobjectToRetrive(jQuery('#'+val.table),1,val.type)
-        if(typeof(result) != 'undefined') {
-            resourceType.push(result);
+        if(val.type != 'Profile') {
+            var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type)
+            if (typeof(result) != 'undefined') {
+                resourceType.push(result);
+            }
         }
     });
     requestSqlData.forEach(function(val, index) {
