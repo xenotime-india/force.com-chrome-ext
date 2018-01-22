@@ -364,13 +364,13 @@ function startChangeSetWorker() {
         jQuery('#changeSetDialog').modal('hide');
         var resourceType = [];
         requestMetadata.forEach(function(val, index) {
-            var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+            var result = makeobjectToRetrive(jQuery('#'+val.table),1,val.type)
             if(typeof(result) != 'undefined') {
                 resourceType.push(result);
             }
         });
         requestSqlData.forEach(function(val, index) {
-            var result = makeobjectToRetrive(jQuery('#'+val.table),val.apiFieldIndex,val.type)
+            var result = makeobjectToRetrive(jQuery('#'+val.table),1,val.type)
             if(typeof(result) != 'undefined') {
                 resourceType.push(result);
             }
