@@ -19,7 +19,8 @@
       "matches": [
         "https://*.salesforce.com/changemgmt/createOutboundChangeSet.apexp*",
         "https://*.salesforce.com/changemgmt/outboundChangeSetDetailPage.apexp?id=*",
-        "https://*.salesforce.com/p/mfpkg/AddToPackageFromChangeMgmtUi*"
+        "https://*.salesforce.com/p/mfpkg/AddToPackageFromChangeMgmtUi*",
+        "https://*.salesforce.com/changemgmt/outboundChangeSetAddProfile.apexp?id=*"
       ],
       "js": [
         "scripts/helper.min.js",
