@@ -13,6 +13,24 @@ String.prototype.escapeRegExp = function() {
     return this.replace(/[.*+?^${}()|[\]\/\\]/g, "\\$0");
 };
 
+convertSFDC15To18 = function(sfdcID15){
+    if (sfdcID15.length == 15) {
+        var s = "";
+        for (var i = 0; i < 3; i++) {
+            var f = 0;
+            for (var j = 0; j < 5; j++) {
+                var c = sfdcID15.charAt(i * 5 + j);
+                if (c >= "A" && c <= "Z")
+                    f += 1 << j;
+            }
+            s += "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345".charAt(f);
+        }
+        return sfdcID15 + s;
+    } else {
+        throw "Error : " + sfdcID15 + " has not a length of 15 characters. Current length detected: " + sfdcID15.length + " characters.";
+    }
+};
+
 subStrAfterChars = function(str, char, pos) {
     if(pos=='b')
         return str.substring(str.indexOf(char) + 1);

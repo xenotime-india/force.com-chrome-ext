@@ -75,14 +75,10 @@ window.onload = function() {
                     if (currentProcess && entityType == currentProcess.name) {
                         var needSave = false;
                         document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
-                            if (item.title.startsWith("Select ") && item.title.split(' ').length == 2) {
+                            if (item.title.startsWith("Select ") && item.title.split(' ').length >= 2) {
                                 var result = currentProcess.members.filter(function (member) {
-                                    if(requestSplit.indexOf(currentProcess.name) >= 0) {
-                                        return subStrAfterChars(member.toLowerCase(), '-', 'b') == item.title.split(' ')[1].toLowerCase();
-                                    } else {
-                                        return member.toLowerCase() == item.title.split(' ')[1].toLowerCase();
-                                    }
-                                })
+                                        return member == convertSFDC15To18(item.value);
+                                });
                                 if (result.length > 0) {
                                     item.checked = true;
                                     needSave = true;
