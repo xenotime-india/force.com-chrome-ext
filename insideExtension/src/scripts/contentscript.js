@@ -44,15 +44,33 @@ window.onload = function() {
             });
             console.log(pendingProcess);
             if(pendingProcess.length > 0) {
+                var alertDiv = document.createElement("div");
+                alertDiv.style.padding = "20px";
+                alertDiv.style.backgroundColor = "#2196F3";
+                alertDiv.style.color = "white";
+                alertDiv.innerHTML = "Your Change Set is in progress...";
+
+                var bDescription = document.querySelector('.bDescription')
+                bDescription.innerHTML = '';
+                bDescription.appendChild(alertDiv);
+
                 var currentProcess = pendingProcess[0];
                 sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
                 localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
                 var outboundCs_add = document.getElementById('outboundChangeSetDetailPage:outboundChangeSetDetailPageBody:outboundChangeSetDetailPageBody:detail_form:outboundCs_componentsBlock:component_list_form_buttons:outboundCs_add');
 
-                setTimeout(outboundCs_add.click(),100);
+                setTimeout(outboundCs_add.click(),500);
             } else {
                 localStorage.removeItem('processStatus');
-                alert('Your Change Set is ready...');
+                var alertDiv = document.createElement("div");
+                alertDiv.style.padding = "20px";
+                alertDiv.style.backgroundColor = "#4CAF50";
+                alertDiv.style.color = "white";
+                alertDiv.innerHTML = "Your Change Set is ready...";
+
+                var bDescription = document.querySelector('.bDescription')
+                bDescription.innerHTML = '';
+                bDescription.appendChild(alertDiv);
             }
         }
     }
