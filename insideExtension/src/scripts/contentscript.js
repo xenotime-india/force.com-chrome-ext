@@ -51,6 +51,7 @@ window.onload = function() {
                 setTimeout(outboundCs_add.click(),100);
             } else {
                 localStorage.removeItem('processStatus');
+                alert('Your Change Set is ready...');
             }
         }
     }
