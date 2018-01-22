@@ -1,6 +1,7 @@
 'use strict';
 
 console.log('\'Allo \'Allo! Content script','Xenotime');
+var availableResource = ["QuickActionDefinition", "ActionLinkGroupTemplate", "ApexClass", "CustomShareRowCause", "ApexTrigger", "TabSet", "ProcessDefinition", "ContentAsset", "AssignmentRule", "AssistantRecommendationType", "AuthProvider", "AutoResponseRule", "WebLink", "CorsWhitelistEntry", "CallCenter", "ChatterExtension", "CommChannelLayout", "CompactLayout", "CspTrustedSite", "CustomConsoleComponent", "CustomFieldDefinition", "ExternalString", "Custom Metadata Type", "CustomEntityDefinition", "CustomPermission", "CustomReportType", "Custom Settings", "Dashboard", "CleanDataService", "Document", "DuplicateRule", "EclairNgMapGeoJson", "EmailTemplate", "EscalationRule", "EventSubscription", "ExternalDataSource", "ExternalServiceRegistration", "FeedFilterDefinition", "FieldMapping", "FieldSet", "FlowDefinition", "Folder", "SharedPicklistDefinition", "Group", "PageComponent", "CustomPage", "BrandTemplate", "CommunityTemplateDefinition", "AuraDefinitionBundle", "FlexiPage", "LightningExperienceTheme", "ListView", "MatchingRule", "MailAppOwaWhitelist", "NamedCredential", "Network", "Layout", "PathAssistant", "PermissionSet", "PlatformCachePartition", "FeedPostTemplate", "Queues", "RecordType", "RemoteProxy", "Report", "ReportJob", "UserRole", "Scontrol", "SecurityCustomBaseline", "ActionSend", "CustomObjectCriteriaSharingRule", "CustomObjectOwnerSharingRule", "SharingSet", "Site", "StaticResource", "CustomTabDefinition", "UserProvisioningConfig", "VF_Email_Template__mdt", "ValidationFormula", "ApexComponent", "ApexPage", "CspFrameAncestor", "ActionEmail", "ActionFieldUpdate", "ActionOutboundMessage", "WorkflowRule", "ActionTask", "Community", "qbdialer__isTriggerConfig__mdt"];
 window.onload = function() {
     if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp?auto=1') >= 0) {
         var processStatus = localStorage.getItem('processStatus');
@@ -27,7 +28,7 @@ window.onload = function() {
             var saveChangeSet = document.getElementById('CreateOutboundChangeSetPage:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetPageBody:CreateOutboundChangeSetForm:CreateOutboundChangePageBlock:form_buttons:saveChangeSet');
             if (saveChangeSet) {
                 localStorage.setItem('processStatus','2');
-                saveChangeSet.click();
+                setTimeout(saveChangeSet.click(),100);
             }
         }
     }
@@ -38,7 +39,7 @@ window.onload = function() {
         var DoneChangeSet = localStorage.getItem('DoneChangeSet') != null ? JSON.parse(localStorage.getItem('DoneChangeSet')) : [];
         if(processStatus == '2' && changeSet.length > 0) {
             var pendingProcess = changeSet.filter(function (item) {
-                return DoneChangeSet.indexOf(item.name) < 0;
+                return DoneChangeSet.indexOf(item.name) < 0 && availableResource.indexOf(item.name) >= 0;
             });
             console.log(pendingProcess);
             if(pendingProcess.length > 0) {
@@ -47,7 +48,9 @@ window.onload = function() {
                 localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
                 var outboundCs_add = document.getElementById('outboundChangeSetDetailPage:outboundChangeSetDetailPageBody:outboundChangeSetDetailPageBody:detail_form:outboundCs_componentsBlock:component_list_form_buttons:outboundCs_add');
 
-                setTimeout(outboundCs_add.click(),500);
+                setTimeout(outboundCs_add.click(),100);
+            } else {
+                localStorage.removeItem('processStatus');
             }
         }
     }
@@ -60,12 +63,12 @@ window.onload = function() {
             var entityType = getUrlEncodedKey('entityType');
             var currentProcess = sessionStorage.getItem('CurrentProcess') != null ? JSON.parse(sessionStorage.getItem('CurrentProcess')) : null;
             if(currentProcess != null) {
-                if (rowsperpage == '') {
+                if (rowsperpage == '' || entityType != currentProcess.name) {
                     var path = setUrlEncodedKey('rowsperpage', '1500', window.location.search);
                     path = setUrlEncodedKey('entityType', currentProcess.name, path);
                     setTimeout(function () {
                         window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + path;
-                    }, 500);
+                    }, 100);
                 } else {
                     if (currentProcess && entityType == currentProcess.name) {
                         var needSave = false;
@@ -86,7 +89,7 @@ window.onload = function() {
                         var changeSet = JSON.parse(localStorage.getItem('changeSet'));
 
                         var pendingProcess = changeSet.filter(function (item) {
-                            return DoneChangeSet == null || DoneChangeSet.indexOf(item.name) < 0;
+                            return DoneChangeSet.indexOf(item.name) < 0 && availableResource.indexOf(item.name) >= 0;
                         });
                         console.log(pendingProcess);
                         if (pendingProcess.length > 0) {
@@ -98,15 +101,15 @@ window.onload = function() {
                             localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
                         }
                         if(needSave) {
-                            setTimeout(document.querySelector('input[name=save]').click(),500);
+                            setTimeout(document.querySelector('input[name=save]').click(),100);
                         } else {
                             window.location.href = window.location.href;
                         }
                     }
                 }
-            } else {
+            } else if(processStatus != null){
                 localStorage.removeItem('processStatus');
-                setTimeout(document.querySelector('input[name=cancel]').click(),500);
+                setTimeout(document.querySelector('input[name=cancel]').click(),100);
             }
         }
     }

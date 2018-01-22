@@ -11,7 +11,7 @@
     "default_icon": "images/Cloud-icon.png"
   },
   "background": {
-    "scripts": ["scripts/chromereload.js","scripts/background.js"],
+    "scripts": ["scripts/chromereload.min.js","scripts/background.min.js"],
     "persistent": false
   },
   "content_scripts": [

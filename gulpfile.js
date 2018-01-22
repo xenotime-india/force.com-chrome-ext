@@ -52,7 +52,7 @@ gulp.task('insideExtension-scripts', ['insideExtension-jshint'], function() {
         .pipe(gulp.dest('insideExtension/build/scripts/vendors'));
     return gulp.src(['insideExtension/src/scripts/**/*.js', '!insideExtension/src/scripts/vendors/**/*.js'])
         .pipe(sourcemaps.init())
-        .pipe(stripdebug())
+        //.pipe(stripdebug())
         .pipe(uglify())
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(rename({ extname: '.min.js' }))
@@ -125,7 +125,7 @@ gulp.task('outsideExtension-scripts', ['outsideExtension-jshint'], function() {
         .pipe(gulp.dest('outsideExtension/build/scripts/vendors'));
     return gulp.src(['outsideExtension/src/scripts/**/*.js', '!outsideExtension/src/scripts/vendors/**/*.js'])
         .pipe(sourcemaps.init())
-        .pipe(stripdebug())
+        //.pipe(stripdebug())
         .pipe(uglify())
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(rename({ extname: '.min.js' }))
