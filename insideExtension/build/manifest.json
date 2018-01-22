@@ -24,7 +24,6 @@
       ],
       "js": [
         "scripts/helper.min.js",
-        "scripts/vendors/zepto.min.js",
         "scripts/contentscript.min.js"
       ],
       "run_at": "document_end",
