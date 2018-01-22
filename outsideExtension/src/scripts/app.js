@@ -371,7 +371,7 @@ function startChangeSetWorker() {
                     resourceType.push(result);
                 }
             } else {
-                var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type)
+                var result = makeobjectToRetrive(jQuery('#' + val.table), 2, val.type)
                 if (typeof(result) != 'undefined') {
                     profiles = result;
                 }

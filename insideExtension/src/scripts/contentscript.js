@@ -2,8 +2,7 @@
 
 console.log('\'Allo \'Allo! Content script','Xenotime');
 var availableResource = ["QuickActionDefinition", "ActionLinkGroupTemplate", "ApexClass", "CustomShareRowCause", "ApexTrigger", "TabSet", "ProcessDefinition", "ContentAsset", "AssignmentRule", "AssistantRecommendationType", "AuthProvider", "AutoResponseRule", "WebLink", "CorsWhitelistEntry", "CallCenter", "ChatterExtension", "CommChannelLayout", "CompactLayout", "CspTrustedSite", "CustomConsoleComponent", "CustomFieldDefinition", "ExternalString", "Custom Metadata Type", "CustomEntityDefinition", "CustomPermission", "CustomReportType", "Custom Settings", "Dashboard", "CleanDataService", "Document", "DuplicateRule", "EclairNgMapGeoJson", "EmailTemplate", "EscalationRule", "EventSubscription", "ExternalDataSource", "ExternalServiceRegistration", "FeedFilterDefinition", "FieldMapping", "FieldSet", "FlowDefinition", "Folder", "SharedPicklistDefinition", "Group", "PageComponent", "CustomPage", "BrandTemplate", "CommunityTemplateDefinition", "AuraDefinitionBundle", "FlexiPage", "LightningExperienceTheme", "ListView", "MatchingRule", "MailAppOwaWhitelist", "NamedCredential", "Network", "Layout", "PathAssistant", "PermissionSet", "PlatformCachePartition", "FeedPostTemplate", "Queues", "RecordType", "RemoteProxy", "Report", "ReportJob", "UserRole", "Scontrol", "SecurityCustomBaseline", "ActionSend", "CustomObjectCriteriaSharingRule", "CustomObjectOwnerSharingRule", "SharingSet", "Site", "StaticResource", "CustomTabDefinition", "UserProvisioningConfig", "VF_Email_Template__mdt", "ValidationFormula", "ApexComponent", "ApexPage", "CspFrameAncestor", "ActionEmail", "ActionFieldUpdate", "ActionOutboundMessage", "WorkflowRule", "ActionTask", "Community", "qbdialer__isTriggerConfig__mdt"];
-var requestSplit = ["ListView", "Layout"];
-window.onload = function() {
+Zepto(function($) {
     if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp?auto=1') >= 0) {
         var processStatus = localStorage.getItem('processStatus');
         var changeSetNameVal = localStorage.getItem('changeSetName');
@@ -119,7 +118,7 @@ window.onload = function() {
                 } else {
                     if (currentProcess && entityType == currentProcess.name) {
                         var needSave = false;
-                        document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
+                        $('input[type=checkbox]').forEach(function (item) {
                             if (item.title.startsWith("Select ") && item.title.split(' ').length >= 2) {
                                 var result = currentProcess.members.filter(function (member) {
                                         return member == convertSFDC15To18(item.value);
@@ -148,7 +147,7 @@ window.onload = function() {
                             localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
                         }
                         if(needSave) {
-                            setTimeout(document.querySelector('input[name=save]').click(),100);
+                            setTimeout($('input[name=save]').click(),100);
                         } else {
                             window.location.href = window.location.href;
                         }
@@ -156,39 +155,38 @@ window.onload = function() {
                 }
             } else {
                 localStorage.removeItem('processStatus');
-                setTimeout(document.querySelector('input[name=cancel]').click(),100);
+                setTimeout($('input[name=cancel]').click(),100);
             }
         }
     }
 
     if(window.location.href.indexOf('changemgmt/outboundChangeSetAddProfile.apexp') >= 0) {
+
         var processStatus = localStorage.getItem('processStatus');
         var profiles = JSON.parse(localStorage.getItem('profiles'));
         if(processStatus == '3') {
             if(profiles.members.length > 0) {
                 var needSave = false;
-                document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
-                    if (item.title.startsWith("Select ") && item.title.split(' ').length >= 2) {
-                        var result = profiles.members.filter(function (member) {
-                            return member == convertSFDC15To18(item.value);
-                        });
-                        if (result.length > 0) {
-                            item.checked = true;
-                            needSave = true;
-                        }
+                $('input[type=checkbox]').each(function () {
+                    var result = profiles.members.filter(function (member) {
+                        return member.toLowerCase() == $(this).parent().parent().find('td').last().html().toLowerCase();
+                    });
+                    if (result.length > 0) {
+                        $(this).props({ checked:true });
+                        needSave = true;
                     }
                 });
 
                 if(needSave) {
-                    setTimeout(document.querySelector('input[name=save]').click(),100);
+                    setTimeout($('input[name=save]').click(),100);
                 } else {
                     localStorage.removeItem('processStatus');
-                    setTimeout(document.querySelector('input[name=cancel]').click(),100);
+                    setTimeout($('input[name=cancel]').click(),100);
                 }
             } else {
                 localStorage.removeItem('processStatus');
-                setTimeout(document.querySelector('input[name=cancel]').click(),100);
+                setTimeout($('input[name=cancel]').click(),100);
             }
         }
     }
-};
+});
