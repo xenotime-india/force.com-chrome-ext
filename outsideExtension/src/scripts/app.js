@@ -363,7 +363,7 @@ function startChangeSetWorker() {
     if(changeSetName.trim().length > 0) {
         jQuery('#changeSetDialog').modal('hide');
         var resourceType = [];
-        var profiles = {};
+        var profiles = { name: 'Profile', members: []};
         requestMetadata.forEach(function(val, index) {
             if(val.type != 'Profile') {
                 var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type)
