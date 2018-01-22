@@ -13,6 +13,15 @@ String.prototype.escapeRegExp = function() {
     return this.replace(/[.*+?^${}()|[\]\/\\]/g, "\\$0");
 };
 
+subStrAfterChars = function(str, char, pos) {
+    if(pos=='b')
+        return str.substring(str.indexOf(char) + 1);
+    else if(pos=='a')
+        return str.substring(0, str.indexOf(char));
+    else
+        return str;
+};
+
 getUrlEncodedKey = function(key, query) {
     if (!query)
         query = window.location.search;

@@ -2,6 +2,7 @@
 
 console.log('\'Allo \'Allo! Content script','Xenotime');
 var availableResource = ["QuickActionDefinition", "ActionLinkGroupTemplate", "ApexClass", "CustomShareRowCause", "ApexTrigger", "TabSet", "ProcessDefinition", "ContentAsset", "AssignmentRule", "AssistantRecommendationType", "AuthProvider", "AutoResponseRule", "WebLink", "CorsWhitelistEntry", "CallCenter", "ChatterExtension", "CommChannelLayout", "CompactLayout", "CspTrustedSite", "CustomConsoleComponent", "CustomFieldDefinition", "ExternalString", "Custom Metadata Type", "CustomEntityDefinition", "CustomPermission", "CustomReportType", "Custom Settings", "Dashboard", "CleanDataService", "Document", "DuplicateRule", "EclairNgMapGeoJson", "EmailTemplate", "EscalationRule", "EventSubscription", "ExternalDataSource", "ExternalServiceRegistration", "FeedFilterDefinition", "FieldMapping", "FieldSet", "FlowDefinition", "Folder", "SharedPicklistDefinition", "Group", "PageComponent", "CustomPage", "BrandTemplate", "CommunityTemplateDefinition", "AuraDefinitionBundle", "FlexiPage", "LightningExperienceTheme", "ListView", "MatchingRule", "MailAppOwaWhitelist", "NamedCredential", "Network", "Layout", "PathAssistant", "PermissionSet", "PlatformCachePartition", "FeedPostTemplate", "Queues", "RecordType", "RemoteProxy", "Report", "ReportJob", "UserRole", "Scontrol", "SecurityCustomBaseline", "ActionSend", "CustomObjectCriteriaSharingRule", "CustomObjectOwnerSharingRule", "SharingSet", "Site", "StaticResource", "CustomTabDefinition", "UserProvisioningConfig", "VF_Email_Template__mdt", "ValidationFormula", "ApexComponent", "ApexPage", "CspFrameAncestor", "ActionEmail", "ActionFieldUpdate", "ActionOutboundMessage", "WorkflowRule", "ActionTask", "Community", "qbdialer__isTriggerConfig__mdt"];
+var requestSplit = ["ListView", "Layout"];
 window.onload = function() {
     if(window.location.href.indexOf('changemgmt/createOutboundChangeSet.apexp?auto=1') >= 0) {
         var processStatus = localStorage.getItem('processStatus');
@@ -76,7 +77,11 @@ window.onload = function() {
                         document.querySelectorAll('input[type=checkbox]').forEach(function (item) {
                             if (item.title.startsWith("Select ") && item.title.split(' ').length == 2) {
                                 var result = currentProcess.members.filter(function (member) {
-                                    return member.toLowerCase() == item.title.split(' ')[1].toLowerCase();
+                                    if(requestSplit.indexOf(currentProcess.name) >= 0) {
+                                        return subStrAfterChars(member.toLowerCase(), '-', 'b') == item.title.split(' ')[1].toLowerCase();
+                                    } else {
+                                        return member.toLowerCase() == item.title.split(' ')[1].toLowerCase();
+                                    }
                                 })
                                 if (result.length > 0) {
                                     item.checked = true;
