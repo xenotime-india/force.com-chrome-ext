@@ -594,7 +594,8 @@ function workWithSOQL() {
                 })
                 console.log(column);
 
-                var table  = jQuery('<table cellpadding="0" border="0" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>').DataTable({
+                var table = '<table cellpadding="0" border="0" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>';
+                jQuery(table).DataTable({
                     data: records,
                     columns: column,
                 });
