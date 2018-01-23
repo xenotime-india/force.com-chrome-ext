@@ -586,7 +586,10 @@ function workWithSOQL() {
             var records = val.records;
             if (records && records.length > 0) {
 
-                var column = requestSqlData[index].fields.map(function (item) {
+                var fields = requestSqlData[index].fields.filter(function(item) {
+                    return item != 'Select';
+                });
+                var column = fields.map(function (item) {
                     return { data: item };
                 })
                 console.log(column);
@@ -596,6 +599,7 @@ function workWithSOQL() {
                     columns: column,
                 });
                 console.log(table);
+                console.log(requestSqlData[index].type);
 
                 var panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
                 jQuery('#container').append(jQuery(panel));
