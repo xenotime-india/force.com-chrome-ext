@@ -586,26 +586,6 @@ function workWithSOQL() {
             var records = val.records;
             if (records && records.length > 0) {
 
-                var fields = requestSqlData[index].fields.filter(function(item) {
-                    return item != 'Select';
-                });
-                var column = fields.map(function (item) {
-                    return { data: item };
-                })
-                console.log(column);
-
-                var table = '<table cellpadding="0" border="0" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>';
-                jQuery(table).DataTable({
-                    data: records,
-                    columns: column,
-                });
-                console.log(table);
-                console.log(requestSqlData[index].type);
-
-                var panel = createPanel(requestSqlData[index].type, table, jQuery('#container-tab'));
-                jQuery('#container').append(jQuery(panel));
-
-                /*
                 var panel, table;
 
                 table = createTable(requestSqlData[index].fields, requestSqlData[index].table);
@@ -629,7 +609,7 @@ function workWithSOQL() {
                     else {
                         jQuery(this).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
                     }
-                });*/
+                });
             }
         })
         return Promise.resolve();
