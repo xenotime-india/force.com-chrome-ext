@@ -473,7 +473,6 @@ function loginUser() {
                 console.error // Handle the error response object
             );
         });
-
     });
 }
 
