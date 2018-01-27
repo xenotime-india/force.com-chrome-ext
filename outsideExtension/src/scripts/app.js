@@ -99,7 +99,6 @@ function __getCookie(c_name){
 var filterBy = 'LastModifiedDate';
 var filterByMetadata = 'lastModifiedDate';
 
-
 var sforce = new jsforce.Connection({
     serverUrl : getServerURL(),
     sessionId : __getCookie('sid')
@@ -678,8 +677,8 @@ function workWithMetaData() {
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
+            sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
             if(val && val.length > 0) {
-                sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
                 var panel, table;
 
                 table = createTable(fields, requestMetadata[index].table);
