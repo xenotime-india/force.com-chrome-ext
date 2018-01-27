@@ -679,8 +679,8 @@ function workWithMetaData() {
         results.forEach(function(val, index) {
             console.log(requestMetadata[index].type);
             console.log(val);
-            sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
             if(val && (!Array.isArray(val) || (Array.isArray(val) && val.length > 0))) {
+                sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
                 var panel, table;
 
                 table = createTable(fields, requestMetadata[index].table);
