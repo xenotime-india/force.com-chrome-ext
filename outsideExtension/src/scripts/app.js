@@ -696,7 +696,7 @@ function workWithMetaData() {
                     });
                 } else {
                     if (val.manageableState != "installed" && (userDate == '' || userDate < new Date(val[filterByMetadata]))) {
-                        addRow(value, fields, jQuery(table).find('tbody'));
+                        addRow(val, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
                     }
                 }
