@@ -686,7 +686,7 @@ function workWithMetaData() {
                 var hasRecord = false;
                 if(Array.isArray(val)) {
                     val.forEach(function (value) {
-                        if (value.manageableState != "installed" && moment(val[filterByMetadata]).isAfter(userDate)) {
+                        if (value.manageableState != "installed" && moment(value[filterByMetadata]).isAfter(userDate)) {
                             addRow(value, fields, jQuery(table).find('tbody'));
                             hasRecord = true;
                         }
