@@ -11,7 +11,7 @@ function ezBSAlert (options) {
         messageText: 'Message',
         alertType: 'default', //default, primary, success, info, warning, danger
         inputFieldType: 'text', //could ask for number,email,etc
-    }
+    };
     $.extend(defaults, options);
 
     var _show = function(){
@@ -111,12 +111,26 @@ function ezBSAlert (options) {
                 $('#prompt').focus();
             }
         }).modal('show');
-    }
+    };
 
     _show();
     return deferredObject.promise();
 }
 
+function blobToBase64(blob, cb) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var dataUrl = reader.result;
+        var base64 = dataUrl.split(',')[1];
+        cb(base64);
+    };
+    reader.readAsDataURL(blob);
+}
+
+function isDate(val) {
+    var d = new Date(val);
+    return !isNaN(d.valueOf());
+}
 
 
 

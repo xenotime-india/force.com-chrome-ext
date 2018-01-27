@@ -114,16 +114,6 @@ function getServerURL() {
     return arr[0] + "//" + arr[2];
 }
 
-var blobToBase64 = function(blob, cb) {
-    var reader = new FileReader();
-    reader.onload = function() {
-        var dataUrl = reader.result;
-        var base64 = dataUrl.split(',')[1];
-        cb(base64);
-    };
-    reader.readAsDataURL(blob);
-};
-
 function addRow(data, fields, table) {
     jQuery(table).append('<tr/>');
 
@@ -148,10 +138,6 @@ function addRow(data, fields, table) {
     tdgroup.forEach(function (value) {
         jQuery(table).find('tr:last').append(value);
     });
-}
-function isDate(val) {
-    var d = new Date(val);
-    return !isNaN(d.valueOf());
 }
 
 function createPanel(title,table,tab) {
@@ -221,47 +207,30 @@ function globalUnSelectAll() {
     });
 }
 
-function waitForDone(callback) {
-    function getResult(id) {
-        sforce.metadata.checkRetrieveStatus(id, callback);
-    }
-    function check(results) {
-        var done = results[0].getBoolean("done");
-        if (!done) {
-            sforce.metadata.checkStatus([results[0].id], check);
-        } else {
-            getResult(results[0].id);
-        }
-    }
-    return function (result) {
-        check([result]);
-    };
-}
 function maketypeblock(table_data,index,name) {
     var XMLString = '';
     if(jQuery(table_data).DataTable().rows('.selected').data().length > 0) {
         XMLString += '\n    <types>';
-        jQuery(jQuery(table_data).DataTable().rows('.selected').data()).each(function() {
-            var current = jQuery(this);
-            XMLString += '\n        <members>';
+        var dataResult = jQuery(table_data).DataTable().rows('.selected').data().map(function (item) {
             if(typeof(index) == 'number') {
-                if(jQuery(this)[index] != '' && jQuery(this)[index] != 'null' && jQuery(this)[index] != null) {
-                    XMLString += jQuery(this)[index];
+                if(item[index] != '' && item[index] != 'null' && item[index] != null) {
+                    return '\n        <members>' + item[index] + '</members>';
+                } else {
+                    return '';
                 }
             }
-            else {
-                for(i = 0 ; i < index.length ; i++) {
-                    if(jQuery(this)[index[i]] != '' && jQuery(this)[index[i]] != 'null' && jQuery(this)[index[i]] != null) {
-                        if(i != index.length - 1) {
-                            XMLString += jQuery(this)[index[i]] + '.';
-                        }
-                        else {
-                            XMLString += jQuery(this)[index[i]];
-                        }
-                    }
-                }
+            else if(Array.isArray(index)) {
+                var result = index.map(function (i) {
+                    return item[i];
+                });
+                return '\n        <members>' + (result.join('.')) + '</members>';
+            } else {
+                return '';
             }
-            XMLString += '</members>';
+        });
+
+        XMLString += dataResult.reduce(function (item, state) {
+            return state + item;
         });
         XMLString += ' \n       <name>'+name+'</name>';
         XMLString += ' \n   </types>';
@@ -597,7 +566,7 @@ function workWithSOQL() {
                     }
                 });
             }
-        })
+        });
         return Promise.resolve();
     }).catch(function (err) {
         return Promise.reject(err);

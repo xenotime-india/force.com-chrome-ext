@@ -1,5 +1,3 @@
-'use strict';
-
 console.log('\'Allo \'Allo! Content script','Xenotime');
 var availableResource = {
     "QuickAction": "QuickActionDefinition",
