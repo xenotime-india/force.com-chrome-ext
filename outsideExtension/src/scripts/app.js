@@ -625,19 +625,26 @@ function workWithSessionStorageMetaData() {
     }
     requestMetadata.forEach(function (item) {
         var val = JSON.parse(sessionStorage.getItem(item.type));
-        if(val && val.length > 0) {
+        if(val && (!Array.isArray(val) || (Array.isArray(val) && val.length > 0))) {
             var panel, table;
 
             table = createTable(fields, item.table);
 
 
             var hasRecord = false;
-            val.forEach(function (value) {
-                if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
-                    addRow(value, fields, jQuery(table).find('tbody'));
+            if(Array.isArray(val)) {
+                val.forEach(function (value) {
+                    if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                        addRow(value, fields, jQuery(table).find('tbody'));
+                        hasRecord = true;
+                    }
+                });
+            } else {
+                if (val.manageableState != "installed" && (userDate == '' || userDate < new Date(val[filterByMetadata]))) {
+                    addRow(val, fields, jQuery(table).find('tbody'));
                     hasRecord = true;
                 }
-            });
+            }
 
             if(hasRecord) {
                 panel = createPanel(item.type, table, jQuery('#container-tab2'));
