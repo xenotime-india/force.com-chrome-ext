@@ -494,7 +494,7 @@ function generateXml() {
 jQuery(function() {
     showLoading();
 
-    jQuery('#dateField').val(showDate(new Date().add(-1).month()));
+    jQuery('#dateField').val(moment().add(-1, 'M'));
     console.log("Ready for API fun!");
     sforce.metadata.describe(apiVersion).then(function(metadata) {
         metadata.metadataObjects.forEach(function (value) {
@@ -542,9 +542,10 @@ jQuery(function() {
     }).catch(function (err) {
         console.error('Error',err);
     });
+    /*
     jQuery('#dateField').datepicker({
         format: 'yyyy-mm-dd'
-    });
+    });*/
 });
 
 function updateData() {
@@ -696,7 +697,7 @@ function workWithMetaData() {
                 var hasRecord = false;
                 if(Array.isArray(val)) {
                     val.forEach(function (value) {
-                        if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                        if (value.manageableState != "installed" && moment(userDate)(userDate == '' || userDate < new Date(value[filterByMetadata]))) {
                             addRow(value, fields, jQuery(table).find('tbody'));
                             hasRecord = true;
                         }
