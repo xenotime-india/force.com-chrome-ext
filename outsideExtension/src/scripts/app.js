@@ -684,13 +684,13 @@ function workWithMetaData() {
                 var hasRecord = false;
                 if(Array.isArray(val)) {
                     val.forEach(function (value) {
-                        if (value.manageableState != "installed" && moment(userDate)(userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                        if (value.manageableState != "installed" && moment().isAfter(moment(userDate))) {
                             addRow(value, fields, jQuery(table).find('tbody'));
                             hasRecord = true;
                         }
                     });
                 } else {
-                    if (val.manageableState != "installed" && (userDate == '' || userDate < new Date(val[filterByMetadata]))) {
+                    if (val.manageableState != "installed" && moment().isAfter(moment(userDate))) {
                         addRow(val, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
                     }
