@@ -662,9 +662,9 @@ function workWithSessionStorageMetaData() {
 function workWithMetaData() {
     var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
         'createdDate','createdByName' ];
-    var userDate = '2015-12-10';
-    if(jQuery('#dateField').val() != '') {
-        userDate = new Date(jQuery('#dateField').val());
+    var userDate = moment().add(-1, 'M');
+    if(jQuery('#dateField').val() && jQuery('#dateField').val() != '') {
+        userDate = moment(jQuery('#dateField').val());
     }
     var requestPromises = requestMetadata.map(function (item) {
         var types = [{type: item.type}];
@@ -684,7 +684,7 @@ function workWithMetaData() {
                 var hasRecord = false;
                 if(Array.isArray(val)) {
                     val.forEach(function (value) {
-                        if (value.manageableState != "installed" && moment(val[filterByMetadata]).isAfter(moment(userDate))) {
+                        if (value.manageableState != "installed" && moment(val[filterByMetadata]).isAfter(userDate)) {
                             addRow(value, fields, jQuery(table).find('tbody'));
                             hasRecord = true;
                         }
