@@ -135,7 +135,7 @@ function addRow(data, fields, table) {
             return jQuery('<td></td>');
         }
         else if(isDate(data[item])) {
-            return jQuery('<td>' + showDate(data[item]) + '<br/>(' +moment(new Date(data[item])).fromNow() +')</td>');
+            return jQuery('<td>' + moment(new Date(data[item])).format('YYYY-MM-DD') + '<br/>(' +moment(new Date(data[item])).fromNow() +')</td>');
         }
         else if(typeof(data[item]) == 'string') {
             return jQuery('<td>' + data[item] + '</td>');
@@ -152,19 +152,6 @@ function addRow(data, fields, table) {
 function isDate(val) {
     var d = new Date(val);
     return !isNaN(d.valueOf());
-}
-
-function showDate(theDate) {
-    var newDate = new Date(theDate);
-    var today = newDate;
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-    if (month < 10)
-        month = '0' + month;
-    if (day < 10)
-        day = '0' + day;
-    return year + '-' + month + '-' + day;
 }
 
 function createPanel(title,table,tab) {
@@ -494,7 +481,7 @@ function generateXml() {
 jQuery(function() {
     showLoading();
 
-    jQuery('#dateField').val(moment().add(-1, 'M'));
+    jQuery('#dateField').val(moment().add(-1, 'M').format('YYYY-MM-DD'));
     console.log("Ready for API fun!");
     sforce.metadata.describe(apiVersion).then(function(metadata) {
         metadata.metadataObjects.forEach(function (value) {
