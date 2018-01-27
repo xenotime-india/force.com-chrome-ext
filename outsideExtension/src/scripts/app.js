@@ -607,28 +607,27 @@ function workWithSOQL() {
 function workWithSessionStorageMetaData() {
     var fields = [ 'Select','id', 'fullName','fileName','lastModifiedDate','lastModifiedByName',
         'createdDate','createdByName' ];
-    var userDate = '2015-12-10';
-    if(jQuery('#dateField').val() != '') {
-        userDate = new Date(jQuery('#dateField').val());
+    var userDate = moment().add(-1, 'M');
+    if(jQuery('#dateField').val() && jQuery('#dateField').val() != '') {
+        userDate = moment(jQuery('#dateField').val());
+    } else {
+        jQuery('#dateField').val(userDate.format('YYYY-MM-DD'));
     }
     requestMetadata.forEach(function (item) {
         var val = JSON.parse(sessionStorage.getItem(item.type));
         if(val && (!Array.isArray(val) || (Array.isArray(val) && val.length > 0))) {
             var panel, table;
-
             table = createTable(fields, item.table);
-
-
             var hasRecord = false;
             if(Array.isArray(val)) {
                 val.forEach(function (value) {
-                    if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                    if (value.manageableState != "installed" && moment(value[filterByMetadata]).isAfter(userDate)) {
                         addRow(value, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
                     }
                 });
             } else {
-                if (val.manageableState != "installed" && (userDate == '' || userDate < new Date(val[filterByMetadata]))) {
+                if (val.manageableState != "installed" && moment(val[filterByMetadata]).isAfter(userDate)) {
                     addRow(val, fields, jQuery(table).find('tbody'));
                     hasRecord = true;
                 }
@@ -674,15 +673,10 @@ function workWithMetaData() {
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
-            console.log(requestMetadata[index].type);
-            console.log(val);
             if(val && (!Array.isArray(val) || (Array.isArray(val) && val.length > 0))) {
                 sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
                 var panel, table;
-
                 table = createTable(fields, requestMetadata[index].table);
-
-
                 var hasRecord = false;
                 if(Array.isArray(val)) {
                     val.forEach(function (value) {
