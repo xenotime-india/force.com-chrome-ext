@@ -55,16 +55,10 @@ var filesToLoad = [
         url:"https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css",
         type:'css',
     },{
-        url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css",
-        type:'css',
-    },{
         url:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
         type:'js',
     },{
         url:"https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js",
-        type:'js',
-    },{
-        url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js",
         type:'js',
     },{
         url:"https://cdnjs.cloudflare.com/ajax/libs/jsforce/1.7.0/jsforce.min.js",
