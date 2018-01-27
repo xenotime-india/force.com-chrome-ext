@@ -680,19 +680,26 @@ function workWithMetaData() {
             console.log(requestMetadata[index].type);
             console.log(val);
             sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
-            if(val && val.length > 0) {
+            if(val && (!Array.isArray(val) || (Array.isArray(val) && val.length > 0))) {
                 var panel, table;
 
                 table = createTable(fields, requestMetadata[index].table);
 
 
                 var hasRecord = false;
-                val.forEach(function (value) {
-                    if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                if(Array.isArray(val)) {
+                    val.forEach(function (value) {
+                        if (value.manageableState != "installed" && (userDate == '' || userDate < new Date(value[filterByMetadata]))) {
+                            addRow(value, fields, jQuery(table).find('tbody'));
+                            hasRecord = true;
+                        }
+                    });
+                } else {
+                    if (val.manageableState != "installed" && (userDate == '' || userDate < new Date(val[filterByMetadata]))) {
                         addRow(value, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
                     }
-                });
+                }
 
                 if(hasRecord) {
                     panel = createPanel(requestMetadata[index].type, table, jQuery('#container-tab2'));
@@ -713,8 +720,6 @@ function workWithMetaData() {
                         }
                     });
                 }
-            } else {
-                sessionStorage.removeItem(requestMetadata[index].type);
             }
         });
         return Promise.resolve();
