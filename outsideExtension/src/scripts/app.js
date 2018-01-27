@@ -692,7 +692,7 @@ function workWithMetaData() {
                         }
                     });
                 } else {
-                    if (val.manageableState != "installed" && moment(val[filterByMetadata]).isAfter(moment(userDate))) {
+                    if (val.manageableState != "installed" && moment(val[filterByMetadata]).isAfter(userDate)) {
                         addRow(val, fields, jQuery(table).find('tbody'));
                         hasRecord = true;
                     }
