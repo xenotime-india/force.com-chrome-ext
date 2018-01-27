@@ -65,6 +65,8 @@
     }
     .navbar-form .form-control {
         height: 33px;
+        margin-left: 20px;
+        margin-right: 10px;
     }
 
 </style>
@@ -83,7 +85,7 @@
 <div id="sfdcConsoleContainer">
     <div class="navbar navbar-default navbar-static-top">
         <div class="container">
-            <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="#">Salesforce Deployment Tool</a> </div>
+            <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>Salesforce Deployment Tool</a> </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form class="navbar-form navbar-left" role="search">
                     <div class="btn-group" data-toggle="buttons"> <label class="btn btn-primary" onclick="changefilterMode('CreatedDate','createdDate')"> <input type="radio" name="options" id="CreatedDate" onclick="changefilterMode('CreatedDate','createdDate')"/> By Created Date </label> <label class="btn btn-primary active" onclick="changefilterMode('LastModifiedDate','lastModifiedDate')"> <input type="radio" name="options" id="LastModifiedDate" onclick="changefilterMode('LastModifiedDate','lastModifiedDate')"/> By LastModified Date </label> </div>
