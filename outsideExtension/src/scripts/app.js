@@ -677,6 +677,8 @@ function workWithMetaData() {
     });
     return Promise.all(requestPromises).then(function(results) {
         results.forEach(function(val, index) {
+            console.log(requestMetadata[index].type);
+            console.log(val);
             sessionStorage.setItem(requestMetadata[index].type, JSON.stringify(val));
             if(val && val.length > 0) {
                 var panel, table;
