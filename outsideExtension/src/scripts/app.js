@@ -665,6 +665,8 @@ function workWithMetaData() {
     var userDate = moment().add(-1, 'M');
     if(jQuery('#dateField').val() && jQuery('#dateField').val() != '') {
         userDate = moment(jQuery('#dateField').val());
+    } else {
+        jQuery('#dateField').val(userDate.format('YYYY-MM-DD'));
     }
     var requestPromises = requestMetadata.map(function (item) {
         var types = [{type: item.type}];
