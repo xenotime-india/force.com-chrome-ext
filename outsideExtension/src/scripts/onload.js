@@ -49,7 +49,7 @@ var filesToLoad = [
         url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
         type: 'css',
     },{
-        url:"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css",
+        url:"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css",
         type:'css',
     },{
         url:"https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css",
