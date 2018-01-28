@@ -77,37 +77,63 @@ var filesToLoad = [
         type:'js',
     }];
 
-load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
-    .then(function() {
-        jQuery("link[rel='stylesheet']").remove();
-        jQuery('body').html('');
-        return new Promise(function (resolve, reject) {
-            jQuery( "body" ).load( "https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/template.html", function() {
-                resolve();
+if(window.location.href.indexOf('.visual.force.com/') >= 0) {
+
+    if (sfdcPage.dialogs['SFDCDialog'] == null) { // checking if SFDCDialog modal popup already created on page.
+
+        sfdcPage.dialogs['SFDCDialog'] = new SimpleDialog('SFDCDialog', false); // creating modal popup with name ‘SFDCDialog’
+
+        sfdcPage.dialogs['SFDCDialog'].title = "Salesforce Deployment Helper - Xenotime"; // setting title of popup
+
+        sfdcPage.dialogs['SFDCDialog'].isMovable = true; //set true if want movable
+
+        sfdcPage.dialogs['SFDCDialog'].displayX = true; // set true if want close button on header
+
+        sfdcPage.dialogs['SFDCDialog'].extraClass = "" // use to set any extra style class if wanted
+
+        sfdcPage.dialogs['SFDCDialog'].width = 833; // set size of popup default = 400
+
+        sfdcPage.dialogs['SFDCDialog'].isModal = true; // set true if want block background.
+
+        sfdcPage.dialogs['SFDCDialog'].createDialog(); // finally call this method to create modal pop up  and append to current page.
+
+    }
+
+    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div><p>This extension can\'t excute in this page.</p><p>Navigate to <a href="/home/home.jsp">home page</a> and try again.</p></div>'); // sent content on modal pop up (use any text or html code.)
+    sfdcPage.dialogs['SFDCDialog'].show();// show modal popup
+} else {
+    load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+        .then(function () {
+            jQuery("link[rel='stylesheet']").remove();
+            jQuery('body').html('');
+            return new Promise(function (resolve, reject) {
+                jQuery("body").load("https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/template.html", function () {
+                    resolve();
+                });
             });
-        });
-    })
-    .then(function() {
-        return Promise.all(filesToLoad.map(function (item) {
-            switch (item.type) {
-                case 'js':
-                    return load.js(item.url);
-                case 'css':
-                    return load.css(item.url);
+        })
+        .then(function () {
+            return Promise.all(filesToLoad.map(function (item) {
+                switch (item.type) {
+                    case 'js':
+                        return load.js(item.url);
+                    case 'css':
+                        return load.css(item.url);
+                }
+            }));
+        })
+        .then(function () {
+            return load.js('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js');
+        })
+        .then(function () {
+            return load.js('https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/scripts/app.min.js');
+        })
+        .then(function () {
+            if (jQuery('#sfdcConsoleContainer').length > 0) {
+                jQuery('#sfdcConsoleContainer').show();
             }
-        }));
-    })
-    .then(function () {
-        return load.js('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js');
-    })
-    .then(function(){
-        return load.js('https://xenotime-india.github.io/force.com-chrome-ext/outsideExtension/build/scripts/app.min.js');
-    })
-    .then(function(){
-        if(jQuery('#sfdcConsoleContainer').length > 0) {
-            jQuery('#sfdcConsoleContainer').show();
-        }
-    })
-    .catch(function (err) {
-        console.error('Error', err);
-    });
+        })
+        .catch(function (err) {
+            console.error('Error', err);
+        });
+}
