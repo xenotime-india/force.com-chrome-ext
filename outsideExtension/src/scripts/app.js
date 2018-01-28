@@ -579,7 +579,7 @@ function workWithSessionStorageMetaData() {
         jQuery('#dateField').val(userDate.format('YYYY-MM-DD'));
     }
     requestMetadata.forEach(function (item) {
-        var val = JSON.parse(sessionStorage.getItem(item.type));
+        var val = sessionStorage.getItem(item.type) ? JSON.parse(sessionStorage.getItem(item.type)): null;
         if(val && (!Array.isArray(val) || (Array.isArray(val) && val.length > 0))) {
             var panel, table;
             table = createTable(fields, item.table);
@@ -676,6 +676,8 @@ function workWithMetaData() {
                         }
                     });
                 }
+            } else {
+                sessionStorage.removeItem(requestMetadata[index].type);
             }
         });
         return Promise.resolve();
