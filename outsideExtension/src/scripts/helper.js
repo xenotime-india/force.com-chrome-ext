@@ -144,6 +144,31 @@ function __getCookie(c_name){
     }
 }
 
+function showError(e) {
+    if (sfdcPage.dialogs['SFDCDialog'] == null) { // checking if SFDCDialog modal popup already created on page.
+
+        sfdcPage.dialogs['SFDCDialog'] = new SimpleDialog('SFDCDialog', false); // creating modal popup with name ‘SFDCDialog’
+
+        sfdcPage.dialogs['SFDCDialog'].title = "Salesforce Deployment Helper - Xenotime"; // setting title of popup
+
+        sfdcPage.dialogs['SFDCDialog'].isMovable = false; //set true if want movable
+
+        sfdcPage.dialogs['SFDCDialog'].displayX = true; // set true if want close button on header
+
+        sfdcPage.dialogs['SFDCDialog'].extraClass = "" // use to set any extra style class if wanted
+
+        sfdcPage.dialogs['SFDCDialog'].width = 346; // set size of popup default = 400
+
+        sfdcPage.dialogs['SFDCDialog'].isModal = true; // set true if want block background.
+
+        sfdcPage.dialogs['SFDCDialog'].createDialog(); // finally call this method to create modal pop up  and append to current page.
+
+    }
+
+    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div><p>This extension can\'t execute in this page.</p><p>Navigate to <a href="/home/home.jsp">home page</a> and try again.</p><p>'+e.getMessage()+'</p></div>'); // sent content on modal pop up (use any text or html code.)
+    sfdcPage.dialogs['SFDCDialog'].show();// show modal popup
+}
+
 /*
 $(document).ready(function(){
     $("#btnAlert").on("click", function(){

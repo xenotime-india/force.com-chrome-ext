@@ -1,6 +1,8 @@
 var apiVersion = '41.0';
 var requestMetadata = [];
 
+var allProfiles = {};
+
 var requestSqlData = [
     {
         type:'ApexClass',
@@ -289,7 +291,7 @@ function getPackage() {
     }
 }
 function deploy() {
-    alert('Coming Sooooon.')
+    alert('Coming Sooooon.');
     /*
     jQuery('#loginDialog').modal({
         backdrop: 'static',
@@ -314,7 +316,10 @@ function startChangeSetWorker() {
                     resourceType.push(result);
                 }
             } else {
-                var result = makeobjectToRetrive(jQuery('#' + val.table), 2, val.type)
+                var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type);
+                result.members = result.members.map(function (item) {
+                    return allProfiles[item];
+                })
                 if (typeof(result) != 'undefined') {
                     profiles = result;
                 }
@@ -363,7 +368,7 @@ function createChangeSet() {
         ezBSAlert({
             messageText: "Please select resource before this action.",
             alertType: "danger"
-        })
+        });
     }
 }
 
@@ -388,7 +393,7 @@ function loginUser() {
             types: resourceType,
             version: apiVersion
         }
-    })
+    });
 
     var fileName = 'package.zip';
 
@@ -413,7 +418,7 @@ function loginUser() {
             ).then(
                 console.log  // Handle the success response object
             ).catch(
-                console.error // Handle the error response object
+                showError
             );
         });
     });
@@ -437,7 +442,6 @@ function generateXml() {
 
 jQuery(function() {
     showLoading();
-
     jQuery('#dateField').val(moment().add(-1, 'M').format('YYYY-MM-DD'));
     console.log("Ready for API fun!");
     sforce.metadata.describe(apiVersion).then(function(metadata) {
@@ -476,20 +480,26 @@ jQuery(function() {
             }
             return 0;
         });
-        return workWithSOQL();
+        return requestMetadata;
     })
         .then(function () {
+            return workWithSOQL();
+        })
+        .then(function () {
             return workWithMetaData();
-        }).then(function () {
-        jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
-        hideLoading();
-    }).catch(function (err) {
-        console.error('Error',err);
-    });
-    /*
-    jQuery('#dateField').datepicker({
-        format: 'yyyy-mm-dd'
-    });*/
+        })
+        .then(function () {
+            var query = 'Select Id, Name, LastModifiedDate, LastModifiedBy.Name, CreatedBy.Name, CreatedDate From Profile';
+            return sforce.query(query);
+        })
+        .then(function (result) {
+            result.records.forEach(function (i) {
+                allProfiles[i.Id] = i.Name;
+            });
+            jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
+            hideLoading();
+        })
+        .catch(showError);
 });
 
 function updateData() {
@@ -504,9 +514,7 @@ function updateData() {
         }).then(function () {
             jQuery('#myTab a[href="#'+requestSqlData[0].type+'_tb-tab"]').tab('show');
             hideLoading();
-        }).catch(function (err) {
-            console.error('Error',err);
-        });
+        }).catch(showError);
     },200);
 }
 
