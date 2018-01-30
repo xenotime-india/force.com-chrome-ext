@@ -317,10 +317,10 @@ function startChangeSetWorker() {
                 }
             } else {
                 var result = makeobjectToRetrive(jQuery('#' + val.table), 1, val.type);
-                result.members = result.members.map(function (item) {
-                    return allProfiles[item];
-                })
                 if (typeof(result) != 'undefined') {
+                    result.members = result.members.map(function (item) {
+                        return allProfiles[item];
+                    })
                     profiles = result;
                 }
             }
