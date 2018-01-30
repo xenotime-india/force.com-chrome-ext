@@ -194,11 +194,16 @@ window.onload = function() {
         if(processStatus == '2') {
             var rowsperpage = getUrlEncodedKey('rowsperpage');
             var entityType = getUrlEncodedKey('entityType');
+            var lsr = getUrlEncodedKey('lsr');
+            var page = sessionStorage.getItem('page');
             var currentProcess = sessionStorage.getItem('CurrentProcess') != null ? JSON.parse(sessionStorage.getItem('CurrentProcess')) : null;
-            if(currentProcess != null) {
-                if (rowsperpage == '' || entityType != availableResource[currentProcess.name]) {
-                    var path = setUrlEncodedKey('rowsperpage', '1500', window.location.search);
+            if(typeof currentProcess != 'undefined' && currentProcess != null) {
+                if (rowsperpage == '' || entityType != availableResource[currentProcess.name] || (page && page != '0' && lsr == '')) {
+                    var path = setUrlEncodedKey('rowsperpage', '1000', window.location.search);
                     path = setUrlEncodedKey('entityType', availableResource[currentProcess.name], path);
+                    if(page == '1' || page == 1) {
+                        path = setUrlEncodedKey('lsr', 1000 * parseInt(page), path);
+                    }
                     setTimeout(function () {
                         window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + path;
                     }, 100);
@@ -216,27 +221,45 @@ window.onload = function() {
                                 }
                             }
                         });
-                        var DoneChangeSet = JSON.parse(localStorage.getItem('DoneChangeSet'));
-                        DoneChangeSet.push(currentProcess.name);
-
-                        var changeSet = JSON.parse(localStorage.getItem('changeSet'));
-
-                        var pendingProcess = changeSet.filter(function (item) {
-                            return DoneChangeSet.indexOf(item.name) < 0 && availableResource[item.name];
-                        });
-                        console.log(pendingProcess);
-                        if (pendingProcess.length > 0) {
-                            currentProcess = pendingProcess[0];
-                            sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
-                            localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                        if(document.querySelectorAll('.bNext .withFilter div.next a').length > 0 &&
+                            document.querySelectorAll('.bNext .withFilter div.next a')[0].innerHTML.indexOf('Next Page') >= 0) {
+                            if(page) {
+                                sessionStorage.setItem('page', parseInt(page) + 1);
+                            } else {
+                                sessionStorage.setItem('page', 1);
+                            }
+                            if (needSave) {
+                                setTimeout(document.querySelector('input[name=save]').click(), 500);
+                            } else {
+                                setTimeout(function () {
+                                    window.location.href = window.location.href;
+                                }, 500);
+                            }
                         } else {
-                            sessionStorage.removeItem('CurrentProcess');
-                            localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
-                        }
-                        if(needSave) {
-                            setTimeout(document.querySelector('input[name=save]').click(),100);
-                        } else {
-                            window.location.href = window.location.href;
+                            sessionStorage.removeItem('page', 0);
+                            var DoneChangeSet = JSON.parse(localStorage.getItem('DoneChangeSet'));
+                            DoneChangeSet.push(currentProcess.name);
+
+                            var changeSet = JSON.parse(localStorage.getItem('changeSet'));
+
+                            var pendingProcess = changeSet.filter(function (item) {
+                                return DoneChangeSet.indexOf(item.name) < 0 && availableResource[item.name];
+                            });
+                            if (pendingProcess.length > 0) {
+                                currentProcess = pendingProcess[0];
+                                sessionStorage.setItem('CurrentProcess', JSON.stringify(currentProcess));
+                                localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                            } else {
+                                sessionStorage.removeItem('CurrentProcess');
+                                localStorage.setItem('DoneChangeSet', JSON.stringify(DoneChangeSet));
+                            }
+                            if (needSave) {
+                                setTimeout(document.querySelector('input[name=save]').click(), 500);
+                            } else {
+                                setTimeout(function () {
+                                    window.location.href = window.location.href;
+                                }, 500);
+                            }
                         }
                     }
                 }
