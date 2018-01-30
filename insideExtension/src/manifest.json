@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "default_locale": "en",
   "name": "Salesforce Deployment Helper",
-  "version": "3.7",
+  "version": "3.8",
   "description": "Facilitates SFDC Deployment functionality with searchable UI.",
    "icons": { "16": "images/Cloud-icon.png",
            "48": "images/Cloud-icon_48.png",
