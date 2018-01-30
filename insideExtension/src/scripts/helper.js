@@ -61,3 +61,29 @@ setUrlEncodedKey = function(key, value, query) {
     q = q.trimStart("&").trimEnd("&");
     return (q[0]=="?" ? q : q = "?" + q);
 };
+
+function showAlert(mess) {
+    if (sfdcPage.dialogs['SFDCDialog'] == null) { // checking if SFDCDialog modal popup already created on page.
+
+        sfdcPage.dialogs['SFDCDialog'] = new SimpleDialog('SFDCDialog', false); // creating modal popup with name ‘SFDCDialog’
+
+        sfdcPage.dialogs['SFDCDialog'].title = "Salesforce Deployment Helper - Xenotime"; // setting title of popup
+
+        sfdcPage.dialogs['SFDCDialog'].isMovable = false; //set true if want movable
+
+        sfdcPage.dialogs['SFDCDialog'].displayX = true; // set true if want close button on header
+
+        sfdcPage.dialogs['SFDCDialog'].extraClass = "" // use to set any extra style class if wanted
+
+        sfdcPage.dialogs['SFDCDialog'].width = 346; // set size of popup default = 400
+
+        sfdcPage.dialogs['SFDCDialog'].isModal = true; // set true if want block background.
+
+        sfdcPage.dialogs['SFDCDialog'].createDialog(); // finally call this method to create modal pop up  and append to current page.
+
+    }
+    var message = '<table border="0"><tbody><tr><td style="vertical-align: top"><img src="/s.gif" class="confirmLarge" alt="Confirm"></td><td style="padding-left: 8px; vertical-align: top; line-height: 16px"><p>'+mess+'</p></td></tr></tbody></table>'
+    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div>' + message + '</div>');
+
+    sfdcPage.dialogs['SFDCDialog'].show();// show modal popup
+}

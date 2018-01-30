@@ -172,6 +172,7 @@ window.onload = function() {
                 var bDescription = document.querySelector('.bDescription')
                 bDescription.innerHTML = '';
                 bDescription.appendChild(alertDiv);
+                showAlert('Your Change Set is ready.');
             }
         }
         if(processStatus == '3' && profiles.members.length > 0) {
