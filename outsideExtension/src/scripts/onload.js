@@ -98,8 +98,8 @@ if(window.location.href.indexOf('.visual.force.com/') >= 0) {
         sfdcPage.dialogs['SFDCDialog'].createDialog(); // finally call this method to create modal pop up  and append to current page.
 
     }
-
-    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div><p>This extension can\'t execute in this page.</p><p>Navigate to <a href="/home/home.jsp">home page</a> and try again.</p></div>'); // sent content on modal pop up (use any text or html code.)
+    var message = '<table border="0"><tbody><tr><td style="vertical-align: top"><img src="/s.gif" class="warningLarge" alt="Warning"></td><td style="padding-left: 8px; vertical-align: top; line-height: 16px"><p>This extension can\'t execute in this page.</p><p>Navigate to <a href="/home/home.jsp">home page</a> and try again.</p></td></tr></tbody></table>'
+    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div>' + message + '</div>'); // sent content on modal pop up (use any text or html code.)
     sfdcPage.dialogs['SFDCDialog'].show();// show modal popup
 } else {
     load.js('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')

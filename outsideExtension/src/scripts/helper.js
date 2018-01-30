@@ -164,8 +164,9 @@ function showError(e) {
         sfdcPage.dialogs['SFDCDialog'].createDialog(); // finally call this method to create modal pop up  and append to current page.
 
     }
+    var message = '<table border="0"><tbody><tr><td style="vertical-align: top"><img src="/s.gif" class="warningLarge" alt="Warning"></td><td style="padding-left: 8px; vertical-align: top; line-height: 16px"><p>This extension can\'t execute in this page.</p><p>Navigate to <a href="/home/home.jsp">home page</a> and try again.</p></td></tr></tbody></table>'
+    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div>' + message + '</div>');
 
-    sfdcPage.dialogs['SFDCDialog'].setContentInnerHTML('<div><p>This extension can\'t execute in this page.</p><p>Navigate to <a href="/home/home.jsp">home page</a> and try again.</p><p>'+e.getMessage()+'</p></div>'); // sent content on modal pop up (use any text or html code.)
     sfdcPage.dialogs['SFDCDialog'].show();// show modal popup
 }
 
