@@ -1,5 +1,9 @@
 var apiVersion = '41.0';
-var requestMetadata = [];
+var requestMetadata = [{
+    apiFieldIndex:2,
+    table:"EmailTemplate_tb",
+    type:"EmailTemplate"
+}];
 
 var allProfiles = {};
 
